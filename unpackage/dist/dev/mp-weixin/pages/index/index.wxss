@@ -1,0 +1,257 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+.mp-search-box {
+  position: absolute;
+  left: 0;
+  top: 30rpx;
+  z-index: 9999;
+  width: 100%;
+  padding: 0 80rpx;
+}
+.mp-search-box .ser-input {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+            flex: 1;
+    height: 56rpx;
+    line-height: 56rpx;
+    text-align: center;
+    font-size: 28rpx;
+    color: #606266;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.6);
+}
+page .cate-section {
+  position: relative;
+  z-index: 5;
+  border-radius: 16rpx 16rpx 0 0;
+  margin-top: -20rpx;
+}
+page .carousel-section {
+  padding: 0;
+}
+page .carousel-section .titleNview-placing {
+    padding-top: 0;
+    height: 0;
+}
+page .carousel-section .carousel .carousel-item {
+    padding: 0;
+}
+page .carousel-section .swiper-dots {
+    left: 45rpx;
+    bottom: 40rpx;
+}
+page {
+  background: #f5f5f5;
+}
+.m-t {
+  margin-top: 16rpx;
+}
+/* 头部 轮播图 */
+.carousel-section {
+  position: relative;
+  padding-top: 10px;
+  background-color: #F0AD4E;
+}
+.carousel-section .titleNview-placing {
+    height: 25px;
+    padding-top: 38px;
+    box-sizing: content-box;
+}
+.carousel-section .titleNview-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 426rpx;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+.grid-title {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  font-size: 32rpx;
+  color: rgba(0, 0, 0, 0.63);
+  padding: 30rpx 0;
+}
+.grid-title view {
+    width: 8rpx;
+    height: 30rpx;
+    background-color: #ff5241;
+    margin-right: 20rpx;
+}
+.fl-row {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+}
+.bgwh {
+  background-color: #FFFFFF;
+}
+/*白色*/
+.g6 {
+  color: #666;
+}
+/*浅黑*/
+.tc {
+  text-align: center;
+}
+.f30 {
+  font-size: 30rpx;
+}
+.p10 {
+  padding: 10rpx;
+}
+.mt10 {
+  margin-top: 10rpx;
+}
+.mb10 {
+  margin-bottom: 10rpx;
+}
+.ml10 {
+  margin-left: 10rpx;
+}
+.mr10 {
+  margin-right: 10rpx;
+}
+.ml30 {
+  width: 70%;
+}
+.qiun-title-bar {
+  width: 96%;
+  padding: 10rpx 2%;
+  -webkit-flex-wrap: nowrap;
+          flex-wrap: nowrap;
+}
+.container {
+  box-sizing: border-box;
+  height: 100%;
+  background-color: #efeff4;
+}
+.content {
+  width: 750rpx;
+  height: calc(100% - 100rpx);
+  background-color: #efeff4;
+}
+.title {
+  line-height: 80rpx;
+  background-color: #fafafa;
+  text-indent: 20rpx;
+  font-size: 30rpx;
+  color: #000000;
+  letter-spacing: 1px;
+}
+.i-cube {
+  width: 12rpx;
+  height: 34rpx;
+  background-color: #51B3F7;
+  margin-right: 20rpx;
+  margin-top: 10px;
+}
+.s-btn {
+  font-size: 28rpx;
+  background-color: transparent;
+  color: #f6a121;
+  line-height: 1.8;
+  height: 48rpx;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+}
+.s-btn:after {
+  border: 2rpx solid #8799A3;
+}
+.s-btn-hover {
+  background-color: #f6a121;
+  color: #FFFFFF;
+}
+.s-btn1 {
+  font-size: 28rpx;
+  background-color: transparent;
+  color: #f6a121;
+  line-height: 1.8;
+  height: 48rpx;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+}
+.s-btn1:after {
+  border: 2rpx solid #8799A3;
+}
+.s-btn1-hover {
+  background-color: #007AFF;
+  color: #FFFFFF;
+}
+.xieyi {
+  margin-left: 30rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  font-size: 30rpx;
+  margin-top: 20rpx;
+  color: #FFA800;
+  height: 40rpx;
+  line-height: 40rpx;
+}
+.link-highlight {
+  color: #0000FF;
+}
+.fullscreen {
+  height: calc(100vh - 50px);
+}
+.top-entrance {
+  position: absolute;
+  height: 96px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+}
+.bg-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #040B29;
+  opacity: 0.89;
+  box-shadow: 0px 2px 4px #b1b4bf;
+}
+.bg-content {
+  position: relative;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+}
+.bg-content image {
+  width: 25px;
+  height: 25px;
+  margin: 24px 0 7px;
+}
+.bg-item {
+  color: white;
+  height: 100%;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+  text-align: center;
+}
+

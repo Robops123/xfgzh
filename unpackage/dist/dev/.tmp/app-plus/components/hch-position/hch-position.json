@@ -1,0 +1,6 @@
+{
+  "usingComponents": {
+    "bml-marker-clusterer": "/node-modules/vue-baidu-map/index"
+  },
+  "component": true
+}

@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "消息提醒",
+  "bounce": "none",
+  "usingComponents": {
+    "my-tabs": "/components/myTabs/myTabs",
+    "my-pull": "/static/js/myPull",
+    "my-loading": "/components/myLoading/myLoading",
+    "min-action-sheet": "/components/comselect/comselect"
+  }
+}

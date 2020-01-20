@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "设备报修",
+  "usingComponents": {
+    "dy-date-picker": "/components/dy-Date/dy-Date"
+  }
+}

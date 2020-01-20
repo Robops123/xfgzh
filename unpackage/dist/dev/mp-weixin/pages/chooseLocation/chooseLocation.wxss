@@ -1,0 +1,24 @@
+
+.search-cover{
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: 999;
+}
+.search-top{
+	position: relative;
+	padding-bottom: 50rpx;
+}
+.search-top input{
+	display: inline-block;
+	height: 32px !important;
+}
+.search-top button{
+	height: 32px !important;
+	line-height: 32px !important;
+	margin-right: 15px;
+}
+/* .map .search-list{
+	height: calc(100vh - 50upx - 32px - 800upx);
+} */
+

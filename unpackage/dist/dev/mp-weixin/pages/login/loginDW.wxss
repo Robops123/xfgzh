@@ -1,0 +1,48 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+.content.data-v-6697f730 {
+  padding: 100rpx;
+}
+.logo.data-v-6697f730 {
+  text-align: center;
+}
+.logo image.data-v-6697f730 {
+    height: 200rpx;
+    width: 200rpx;
+    margin: 0 0 60rpx;
+}
+.uni-form-item.data-v-6697f730 {
+  margin-bottom: 40rpx;
+  padding: 0;
+  border-bottom: 1px solid #e3e3e3;
+}
+.uni-form-item .uni-input.data-v-6697f730 {
+    font-size: 30rpx;
+    padding: 2px 0;
+}
+button[type="primary"].data-v-6697f730 {
+  background-color: #FA436A;
+  border-radius: 0;
+  font-size: 34rpx;
+  margin-top: 60rpx;
+}
+.links.data-v-6697f730 {
+  text-align: center;
+  margin-top: 40rpx;
+  font-size: 26rpx;
+  color: #999;
+}
+.links view.data-v-6697f730 {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 10rpx;
+}
+.links .link-highlight.data-v-6697f730 {
+    color: #FA436A;
+}
+

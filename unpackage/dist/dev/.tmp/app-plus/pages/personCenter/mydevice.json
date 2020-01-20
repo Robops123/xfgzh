@@ -1,0 +1,10 @@
+{
+  "navigationBarTitleText": "我的设备",
+  "bounce": "none",
+  "usingComponents": {
+    "my-tabs": "/components/myTabs/myDeviceType",
+    "my-pull": "/static/js/myDevicePull",
+    "min-action-sheet": "/components/comselect/comselect",
+    "fa-icon": "/components/fa-icon/fa-icon"
+  }
+}

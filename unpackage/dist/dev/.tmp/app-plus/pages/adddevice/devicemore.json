@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "更多",
+  "bounce": "none",
+  "usingComponents": {
+    "my-tabs": "/components/myTabs/myDeviceMore",
+    "my-pull": "/static/js/myDeviceMore",
+    "fa-icon": "/components/fa-icon/fa-icon"
+  }
+}

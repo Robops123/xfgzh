@@ -1,0 +1,80 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+.content.data-v-3e220116 {
+  padding: 60rpx 100rpx 100rpx;
+}
+.logo.data-v-3e220116 {
+  text-align: center;
+}
+.logo image.data-v-3e220116 {
+    height: 200rpx;
+    width: 200rpx;
+    margin: 0 0 40rpx;
+}
+.uni-form-item.data-v-3e220116 {
+  margin-bottom: 40rpx;
+  padding: 0;
+  border-bottom: 1px solid #e3e3e3;
+}
+.uni-form-item .uni-input.data-v-3e220116 {
+    font-size: 30rpx;
+    padding: 7px 0;
+}
+.column-with-btn.data-v-3e220116 {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.column-with-btn button.data-v-3e220116 {
+    font-size: 24rpx;
+    margin: 0;
+    width: 180rpx;
+    text-align: center;
+}
+.column-with-btn button.data-v-3e220116:after {
+      border: none;
+}
+.column-with-btn button.active.data-v-3e220116 {
+      background-color: #FA436A;
+      color: #fff;
+}
+.img-captcha.data-v-3e220116 {
+  width: 150rpx;
+  height: 60rpx;
+}
+button[type="primary"].data-v-3e220116 {
+  background-color: #FA436A;
+  border-radius: 0;
+  font-size: 34rpx;
+  margin-top: 60rpx;
+}
+.links.data-v-3e220116 {
+  text-align: center;
+  margin-top: 40rpx;
+  font-size: 26rpx;
+  color: #999;
+}
+.links view.data-v-3e220116 {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 10rpx;
+}
+.links .link-highlight.data-v-3e220116 {
+    color: #FA436A;
+}
+

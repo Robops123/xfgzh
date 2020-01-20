@@ -1,0 +1,54 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/login/loginDW",
+    "pages/message/message",
+    "pages/repair/repairList",
+    "pages/repair/repairEdit",
+    "pages/adddevice/adddevice",
+    "pages/chooseLocation/chooseLocation",
+    "pages/adddevice/devicedetail",
+    "pages/adddevice/devicemore",
+    "pages/personCenter/personCenter",
+    "pages/personCenter/mydevice",
+    "pages/personCenter/warnhistroy",
+    "pages/login/login",
+    "pages/login/registration",
+    "pages/login/forget-password",
+    "pages/index/index"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "智能消防",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "backgroundColor": "#f8f8f8"
+  },
+  "tabBar": {
+    "color": "#C0C4CC",
+    "selectedColor": "#fa436a",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/tab-home.png",
+        "selectedIconPath": "static/tab-home-current.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/message/message",
+        "iconPath": "static/tab-cate.png",
+        "selectedIconPath": "static/tab-cate-current.png",
+        "text": "消息"
+      },
+      {
+        "pagePath": "pages/personCenter/personCenter",
+        "iconPath": "static/tab-my.png",
+        "selectedIconPath": "static/tab-my-current.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

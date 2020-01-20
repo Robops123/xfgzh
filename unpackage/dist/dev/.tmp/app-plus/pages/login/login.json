@@ -1,0 +1,7 @@
+{
+  "bounce": "none",
+  "titleNView": false,
+  "usingComponents": {
+    "chun-lei-modal": "/components/modal/modal"
+  }
+}

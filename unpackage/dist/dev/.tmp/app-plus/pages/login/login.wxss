@@ -1,0 +1,95 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+.content.data-v-2eb00d5d {
+  padding: 100rpx;
+}
+.logo.data-v-2eb00d5d {
+  text-align: center;
+}
+.logo image.data-v-2eb00d5d {
+    height: 200rpx;
+    width: 200rpx;
+    margin: 0 0 60rpx;
+}
+.uni-form-item.data-v-2eb00d5d {
+  margin-bottom: 40rpx;
+  padding: 0;
+  border-bottom: 1px solid #e3e3e3;
+}
+.uni-form-item .uni-input.data-v-2eb00d5d {
+    font-size: 30rpx;
+    padding: 3px 0;
+}
+button[type="primary"].data-v-2eb00d5d {
+  background-color: #FA436A;
+  border-radius: 0;
+  font-size: 34rpx;
+  margin-top: 60rpx;
+}
+.links.data-v-2eb00d5d {
+  text-align: center;
+  margin-top: 40rpx;
+  font-size: 26rpx;
+  color: #999;
+}
+.links view.data-v-2eb00d5d {
+    display: inline-block;
+    vertical-align: top;
+    margin: 0 10rpx;
+}
+.links .link-highlight.data-v-2eb00d5d {
+    color: #FA436A;
+}
+button.data-v-2eb00d5d {
+  margin-top: 50rpx;
+}
+.custom-view.data-v-2eb00d5d {
+  overflow: hidden;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.custom-view .hongbao.data-v-2eb00d5d {
+    width: 500rpx;
+    height: 700rpx;
+    border-radius: 6rpx;
+    background: #F35543;
+}
+.custom-view .hongbao .top.data-v-2eb00d5d {
+      text-align: center;
+      padding: 100rpx 80rpx 0;
+      height: 400rpx;
+      background: #F45E4D;
+      color: #FEDCAC;
+      font-szie: 30px;
+      border-bottom-right-radius: 60% 100rpx;
+      border-bottom-left-radius: 60% 100rpx;
+      -webkit-box-shadow: 0 1px 4px #717171;
+              box-shadow: 0 1px 4px #717171;
+}
+.custom-view .hongbao .bottom.data-v-2eb00d5d {
+      margin-top: 80rpx;
+      color: #FDC69B;
+      text-align: center;
+}
+.custom-view .cancel.data-v-2eb00d5d {
+    margin-top: 100rpx;
+    width: 60rpx;
+    height: 60rpx;
+}
+

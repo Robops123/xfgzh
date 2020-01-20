@@ -1,0 +1,72 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+.my-tabs {
+  background-color: #ffffff;
+  height: 88rpx;
+  font-size: 28rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-justify-content: space-around;
+          justify-content: space-around;
+  box-sizing: border-box;
+  border-top: 2rpx solid #dddddd;
+  border-bottom: 2rpx solid #dddddd;
+  min-width: 100%;
+  overflow-x: auto;
+}
+.my-tabs .tab-item {
+    line-height: 48rpx;
+    padding: 20rpx;
+    min-width: 100rpx;
+    text-align: center;
+}
+.my-tabs .tab-item.active {
+    position: relative;
+    color: #3682FF;
+}
+.my-tabs .tab-item.active::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    -webkit-transform: translateX(-50%);
+            transform: translateX(-50%);
+    width: 100%;
+    border-bottom: 4rpx solid #3682FF;
+    -webkit-animation: test ease 1 1.5s;
+            animation: test ease 1 1.5s;
+}
+.my-tabs.space-between {
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+}
+@-webkit-keyframes test {
+0% {
+    width: 100%;
+}
+50% {
+    width: 150%;
+}
+100% {
+    width: 100%;
+}
+}
+@keyframes test {
+0% {
+    width: 100%;
+}
+50% {
+    width: 150%;
+}
+100% {
+    width: 100%;
+}
+}
+

@@ -1,0 +1,133 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+page {
+  background: gainsboro;
+  padding-bottom: 100rpx;
+}
+.yt-list {
+  margin-top: 16rpx;
+  background: #fff;
+}
+.yt-list-cell {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 10rpx 30rpx 10rpx 40rpx;
+  line-height: 70rpx;
+  position: relative;
+}
+.yt-list-cell.cell-hover {
+    background: #fafafa;
+}
+.yt-list-cell.b-b:after {
+    left: 30rpx;
+}
+.yt-list-cell .cell-icon {
+    height: 32rpx;
+    width: 32rpx;
+    font-size: 22rpx;
+    color: #fff;
+    text-align: center;
+    line-height: 32rpx;
+    background: #f85e52;
+    border-radius: 4rpx;
+    margin-right: 12rpx;
+}
+.yt-list-cell .cell-icon.hb {
+      background: #ffaa0e;
+}
+.yt-list-cell .cell-icon.lpk {
+      background: #3ab54a;
+}
+.yt-list-cell .cell-tit {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    font-size: 26rpx;
+    color: dimgray;
+    margin-right: 10rpx;
+}
+.yt-list-cell .cell-tip {
+    font-size: 26rpx;
+    color: #f85e52;
+}
+.yt-list-cell .cell-tip.disabled {
+      color: #f85e52;
+}
+.yt-list-cell .cell-tip.active {
+      color: #f85e52;
+}
+.yt-list-cell .cell-tip.red {
+      color: #f85e52;
+}
+.yt-list-cell.desc-cell {
+    position: relative;
+}
+.yt-list-cell.desc-cell .cell-tit {
+      max-width: 160rpx;
+}
+.yt-list-cell .desc {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    font-size: 28rpx;
+    color: darkgray;
+}
+.yt-list-cell switch {
+    -webkit-transform: translateX(16rpx) scale(0.84);
+        -ms-transform: translateX(16rpx) scale(0.84);
+            transform: translateX(16rpx) scale(0.84);
+}
+.add-btn {
+  position: fixed;
+  left: 30rpx;
+  right: 30rpx;
+  bottom: 16rpx;
+  z-index: 95;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  width: 690rpx;
+  height: 80rpx;
+  font-size: 32rpx;
+  color: #fff;
+  background-color: #fa436a;
+  border-radius: 10rpx;
+  -webkit-box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
+          box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
+}
+.mini-btn {
+  line-height: 32px;
+  height: 32px;
+  margin-right: 10rpx;
+}
+.map-warpper {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 99;
+  width: 100%;
+  height: 100%;
+}
+

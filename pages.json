@@ -1,0 +1,215 @@
+{
+	"pages": [
+		// {
+		// 	"path": "pages/index/index",
+		// 	"style":{
+		// 		"app-plus": {
+		// 			"titleNView": false
+		// 		}
+		// 	}
+		// }
+		
+		{
+			"path": "pages/login/login",
+			"style": {
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/login/loginDW",
+			"style": {
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		}
+		, {
+			"path": "pages/message/message",
+			"style": {
+				"navigationBarTitleText": "消息提醒",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/repair/repairList",
+			"style": {
+				"navigationBarTitleText": "报修列表",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/repair/repairEdit",
+			"style": {
+				"navigationBarTitleText": "设备报修",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/adddevice/adddevice",
+			"style": {
+				"navigationBarTitleText": "新增设备",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/chooseLocation/chooseLocation",
+			"style": {
+				"navigationBarTitleText": "选择地点",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/adddevice/devicedetail",
+			"style": {
+				"navigationBarTitleText": "设备详情",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/adddevice/devicemore",
+			"style": {
+				"navigationBarTitleText": "更多",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/personCenter/personCenter",
+			"style": {
+				"navigationBarTitleText": "个人中心",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+					"path": "pages/personCenter/mydevice",
+					"style": {
+						"navigationBarTitleText": "我的设备",
+						"app-plus": {
+							"bounce": "none"
+						}
+					}
+				},
+				{
+							"path": "pages/personCenter/warnhistroy",
+							"style": {
+								"navigationBarTitleText": "历史告警",
+								"app-plus": {
+									"bounce": "none"
+								}
+							}
+						},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		},
+		{
+			"path": "pages/login/registration",
+			"style": {
+				"navigationBarTitleText": "注册",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/login/forget-password",
+			"style": {
+				"navigationBarTitleText": "忘记密码",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/login/focus",
+			"style": {
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				//"navigationBarTitleText": "首页",
+				"app-plus": {
+					"bounce": "none"
+					// "titleNView": {
+					// 	"buttons":[
+					// 		{"text":"我的设备"},
+					// 		{"text":"我的报修"},
+					// 		{"text":"告警历史"}
+					// 	]
+					// }
+				}				
+			}
+		}
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "智能消防",
+		"navigationBarBackgroundColor": "#FFFFFF",
+		"backgroundColor": "#f8f8f8"
+	},
+	"tabBar": {
+		"color": "#C0C4CC",
+		"selectedColor": "#fa436a",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/tab-home.png",
+				"selectedIconPath": "static/tab-home-current.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/message/message",
+				"iconPath": "static/tab-cate.png",
+				"selectedIconPath": "static/tab-cate-current.png",
+				"text": "消息"
+			},
+			{
+				"pagePath": "pages/personCenter/personCenter",
+				"iconPath": "static/tab-my.png",
+				"selectedIconPath": "static/tab-my-current.png",
+				"text": "我的"
+			}
+		] 
+	},
+	"condition" : { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [
+			{
+				"name": "", //模式名称
+				"path": "", //启动页面，必选
+				"query": "" //启动参数，在页面的onLoad函数里面得到
+			}
+		]
+	}	
+}
+
+

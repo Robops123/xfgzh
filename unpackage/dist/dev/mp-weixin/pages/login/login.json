@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "chun-lei-modal": "/components/modal/modal"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "历史告警",
+  "usingComponents": {
+    "my-tabs": "/components/myTabs/myWarnHistroy",
+    "my-pull": "/static/js/myWarnHistroy",
+    "min-action-sheet": "/components/comselect/comselect"
+  }
+}

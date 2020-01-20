@@ -1,0 +1,7 @@
+{
+  "usingComponents": {
+    "zy-grid": "/components/zy-grid/zy-grid",
+    "hch-position": "/components/hch-position/hch-position",
+    "min-action-sheet": "/components/comselect/comselect"
+  }
+}
