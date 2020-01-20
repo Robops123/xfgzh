@@ -58,7 +58,7 @@
 					if(this.password){
 						global.showLoading()
 						var param={
-							openId:'wx123456789',
+							openId:uni.getStorageSync('openid'),
 							phone:this.phone,
 							code:this.code,
 							password:this.password

@@ -48,8 +48,9 @@
 					<text style="margin: 0 auto;">分享到</text>
 				</view>
 				<view class="share-item">
+					<image src="../../static/img/wx.png" mode="" @click="share"></image>
+					<image src="../../static/img/pyq.png" mode="" @click="share"></image>
 					<image src="../../static/img/qq.png" mode="" @click="share"></image>
-					<image src="../../static/img/wechat.png" mode="" @click="share"></image>
 				</view>
 			</view>
 		</view>

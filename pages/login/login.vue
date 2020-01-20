@@ -7,9 +7,13 @@
 			<input type="tel" class="uni-input" v-model="phone" name="" placeholder="请输入手机号" />
 		</view>
 		<view class="uni-form-item uni-column">
-			<input type="text" class="uni-input" name="" placeholder="请输入验证码" />
+			<input type="text" class="uni-input" name="" v-model="code" placeholder="请输入验证码" />
+			<button class="veribtn" @click="getCode" :disabled="!show">
+				 <span v-show="show">获取验证码</span>
+				 <span v-show="!show" class="count">{{count}} s</span>
+			</button>
 		</view>
-		<button type="primary" @tap="skiplogin">登陆</button>
+		<button type="primary" @tap="login">登陆</button>
 		<!-- @tap="login" -->
 		<!-- <view class="links">
 			<view class="link-highlight" @tap="gotoRegistration">注册账号</view>
@@ -38,6 +42,10 @@
 				value: false,
 				type: 'default',
 				phone:'',
+				code:'',
+				count:60,
+				timer:null,
+				show:true,
 				data: {},
 				selectData: [{
 						index: '1',
@@ -124,11 +132,13 @@
 					var that=this
 					global.showLoading()
 					var param = {
-						openId:'wx123456789',
-						phone:this.phone
+						openId:uni.getStorageSync('openid'),
+						phone:this.phone,
+						code:'123'
 					}
 					request.apiPost('/toc/tocUser/login',param).then((res) =>{
 						if(res.code == '0'){
+							uni.setStorageSync('usertype','gr')
 							uni.setStorageSync('userinfo',res.data)
 							uni.switchTab({
 								url: '/pages/index/index'
@@ -136,7 +146,7 @@
 							global.hideLoading()
 						}else{
 							global.hideLoading()
-							global.showToast(res.msg)
+							global.showToast('登录失败,请稍后再试')
 						}
 					}).catch((reason) =>{
 						global.hideLoading()
@@ -151,8 +161,14 @@
 					code:code
 				}
 				request.apiGet('/toc/tocUser/getOpenId',data).then((res) =>{
-					global.hideLoading()
 					console.log(res)
+					if(res.code == '0'){
+						console.log('0')
+						uni.setStorageSync('openid',res.openId)
+					}else{
+						global.showToast('请在微信环境下打开')
+					}
+					global.hideLoading()
 				}).catch((reason) =>{
 					global.hideLoading()
 					global.showToast('网络错误')
@@ -284,7 +300,42 @@
 			},
 			  isWechat(){
 			  	return String(navigator.userAgent.toLowerCase().match(/MicroMessenger/i)) === "micromessenger";
-			  }
+			  },
+			  getCode() {
+			         //axios请求
+			        // 验证码倒计时
+					global.showLoading()
+			       var data={
+			       	code:code
+			       }
+				   var that=this
+			       request.apiGet('/toc/tocUser/getOpenId',data).then((res) =>{
+			       	if(res.code == '0'){
+						that.settimer()
+			       	}else{
+			       		global.showToast('短信获取失败')
+			       	}
+			       	global.hideLoading()
+			       }).catch((reason) =>{
+			       	global.hideLoading()
+			       	global.showToast('网络错误')
+			       })
+			      },
+				  settimer(){
+					  if (!this.timer) {
+					    this.count = 60;
+					    this.show = false;
+					    this.timer = setInterval(() => {
+					      if (this.count > 0 && this.count <= 60) {
+					        this.count--;
+					      } else {
+					        this.show = true;
+					        clearInterval(this.timer);
+					        this.timer = null;
+					      }
+					    }, 1000);
+					  }
+				  }
 		}
 	}
 </script>
@@ -310,7 +361,7 @@
 		margin-bottom: 40upx;
 		padding: 0;
 		border-bottom: 1px solid #e3e3e3;
-
+		position: relative;
 		.uni-input {
 			font-size: 30upx;
 			padding: 3px 0;
@@ -384,6 +435,14 @@
 			height: 60rpx;
 		}
 	}
+	.veribtn{
+		position: absolute;
+		right: 0;
+		top: 0;
+		height: 100%;
+		margin-top: 0;
+		line-height: initial;
+		}
 </style>
 
 

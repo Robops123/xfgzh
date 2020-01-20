@@ -134,7 +134,7 @@
 					var that=this
 					global.showLoading()
 					var param = {
-						openId:'wx123456789',
+						openId:uni.getStorageSync('openid'),
 						id:item.id
 					}
 					request.apiPost('/toc/device/remove',param).then((res) =>{
@@ -170,7 +170,7 @@
 				var that=this
 				global.showLoading()
 				var param = {
-					openId:'wx123456789',
+					openId:uni.getStorageSync('openid'),
 					belongTypeId:id
 				}
 				request.apiGet('/toc/device/listDevice',param).then((res) =>{

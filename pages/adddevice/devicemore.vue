@@ -91,7 +91,7 @@
 			getWarnList() {
 				var that = this
 				var param = {
-					openId:'wx123456789',
+					openId:uni.getStorageSync('openid'),
 					devId:this.devId,
 					page:this.page,
 					limit:10
@@ -106,7 +106,7 @@
 			getRepairList() {
 				var that = this
 				var param = {
-					openId:'wx123456789',
+					openId:uni.getStorageSync('openid'),
 					devId:this.devId,
 					page:this.page,
 					limit:10

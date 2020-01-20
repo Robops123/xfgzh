@@ -100,7 +100,7 @@
 				var that=this
 				global.showLoading()
 				var param = {
-					openId:'wx123456789',
+					openId:uni.getStorageSync('openid'),
 					month:this.curMonth,
 					page:this.curPage,
 					limit:this.limit

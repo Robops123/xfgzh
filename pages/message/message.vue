@@ -161,7 +161,7 @@
 					// 误报
 					global.showLoading()
 						var param = {
-							openId:'wx123456789',
+							openId:uni.getStorageSync('openid'),
 							id:item.devId,
 							type:curType
 						}
@@ -212,7 +212,7 @@
 				global.showLoading()
 				var that = this
 				var param = {
-					openId:'wx123456789',
+					openId:uni.getStorageSync('openid'),
 					page:this.page,
 					limit:10
 				}

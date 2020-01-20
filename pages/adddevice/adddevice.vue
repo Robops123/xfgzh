@@ -53,7 +53,7 @@
 				result:'',
 				address:"选择位置",
 				form:{
-					openId:'wx123456789',
+					openId:uni.getStorageSync('openid'),
 					imei:'',
 					devName:'',
 					devLocation:'',
@@ -85,7 +85,7 @@
 						var prevPage = pages[pages.length - 2]; //上一个页面
 						//直接调用上一个页面的setData()方法，把数据存到上一个页面中去
 						prevPage.refresh=true
-						 setTimeout(function(){
+						 setTimeout(function(){
 							uni.navigateBack();
 						},1000)
 						global.hideLoading()

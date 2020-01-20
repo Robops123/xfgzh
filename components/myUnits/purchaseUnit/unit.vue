@@ -48,7 +48,7 @@
 				self.gridList = self.list
 				
 				var param = {
-					openId:'wx123456789'	,
+					openId:uni.getStorageSync('openid')	,
 					warnType:''
 				}
 				request.apiGet('/toc/deviceWarn/listWarn',param).then((res) =>{

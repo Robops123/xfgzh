@@ -157,7 +157,7 @@
 				global.showLoading()
 				if(this.usertype=='gr'){
 					var param = {
-						openId:'wx123456789',
+						openId:uni.getStorageSync('openid'),
 						devLocation:devlocation || ''
 					}
 					request.apiGet('/toc/device/list',param).then((res) =>{
@@ -297,7 +297,7 @@
 			getDeviceTypeList(){
 				var that=this
 				var param = {
-					openId:'wx123456789'	
+					openId:uni.getStorageSync('openid')	
 				}
 				request.apiGet('/toc/deviceType/list',param).then((res) =>{
 					if(res.code == '0'){
@@ -318,7 +318,7 @@
 			getDevState(){
 				var that=this
 				var param = {
-					openId:'wx123456789'	
+					openId:uni.getStorageSync('openid')	
 				}
 				request.apiGet('/toc/device/listDevState/',param).then((res) =>{
 					if(res.code == '0'){

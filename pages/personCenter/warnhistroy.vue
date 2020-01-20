@@ -153,7 +153,7 @@
 			getListData() {
 				var that = this
 				var param = {
-					openId:'wx123456789',
+					openId:uni.getStorageSync('openid'),
 					page:this.page,
 					limit:10
 				}
