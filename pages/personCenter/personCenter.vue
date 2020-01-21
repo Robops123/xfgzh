@@ -58,6 +58,9 @@
 </template>
 
 <script>
+	import global from '../../static/js/global.js';
+	import request from '../../api/request.js'
+	import wx from 'weixin-js-sdk';
 	export default {
 		data() {
 			return {
@@ -69,6 +72,26 @@
 			}
 		},
 		onLoad(){
+			var data={
+								url:encodeURIComponent(window.location.href.split('#')[0])
+							}
+							request.apiGet('/toc/tocUser/getSignature',data).then((res) =>{
+								console.log(res)
+								if(res.code=='0'){
+									wx.config({
+									    appId: 'wx72d5703c23ec2632', // 必填，企业号的唯一标识，此处填写企业号corpid
+									    timestamp: res.timestamp, // 必填，生成签名的时间戳
+									    nonceStr: res.nonceStr, // 必填，生成签名的随机串
+									    signature: res.signature,// 必填，签名，见附录1
+									    jsApiList: ['updateAppMessageShareData', // 分享给朋友”及“分享到QQ
+			'updateTimelineShareData', // 分享到朋友圈”及“分享到QQ空间
+			]// 分享到QQ空间] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+									});
+									
+								}
+							}).catch(reason =>{
+								global.showToast(reason)
+							})
 		},
 		onShow(){
 			this.usertype=uni.getStorageSync('usertype')
@@ -130,18 +153,21 @@
 				this.show=true
 			},
 			share(){
-				// uni.share({
-				//     provider: "weixin",
-				//     scene: "WXSceneSession",
-				//     type: 1,
-				//     summary: "我正在使用HBuilderX开发uni-app，赶紧跟我一起来体验！",
-				//     success: function (res) {
-				//         console.log("success:" + JSON.stringify(res));
-				//     },
-				//     fail: function (err) {
-				//         console.log("fail:" + JSON.stringify(err));
-				//     }
-				// });
+				wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+				  wx.updateAppMessageShareData({ 
+				    title: '111', // 分享标题
+				    desc: '物联网消防', // 分享描述
+				    link: 'http://www.baidu.com', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+				    imgUrl: '', // 分享图标
+				    success: function (s) {
+						console.log(s)
+				      // 设置成功
+				    },
+					fail:function(e){
+						console.log(e)
+					}
+				  })
+				});
 			}
 		}
 	}

@@ -13,7 +13,7 @@
 				 <span v-show="!show" class="count">{{count}} s</span>
 			</button>
 		</view>
-		<button type="primary" @tap="login">登陆</button>
+		<button type="primary" @tap="skiplogin">登陆</button>
 		<!-- @tap="login" -->
 		<!-- <view class="links">
 			<view class="link-highlight" @tap="gotoRegistration">注册账号</view>
@@ -161,9 +161,7 @@
 					code:code
 				}
 				request.apiGet('/toc/tocUser/getOpenId',data).then((res) =>{
-					console.log(res)
 					if(res.code == '0'){
-						console.log('0')
 						uni.setStorageSync('openid',res.openId)
 					}else{
 						global.showToast('请在微信环境下打开')
@@ -262,16 +260,16 @@
 				}
 			},
 			skiplogin(){
-				if(this.getparams()=='gr'){
+				// if(this.getparams()=='gr'){
 					// store.dispatch('usertype','gr')
 					uni.setStorageSync('usertype','gr')
-				}else if(this.getparams()=='dw'){
-					// this.$store.dispatch('usertype','dw')
-					uni.setStorageSync('usertype','dw')
-					uni.navigateTo({
-							url: '/pages/login/loginDW'
-						});
-				}
+				// }else if(this.getparams()=='dw'){
+				// 	// this.$store.dispatch('usertype','dw')
+				// 	uni.setStorageSync('usertype','dw')
+				// 	uni.navigateTo({
+				// 			url: '/pages/login/loginDW'
+				// 		});
+				// }
 				uni.switchTab({
 					url: '/pages/index/index'
 				});
