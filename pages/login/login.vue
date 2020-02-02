@@ -13,7 +13,7 @@
 				 <span v-show="!show" class="count">{{count}} s</span>
 			</button>
 		</view>
-		<button type="primary" @tap="skiplogin">登陆</button>
+		<button type="primary" @tap="login">注册</button>
 		<!-- @tap="login" -->
 		<!-- <view class="links">
 			<view class="link-highlight" @tap="gotoRegistration">注册账号</view>
@@ -23,7 +23,7 @@
 
 			</div>
 		</chunLei-modal> -->
-		<button @tap="loginwx">登录微信</button>
+		<!-- <button @tap="loginwx">登录微信</button> -->
 	</view>
 </template>
 
@@ -79,26 +79,27 @@
 			}
 		},
 		onLoad(p) {
+			var code=this.getUrlParam('code')
+			if(code)
 			// url=https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx72d5703c23ec2632&redirect_uri=http%3A%2F%2Fweixin.fireiot.net&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect
 			var isWechat=this.isWechat()
-			// if(!isWechat){
-			// 	uni.redirectTo({
-			// 		url:'/pages/login/focus'
-			// 	})
-			// }
-			var code=this.getUrlParam('code')
-			if(code!=null){
-				this.getOpenId(code)
+			if(!isWechat){
+				uni.redirectTo({
+					url:'/pages/login/focus'
+				})
 			}
+			
 			this.type = "select"
 			this.value = !this.value
 			this.data = this.selectData
 		},
 		onShow(p){
-			// if(code!=null){
-				
-			// }
-			
+			var code=this.getUrlParam('code')
+			if(code!=null){
+				this.getOpenId(code)
+			}else{
+				window.location.href='https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx72d5703c23ec2632&redirect_uri=http%3A%2F%2Fweixin.fireiot.net&response_type=code&connect_redirect=1&scope=snsapi_base&state=STATE#wechat_redirect'
+			}
 			
 			// if(this.getparams()=='gr'){
 			// 	uni.setStorageSync('usertype','gr')
@@ -136,17 +137,20 @@
 						phone:this.phone,
 						code:'123'
 					}
-					request.apiPost('/toc/tocUser/login',param).then((res) =>{
+					request.apiPost('/toc/tocUser/register',param).then((res) =>{//toc/tocUser/login
 						if(res.code == '0'){
-							uni.setStorageSync('usertype','gr')
 							uni.setStorageSync('userinfo',res.data)
-							uni.switchTab({
-								url: '/pages/index/index'
-							});
+							uni.setStorageSync('usertype','gr')
+							global.showToast('注册成功')
+							setTimeout(function(){
+								uni.switchTab({
+									url: '/pages/index/index'
+								});
+							},1000)
 							global.hideLoading()
 						}else{
 							global.hideLoading()
-							global.showToast('登录失败,请稍后再试')
+							global.showToast('注册失败,请稍后再试')
 						}
 					}).catch((reason) =>{
 						global.hideLoading()
@@ -157,12 +161,14 @@
 				}
 			},
 			getOpenId(code){
+				var that=this
 				var data={
 					code:code
 				}
 				request.apiGet('/toc/tocUser/getOpenId',data).then((res) =>{
 					if(res.code == '0'){
 						uni.setStorageSync('openid',res.openId)
+						that.findUser(res.openId)
 					}else{
 						global.showToast('请在微信环境下打开')
 					}
@@ -181,6 +187,27 @@
 				uni.navigateTo({
 					url: 'forget-password'
 				});
+			},
+			findUser(openid){
+				var data={
+					openId:openid
+				}
+				global.showLoading()
+				request.apiGet('/toc/tocUser/find',data).then((res) =>{
+					console.log(res)
+					if(res.code == '0'){
+						uni.setStorageSync('usertype','gr')
+						uni.switchTab({
+							url: '/pages/index/index'
+						});
+					}else if(res.code=='2'){
+						console.log('要注册')
+					}
+					global.hideLoading()
+				}).catch((reason) =>{
+					global.hideLoading()
+					global.showToast('网络错误')
+				})
 			},
 			onConfirm(e) {
 				switch (this.type) {

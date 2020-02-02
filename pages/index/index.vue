@@ -115,16 +115,21 @@
 		},
 		onShow(){
 			var that=this
-			this.usertype=uni.getStorageSync('usertype')
-			if(this.refresh){
-				this.refresh=false
+			var usertype=uni.getStorageSync('usertype')
+			if(usertype!=this.usertype){
+				this.usertype=usertype
 				this.init()
-				// 判断是否在微信端
-				if (isWechat()) {
-					//如果为微信端就进行code
-					this.getCode();
-				}
 			}
+			that.$forceUpdate()
+			// if(this.refresh){
+			// 	this.refresh=false
+			// 	this.init()
+			// 	// 判断是否在微信端
+			// 	if (isWechat()) {
+			// 		//如果为微信端就进行code
+			// 		this.getCode();
+			// 	}
+			// }
 			this.timer=setInterval(that.getDevState,30000)
 		},
 		onHide(){
@@ -195,7 +200,7 @@
 					})
 				}else if(this.usertype=='dw'){
 					var param = {
-						openId:'wx123456',
+						openId:uni.getStorageSync('openid'),
 					}
 					request.apiGet('/toc/device/list',param).then((res) =>{
 						if(res.code == '0'){

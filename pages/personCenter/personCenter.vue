@@ -49,7 +49,7 @@
 				</view>
 				<view class="share-item">
 					<image src="../../static/img/wx.png" mode="" @click="share"></image>
-					<image src="../../static/img/pyq.png" mode="" @click="share"></image>
+					<!-- <image src="../../static/img/pyq.png" mode="" @click="share"></image> -->
 					<image src="../../static/img/qq.png" mode="" @click="share"></image>
 				</view>
 			</view>
@@ -60,7 +60,7 @@
 <script>
 	import global from '../../static/js/global.js';
 	import request from '../../api/request.js'
-	import wx from 'weixin-js-sdk';
+	import wx from 'jweixin-module';
 	export default {
 		data() {
 			return {
@@ -73,7 +73,7 @@
 		},
 		onLoad(){
 			var data={
-								url:encodeURIComponent(window.location.href.split('#')[0])
+								url:encodeURIComponent(location.href.split('#')[0])
 							}
 							request.apiGet('/toc/tocUser/getSignature',data).then((res) =>{
 								console.log(res)
@@ -84,7 +84,9 @@
 									    nonceStr: res.nonceStr, // 必填，生成签名的随机串
 									    signature: res.signature,// 必填，签名，见附录1
 									    jsApiList: ['updateAppMessageShareData', // 分享给朋友”及“分享到QQ
+										'onMenuShareAppMessage',
 			'updateTimelineShareData', // 分享到朋友圈”及“分享到QQ空间
+			'onMenuShareTimeline'
 			]// 分享到QQ空间] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
 									});
 									
@@ -102,6 +104,9 @@
 			}
 		},
 		methods: {
+			init(){
+				
+			},
 			goLogin() {
 				if (this.login) {
 					return
@@ -154,10 +159,12 @@
 			},
 			share(){
 				wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+				var url=location.href.split('?')[0]
+				console.log(url)
 				  wx.updateAppMessageShareData({ 
-				    title: '111', // 分享标题
+				    title: '物联网消防', // 分享标题
 				    desc: '物联网消防', // 分享描述
-				    link: 'http://www.baidu.com', // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+				    link: url, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
 				    imgUrl: '', // 分享图标
 				    success: function (s) {
 						console.log(s)
@@ -168,6 +175,18 @@
 					}
 				  })
 				});
+				
+				
+				// wx.ready(function(){
+				// 	wx.checkJsApi({
+				// 	  jsApiList: ['updateAppMessageShareData'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+				// 	  success: function(res) {
+				// 		  console.log(res)
+				// 	  // 以键值对的形式返回，可用的api值true，不可用为false
+				// 	  // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+				// 	  }
+				// 	});
+				// })
 			}
 		}
 	}
