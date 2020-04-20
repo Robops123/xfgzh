@@ -33,7 +33,7 @@
 		<block v-if="type=='advert'">
 			<view class="advert-view">
 				<image :src="mData.src" class="confirm" @tap.stop="tapConfirm" :style="{width:mData.width?mData.width:'500rpx',height:mData.height?mData.height:'700rpx'}"></image>
-				<image class="cancel" @tap.stop="tapCancel" src="../../static/chunLei-modal/close.png"></image>
+				<image class="cancel" @tap.stop="tapCancel" src=""></image>
 			</view>
 		</block>
 		<block v-if="type=='notify'">

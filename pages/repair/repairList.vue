@@ -1,28 +1,35 @@
 <template>
 	<view class="content b-t">
 		<view :class="{'my-tabs':true}">
-			<view  v-for="(item,index) in tabList" :key="index" :class="{'tab-item':true,'active':curMonth==item.value}" @tap="tap(item.value)">
-				<text >{{item.label}}</text>
+			<view  :class="{'tab-item':true,'active':curIndex==0}" @tap="tap(0)" style="border-radius: 90upx 0 0 90upx;">
+				<text >全部</text><uni-badge text="11" type="error" size="small"></uni-badge>
+			</view>
+			<view  :class="{'tab-item':true,'active':curIndex==1}" @tap="tap(1)">
+				<text >三个月内</text><uni-badge text="0" type="error" size="small"></uni-badge>
+			</view>
+			<view  :class="{'tab-item':true,'active':curIndex==2}" @tap="tap(2)" style="border-radius: 0 90upx 90upx 0;">
+				<text >半年内</text><uni-badge text="22" type="error" size="small"></uni-badge>
 			</view>
 		</view>
 		<view>
 			<scroll-view   style="height: calc(100vh - 180upx);"
 			class="scroll-Y" @scrolltolower="lower" scroll-y="true"   >
-			                    <view class="list b-b" v-for="(item, index) in addressList" :key="index" @click="checkAddress(item)">
-			                    	<view class="wrapper" @click="gorepair(item)">
-			                    		<view class="address-box">
-			                    			<text class="address">报修设备:  {{item.devName}}</text>
+			                    <view class="list"  :class="{'active':pickerUserIndex==index}"  v-for="(item,index) in 2"
+			                     :key="index" :data-index="index" @click="toDetail(item.id)">
+			                     <image src="../../static/img/message/bx.png" mode="" class="status"></image>
+			                    	<view class="title">
+			                    		可燃气体检测仪3发现疑似媒体谢咯大厦时间段
+			                    	</view>
+									<view class="coffline describe">啊实打实大师到江安石大姐爱神的箭暗色调驾驶机动阿萨德奥斯迪偶家艾斯欧到江安死哦精雕机搜的窘境艾斯欧弟就欧艾斯的我OA就搜到</view>
+			                    	<view class="brief">
+			                    		<view>
+			                    			<image src="../../static/img/device/location.png" mode=""></image>
 			                    		</view>
-			                    		<view class="u-box">
-			                    			<text class="name">上报人: {{item.contact}}</text>
-			                    			<text class="mobile">上报时间: {{item.updateTime}}</text>
+			                    		<view>
+			                    			<view class="address cblue">啥啥啥肯定会将卡仕达</view>
+			                    			<view class="date coffline">2020-04-20 12:23:11</view>
 			                    		</view>
 			                    	</view>
-			                    	<!-- <text class="yticon icon-bianji" @click.stop="addAddress('edit', item)"></text> -->
-			                    	
-			                    	<text style="background-color: #07BB07;color: white;padding: 0 5px;" v-if="item.repairStatus===0">已处理</text>
-			                    	<text style="background-color:#DC3545;color: white;padding: 0 5px;" v-if="item.repairStatus===1">处理中</text>
-			                    	<text style="background-color:#DC3545;color: white;padding: 0 5px;" v-if="item.repairStatus===2">维修中</text>
 			                    </view>
 			                </scroll-view>
 		</view>
@@ -37,9 +44,14 @@
 <script>
 	import request from '../../api/request.js'
 	import global from '../../static/js/global.js'
+	import uniBadge from "@/components/uni-badge/uni-badge.vue"
 	export default {
+		components:{
+			uniBadge
+		},
 		data() {
 			return {
+				curIndex:0,
 				total:'',
 				refresh:false,
 				source: 0,
@@ -69,6 +81,11 @@
 			// this.source = option.source;
 		},
 		methods: {
+			toDetail(id){
+				uni.navigateTo({
+					url: `/pages/repair/repairDetail?id=${id}`
+				})
+			},
 			//选择地址
 			checkAddress(item){
 				if(this.source == 1){
@@ -131,7 +148,7 @@
 				})
 			},
 			tap(v){
-				this.curMonth=v
+				this.curIndex=v
 				this.curPage=1
 				this.limit=10,
 				this.total=''
@@ -147,15 +164,17 @@
 
 <style lang='scss'>
 	page{
+		background-color: #f2f2f2;
 		/* padding-bottom: 120upx; */
 	}
 	.content{
 		position: relative;
 	}
 	.list{
-		display: flex;
+		position: relative;
 		align-items: center;
-		padding: 20upx 30upx;;
+		padding: 20upx 30upx;
+		margin: 0 20upx 20upx 20upx;
 		background: #fff;
 		position: relative;
 	}
@@ -223,20 +242,24 @@
 		display: flex;
 		justify-content: space-around;
 		box-sizing: border-box;
-		border-top: 2upx solid #dddddd;
-		border-bottom: 2upx solid #dddddd;
-		min-width: 100%;
+		width: 80%;
+		margin: 20upx auto;
+		border-radius: 90upx;
 		overflow-x: auto;
 		
 		.tab-item{
+			box-sizing: border-box;
+			width: 33%;
 			line-height: 48upx;
-			padding: 20upx;
+			padding: 20upx 0;
 			min-width: 100upx;
-			text-align: center;
+			display: flex;
+			justify-content: center;
 		}
 		.tab-item.active{
 			position: relative;
-			color: #3682FF;
+			background-color: #2a95f0;
+			color: #fff;
 		}
 		.tab-item.active::after{
 			content: "";
@@ -246,7 +269,45 @@
 			transform: translateX(-50%);
 			width: 100%;
 			border-bottom: 4upx solid #3682FF;
-			animation: test ease 1 1.5s;
+			/* animation: test ease 1 1.5s; */
 		}
+	}
+	
+	.list .title{
+		max-width: 80%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.list .status{
+		position: absolute;
+		right: 15upx;
+		top: 0;
+		width: 90upx;
+		height: 90upx;
+	}
+	.brief{
+		padding-top: 0 !important;
+	}
+	.brief>view{
+		display: inline-block;
+		vertical-align: top;
+	}
+	.brief image{
+		width: 60upx !important;
+		height: 60upx !important;
+	}
+	.brief .address{
+		font-size: 32upx;
+	}
+	.operate{
+		display: flex;
+		justify-content: space-evenly;
+		padding: 20upx 0;
+		border-top: 1px solid #f2f2f2;
+	}
+	.list .describe{
+		max-width: 90%;
+		margin: 10upx 0;
 	}
 </style>

@@ -6,10 +6,6 @@
 			<view class="title uni-text-gray fl-row">
 				<view class="ml10 mt10 mb10 i-cube"></view>
 				<text class="ml30">我的设备</text>
-				<view class="xieyi link-highlight" 
-					@click="AddDevice()">
-					添加设备
-				</view>
 			</view>
 			<view class="device-container" style="width: 100%;overflow-x: auto;background-color: #fff;">
 				<!-- <zy-grid :showTip="true"
@@ -20,18 +16,21 @@
 				<view class="my-device" v-for="(item,index) in myDeviceList" :key='index'>
 					<view class="device-top">
 						<text>{{item.name}}</text>
-						<text class="fr cblue" @click="toDetail">详情</text>
+						<text class="status offline" :class="{online:item.status=='在线'}">{{item.status}}</text>
+						
 					</view>
 					<view class="device-main">
 						<view class="device-main-left">
 							<image src="../../static/img/cameraIcoOffline.png" mode=""></image>
-							<view>{{item.status}}</view>
 						</view>
 						<view class="device-main-right">
 							<view>{{item.type}}</view>
 							<view>{{item.iswarn}}</view>
 							<view>共享人数:{{item.num}}</view>
 						</view>
+					</view>
+					<view class="device-bottom">
+						<text class=" cblue" @click="toDetail(item.id,0)">查看详情</text>
 					</view>
 				</view>
 			</view>
@@ -49,18 +48,21 @@
 				<view class="my-device" v-for="(item,index) in myDeviceList" :key='index'>
 					<view class="device-top">
 						<text>{{item.name}}</text>
-						<text class="fr cblue">详情</text>
+						<text class="status offline" :class="{online:item.status=='在线'}">{{item.status}}</text>
+						
 					</view>
 					<view class="device-main">
 						<view class="device-main-left">
 							<image src="../../static/img/cameraIcoOffline.png" mode=""></image>
-							<view>{{item.status}}</view>
 						</view>
 						<view class="device-main-right">
 							<view>{{item.type}}</view>
 							<view>{{item.iswarn}}</view>
 							<view>共享人数:{{item.num}}</view>
 						</view>
+					</view>
+					<view class="device-bottom">
+						<text class=" cblue" @click="toDetail(item.id,1)">查看详情</text>
 					</view>
 				</view>
 			</view>
@@ -116,6 +118,15 @@
 		 :class="usertype=='dw' ? 'fullscreen':''" @mapclick='pulldata'></hchPosition>
 		<min-action-sheet ref="as"></min-action-sheet>
 		<min-action-sheet ref="as1"></min-action-sheet>
+		
+		
+		<view class="float-btn"
+			@click="AddDevice()">
+			<uni-icons type="plus" color="#fff"></uni-icons>
+			<view>
+				设备
+			</view>
+		</view>
 	</view>
 </template>
 
@@ -178,8 +189,8 @@
 						}],
 						myDeviceList:[
 							{name:'烟感报警器',type:'独立烟感',status:'在线',iswarn:'有告警','num':3},
-							{name:'烟感报警器1',type:'独立烟感1',status:'在线1',iswarn:'有告警1','num':13},
-							{name:'烟感报警器2',type:'独立烟感2',status:'在线2',iswarn:'有告警2','num':23}
+							{name:'烟感报警器1',type:'独立烟感1',status:'离线',iswarn:'有告警1','num':13},
+							{name:'烟感报警器2',type:'独立烟感2',status:'在线',iswarn:'有告警2','num':23}
 						]
 			};
 		},
@@ -512,9 +523,9 @@
 						url:"/pages/personCenter/warnhistroy"
 					})
 			},
-			toDetail(){
+			toDetail(id,type){
 				uni.navigateTo({
-					url:"/pages/adddevice/devicedetail"
+					url:"/pages/adddevice/devicedetail?id="+id+'&type='+type
 				})
 			}
 		}
@@ -816,5 +827,32 @@
 	}
 	.device-container{
 		padding-bottom: 30upx;
+	}
+	.device-bottom{
+		color: #2794F0;
+		text-align: center;
+		padding: 15upx 0;
+		border-top: 1px solid #333;
+		font-size: 30upx;
+	}
+	.status.online{
+		border: 1px solid #6BBD8F !important;
+		color: #6BBD8F !important;
+	}
+	.status.offline{
+		border: 1px solid #999999;
+		color: #999999;
+		margin-left: 20upx;
+	}
+	.float-btn{
+		position: fixed;
+		bottom: 150upx;
+		right: 50upx;
+		width: 100upx;
+		height: 100upx;
+		text-align: center;
+		color: #fff;
+		background-color: #2A95F0;
+		border-radius: 50%;
 	}
 </style>

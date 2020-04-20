@@ -2,7 +2,7 @@
 	<view class="outer">
 		<view>请关注木塔卫士微信公众号</view>
 		<view>长按二维码识别</view>
-		<image src="../../static/img/gzh.jpg" mode=""></image>
+		<image src="" mode=""></image>
 	</view>
 </template>
 

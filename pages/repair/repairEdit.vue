@@ -1,67 +1,31 @@
 <template>
 	<view>
-		<view class="yt-list">
-			<view class="yt-list-cell desc-cell">
-				<text class="cell-tit clamp">联系人：</text>
+		<view class="card">
+			<view class="line border-line">
+				<text><text class="cerror">*</text>联系人:</text>
+				<input type="text" value="" placeholder="输入联系人姓名"/>
 			</view>
-			<view class="yt-list-cell desc-cell">
-				<input class="desc" type="text" v-model="form.contact" placeholder="联系人" placeholder-class="placeholder" />
+			<view class="line border-line">
+				<text><text class="cerror">*</text>联系电话:</text>
+				<input type="text" value="" placeholder="输入电话"/>
 			</view>
-		</view>
-		<view class="yt-list">
-			<view class="yt-list-cell desc-cell">
-				<text class="cell-tit clamp">联系电话：</text>
+			<view class="line border-line">
+				<text><text class="cerror">*</text>设备所在地:</text>
+				<uni-combox class="input"  :candidates="candidates"  v-model="address"></uni-combox>
 			</view>
-			<view class="yt-list-cell desc-cell">
-				<input class="desc" type="text" v-model="form.phone" placeholder="联系电话" placeholder-class="placeholder" />
-			</view>
-		</view>
-		<view class="yt-list">
-			<view class="yt-list-cell desc-cell">
-				<text class="cell-tit clamp">设备所在地址：</text>
-			</view>
-			<view class="yt-list-cell desc-cell">
-				<input class="desc" type="text" v-model="form.address" placeholder="选择设备所在地址: " 
-				placeholder-class="placeholder"  disabled/>
-			</view>
-			
-		</view>
-		<view class="yt-list">
-			<view class="yt-list-cell desc-cell">
-				<text class="cell-tit clamp">设备IMEI号：</text>
-			</view>
-			<view class="yt-list-cell desc-cell">
-				<input class="desc" type="text" disabled v-model="form.imei" placeholder="设备IMEI号" placeholder-class="placeholder" />
+			<view class="line border-line">
+				<text>设备IMEI号:</text>
+				<input type="text" value="23123123123123" disabled/>
 			</view>
 		</view>
-		<view class="yt-list">
-			<view class="yt-list-cell desc-cell">
-				<text class="cell-tit clamp">故障描述：</text>
-			</view>
-			<view class="yt-list-cell desc-cell">
-				<input class="desc" type="text" v-model="form.remark" placeholder="故障描述" placeholder-class="placeholder" />
-			</view>
+		
+		<view class="card">
+			<textarea value="" placeholder="输入故障描述" />
 		</view>
-		<view class="yt-list">
-			<view class="yt-list-cell desc-cell">
-				<text class="cell-tit clamp">购买日期：</text>
-			</view>
-			<!-- <view class="yt-list-cell desc-cell">
-				<input class="desc" type="text" v-model="remark" placeholder="购买日期" placeholder-class="placeholder" />
-			</view> -->
-			<view class="yt-list-cell desc-cell">
-				<dyDatePicker placeholder="购买日期" v-model='form.buyDate' ref='datePicker'></dyDatePicker>
-			</view>
+		
+		<view style="text-align: center;">
+			<button class="add-btn" @click="submit">报修提交</button>
 		</view>
-		<view class="yt-list">
-			<view class="yt-list-cell desc-cell">
-				<text class="cell-tit clamp">购买商家：</text>
-			</view>
-			<view class="yt-list-cell desc-cell">
-				<input class="desc" type="text" v-model="form.buyCom" placeholder="购买商家" placeholder-class="placeholder" />
-			</view>
-		</view>
-		<button class="add-btn" @click="submit">报修提交</button>
 		
 	</view>
 </template>
@@ -85,7 +49,8 @@
 				from: '',
 				to: '',
 				index:0,
-				address:"选择位置",
+				address:"",
+				candidates:[],
 				form:{
 					devId:'',
 					baiduLongitude:'',
@@ -186,7 +151,7 @@
 
 <style lang="scss">
 	page {
-		// background: gainsboro;
+		background: #f2f2f2;
 		padding-bottom: 100upx;
 	}
 
@@ -275,21 +240,45 @@
 		}
 	}
 
+	
+	
 	.add-btn{
-		position: fixed;
-		left: 30upx;
-		right: 30upx;
-		bottom: 16upx;
-		z-index: 95;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 690upx;
-		height: 80upx;
-		font-size: 32upx;
+		background:rgba(63,135,255,1) !important;
+		border-radius:34px !important;
+		font-size: 34upx;
+		margin-top: 40upx;
 		color: #fff;
-		background-color: $base-color;
-		border-radius: 10upx;
-		box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);		
+		width: 80%;
+	}
+	.card{
+		padding: 20upx 20upx 0;
+		background-color: #fff;
+		margin: 30upx;
+		border-radius: 8px;
+	}
+	.card .line{
+		padding: 20upx 0;
+	}
+	.card .border-line{
+		border-bottom: 1px solid #f2f2f2;
+	}
+	.line>text{
+		display: inline-block;
+		vertical-align: middle;
+		width: 30%;
+		text-align: right;
+	}
+	.line>input,
+	.line>.input{
+		display: inline-block;
+		vertical-align: middle;
+		width: 64%;
+		font-size: 28upx;
+		margin-left: 5%;
+	}
+	
+	.uni-input-placeholder,
+	textarea{
+		font-size: 28upx;
 	}
 </style>

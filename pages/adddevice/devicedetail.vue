@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="yt-list">
+		<!-- <view class="yt-list">
 			<view class="yt-list-cell desc-cell">
 				<text class="cell-tit clamp">设备IMEI号：</text>
 				<button class="mini-btn" type="warn" size="mini" @click="more(form.devId)">更多</button>
@@ -23,11 +23,6 @@
 			</view>
 			<view class="yt-list-cell desc-cell">
 				<view class="map-warpper"></view>
-				<!-- <map id="myMap" style="width: 100%; height: 500upx;"
-				            					:latitude="form.baiduLatitude" 
-				            					:longitude="form.baiduLongitude" 
-				            					:markers="markers" 
-												></map> -->
 				<baidu-map style="width: 100%; height: 500upx;" v-if='mapReady'
 				 :center="{
 													lng:form.baiduLongitude,
@@ -39,8 +34,8 @@
 					</bm-marker>
 				</baidu-map>
 			</view>
-		</view>
-		<view class="yt-list">
+		</view> -->
+		<!-- <view class="yt-list">
 			<view class="yt-list-cell desc-cell">
 				<text class="cell-tit clamp">保修信息：</text>
 			</view>
@@ -50,7 +45,93 @@
 			<view class="yt-list-cell desc-cell">
 				购买商家：<input class="desc" v-model="form.buyCom" type="text" disabled/>
 			</view>
+		</view> -->
+		
+		<view class="card">
+			<view class="line">
+				<text class="cgray">所属地址:</text>
+				无锡不塌信息科技有限公司
+			</view>
+			<view class="line">
+				<text class="cgray">设备型号:</text>
+				烟感
+				<text class="fr">
+					<text class="cgray">设备名称:</text>
+					烟感报警器
+				</text>
+			</view>
+			<view class="line">
+				<text class="cgray">告警状态:</text>
+				<text>有</text>/<text class="cwarning">无</text>
+				<text class="fr">
+					<text class="cgray">在线状态:</text>
+					<text class="conline">在线</text>/<text class="coffline">离线</text>/<text class="cwarning">故障</text>
+				</text>
+			</view>
+			<view class="line">
+				<text class="cgray">设备编号:</text>
+				0563452345
+			</view>
+			<view class="line">
+				<text class="cgray">设备本地编码:</text>
+				21231232
+			</view>
+			<view class="line">
+				<text class="cgray">历史告警数:</text>
+				5
+				<text class="fr">
+					<text class="cgray">历史误报数:</text>
+					1
+				</text>
+			</view>
+			<view class="edit-btn cblue" @click="editAddress">修改</view>
 		</view>
+		
+		<view style="margin: 0 30upx;" v-if="type==0">
+			<text>共享记录</text>
+			<view class="fr add-share-btn">
+				<uni-icons type="plus" color="#fff"></uni-icons>
+				添加共享
+			</view>
+		</view>
+		
+		<view class="card card2"  v-if="type==0">
+			<view class="line border-line" v-for='(item,index) in 3' :key='index'>
+				<text class="col1">历史本</text>
+				<text class="left-border col2">1293283823723</text>
+				<text class="left-border col3">微信昵称阿大声道</text>
+				<text class="cblue left-border col4">取消共享</text>
+			</view>
+		</view>
+		
+		
+		<view class="yt-list-cell desc-cell">
+			<view class="map-warpper"></view>
+			<baidu-map :class='{sharemap:type==1}' style="width: 100%; height: 500upx;" v-if='mapReady'
+			 :center="{
+												lng:form.baiduLongitude,
+												lat:form.baiduLatitude
+											}" :zoom="15"
+			 @ready="handler" >
+				<bm-marker  :position="{lng: form.baiduLongitude, lat: form.baiduLatitude}" :dragging="false"
+				   :zIndex="999999999" :icon="{url:'http://developer.baidu.com/map/jsdemo/img/fox.gif',size: {width: 34, height: 34}}">
+				</bm-marker>
+			</baidu-map>
+		</view>
+		
+		
+		<prompt :visible.sync="promptVisible" title='新地址' placeholder="输入新地址"  @confirm="clickPromptConfirm" mainColor="#e74a39">
+		  <!-- 这里放入slot内容-->
+		</prompt>
+		<!-- <uni-popup ref='addressEdit' type="middle">
+			<view>输入新地址:</view>
+			<view>
+				<input type="text" value="" />
+			</view>
+			<view>
+				<button class="btn"></button>
+			</view>
+		</uni-popup> -->
 	</view>
 </template>
 
@@ -64,13 +145,20 @@
 		getInfo,
 		key
 	} from "./index.js"
-
+	import UniIcons from '@/components/uni-icon/uni-icon.vue'
+import Prompt from '@/components/zz-prompt/index.vue'
 	export default {
-		components: {},
+		components: {
+			UniIcons,
+			Prompt
+		},
 		data() {
 			return {
+				promptVisible:false,
 				mapReady:false,
 				address: "选择位置",
+				id:'',
+				type:'',
 				form: {
 					devId: '',
 					baiduLongitude: '',
@@ -89,28 +177,30 @@
 			}
 		},
 		onLoad(p) {
-			var params = JSON.parse(p.item)
-			console.log(params)
-			this.form.devId = params.devId
-			this.form.address = params.devLocation
-			this.form.imei = params.imei
-			this.form.devName = params.devName
-			this.form.baiduLongitude = params.baiduLongitude
-			this.form.baiduLatitude = params.baiduLatitude
-			this.form.buyDate = params.buyDate
-			this.form.buyCom = params.buyCom
-			this.markers.push({
-				id: params.id,
-				latitude: params.baiduLatitude,
-				longitude: params.baiduLongitude,
-				iconPath: '/static/img/MiniSmokeTrans.png',
-				callout: {
-					content: params.devName,
-					borderRadius: 10,
-					padding: 10,
-					display: "ALWAYS",
-				}
-			})
+			this.id=p.id
+			this.type=p.type
+			// var params = JSON.parse(p.item)
+			// console.log(params)
+			// this.form.devId = params.devId
+			// this.form.address = params.devLocation
+			// this.form.imei = params.imei
+			// this.form.devName = params.devName
+			// this.form.baiduLongitude = params.baiduLongitude
+			// this.form.baiduLatitude = params.baiduLatitude
+			// this.form.buyDate = params.buyDate
+			// this.form.buyCom = params.buyCom
+			// this.markers.push({
+			// 	id: params.id,
+			// 	latitude: params.baiduLatitude,
+			// 	longitude: params.baiduLongitude,
+			// 	iconPath: '/static/img/MiniSmokeTrans.png',
+			// 	callout: {
+			// 		content: params.devName,
+			// 		borderRadius: 10,
+			// 		padding: 10,
+			// 		display: "ALWAYS",
+			// 	}
+			// })
 			this.mapReady=true
 
 		},
@@ -228,14 +318,20 @@
 			      
 				  var geolocation = new BMap.Geolocation();
 			    },
+				editAddress(){
+					this.promptVisible=true
+				},
+				clickPromptConfirm(){
+					console.log('confirm')
+				}
 		}
 	}
 </script>
 
 <style lang="scss">
 	page {
-		background: gainsboro;
-		padding-bottom: 100upx;
+		background: #F0F0F0;
+		// padding-bottom: 100upx;
 	}
 
 
@@ -248,7 +344,7 @@
 	.yt-list-cell {
 		display: flex;
 		align-items: center;
-		padding: 10upx 30upx 10upx 40upx;
+		// padding: 10upx 30upx 10upx 40upx;
 		line-height: 70upx;
 		position: relative;
 
@@ -355,5 +451,69 @@
 		z-index: 99;
 		width: 100%;
 		height: 100%;
+	}
+	.card{
+		padding: 20upx 20upx 0;
+		background-color: #fff;
+		margin: 30upx;
+		border-radius: 8px;
+	}
+	.card .line{
+		padding: 10upx 0;
+	}
+	.card .border-line{
+		border-bottom: 1px solid #f2f2f2;
+	}
+	.edit-btn{
+	   padding: 20upx;
+	   text-align: center;
+	   border-top: 1px solid #E6E6E6;
+	}
+	.add-share-btn{
+		padding: 5upx 20upx;
+		background:rgba(42,149,240,1);
+		border-radius:24px;
+		color: #fff;
+		margin-top: -5upx;
+	}
+	
+	.card2{
+		padding: 20upx 0 0;
+	}
+	.card2 .border-line{
+		font-size: 24upx;
+	}
+	.card2 text{
+		display: inline-block;
+		padding: 0 10upx;
+		line-height: 1;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		box-sizing: border-box;
+	}
+	.card2 .left-border{
+		border-left: 1px solid #111;
+	}
+	.co1{
+		width: 16%;
+	}
+	.col2{
+		width: 34%;
+	}
+	.col3{
+		width: 29%;
+	}
+	.col4{
+		width: 20%;
+	}
+	.sharemap{
+		height: 800upx !important;
+	}
+	.btn{
+		background:rgba(63,135,255,1) !important;
+		border-radius:34px !important;
+		font-size: 34upx;
+		margin-top: 60upx;
 	}
 </style>

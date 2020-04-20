@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="yt-list">
+		<!-- <view class="yt-list">
 			<view class="yt-list-cell desc-cell">
 				<text class="cell-tit clamp">设备IMEI号：</text>
 			</view>
@@ -24,14 +24,56 @@
 				<input class="desc" type="text" v-model="form.devLocation" placeholder="点击选择位置: " 
 				placeholder-class="placeholder"  @click="openLocation" />
 			</view>
+		</view> -->
+		<view class="card">
+			<view class="line border-line">
+				<text><text class="cerror">*</text>设备型号:</text>
+				<input type="text" value="" disabled/>
+			</view>
+			<view class="line border-line">
+				<text><text class="cerror">*</text>设备名称:</text>
+				<input type="text" value="" disabled/>
+			</view>
+			<view class="line border-line">
+				<text><text class="cerror">*</text>设备编号:</text>
+				<input type="text" value="" disabled/>
+			</view>
+			<view class="line border-line">
+				<text><text class="cerror">*</text>地址:</text>
+				<uni-combox class="input"  :candidates="candidates"  v-model="address"></uni-combox>
+			</view>
+			<view class="line border-line">
+				<text><text class="cerror">*</text>设备批次址:</text>
+				<input type="text" value="" disabled/>
+			</view>
+			<view class="line border-line">
+				<text><text class="cerror">*</text>设备本地编码:</text>
+				<input type="text" value="" disabled/>
+			</view>
 		</view>
 		
-		<button class="add-btn" @click="submit">保存设备</button>
+		<view style="text-align: center;">
+			<button class="add-btn" @click="submit">确定添加</button>
+		</view>
 		
+		
+		
+		<view class="yt-list-cell desc-cell">
+			<view class="map-warpper"></view>
+			<baidu-map :class='{sharemap:type==1}' style="width: 100%; height: 500upx;margin-top: 100upx;" v-if='mapReady'
+			 :center="{
+												lng:form.baiduLongitude,
+												lat:form.baiduLatitude
+											}" :zoom="15"
+			 @ready="handler" >
+				<bm-marker  :position="{lng: form.baiduLongitude, lat: form.baiduLatitude}" :dragging="false"
+				   :zIndex="999999999" :icon="{url:'http://developer.baidu.com/map/jsdemo/img/fox.gif',size: {width: 34, height: 34}}">
+				</bm-marker>
+			</baidu-map>
+		</view>
 	</view>
 	
 </template>
-<!-- <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak="></script> -->
 <script>
 	import {
 		handleSignClick,
@@ -44,14 +86,18 @@
 	} from "./index.js"
 	import request from '../../api/request.js'
 	import global from '../../static/js/global.js'
+	import uniCombox from "@/components/uni-combox/uni-combox"
 	
 	export default {
 		components: {
+			uniCombox
 		},
 		data() {
 			return {
+				mapReady:true,
 				result:'',
-				address:"选择位置",
+				address:"",
+				candidates:[],
 				form:{
 					openId:uni.getStorageSync('openid'),
 					imei:'',
@@ -187,8 +233,8 @@
 
 <style lang="scss">
 	page {
-		background: gainsboro;
-		padding-bottom: 100upx;
+		background: rgb(240,240,240);
+		// padding-bottom: 100upx;
 	}
 
 	
@@ -201,7 +247,6 @@
 	.yt-list-cell {
 		display: flex;
 		align-items: center;
-		padding: 10upx 30upx 10upx 40upx;
 		line-height: 70upx;
 		position: relative;
 
@@ -276,20 +321,49 @@
 	}
 
 	.add-btn{
-		position: fixed;
-		left: 30upx;
-		right: 30upx;
-		bottom: 16upx;
-		z-index: 95;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 690upx;
-		height: 80upx;
-		font-size: 32upx;
+		background:rgba(63,135,255,1) !important;
+		border-radius:34px !important;
+		font-size: 34upx;
+		margin-top: 40upx;
 		color: #fff;
-		background-color: $base-color;
-		border-radius: 10upx;
-		box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);		
+		width: 80%;
+	}
+	.card{
+		padding: 20upx 20upx 0;
+		background-color: #fff;
+		margin: 30upx;
+		border-radius: 8px;
+	}
+	.card .line{
+		padding: 20upx 0;
+	}
+	.card .border-line{
+		border-bottom: 1px solid #f2f2f2;
+	}
+	.line>text{
+		display: inline-block;
+		vertical-align: middle;
+		width: 30%;
+		text-align: right;
+	}
+	.line>input,
+	.line>.input{
+		font-size: 28upx;
+		display: inline-block;
+		vertical-align: middle;
+		width: 64%;
+		margin-left: 5%;
+	}
+	.uni-input-placeholder,
+	textarea{
+		font-size: 28upx;
+	}
+	.map-warpper {
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 99;
+		width: 100%;
+		height: 100%;
 	}
 </style>

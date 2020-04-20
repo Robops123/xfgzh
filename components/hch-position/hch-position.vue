@@ -25,7 +25,7 @@
 					lat:markers[0].baiduLatitude
 				}" :zoom="zoom" @ready="handler" @click="getClickInfo" :scroll-wheel-zoom='true'>
 					<bml-marker-clusterer :averageCenter="true" >
-					       <bm-marker v-for='(item,index) in markers' :position="{lng: item.baiduLongitude, lat: item.baiduLatitude}"
+					       <bm-marker v-for='(item,index) in markers' :key='index' :position="{lng: item.baiduLongitude, lat: item.baiduLatitude}"
 					        :dragging="false" @click='clusterclick(item)'
 					        :title="departures(item.typeName).introduce || ''" 
 					       >

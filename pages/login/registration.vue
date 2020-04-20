@@ -1,18 +1,26 @@
 <template>
-	<view class="content">
-		<view class="logo"><image src="../../static/logo.png" mode=""></image></view>
-		<view class="uni-form-item uni-column">
-			<input type="tel" class="uni-input" name="" v-model="phone" placeholder="请输入手机号" />
+	<view class="login-bg">
+		<view class="appname" style="margin-top: 100upx;">
+			锡消宝
 		</view>
-		<view class="uni-form-item uni-column column-with-btn">
-			<input type="number" class="uni-input" name="" v-model="code" placeholder="请输入验证码" />
-			<button :class="{active : !disableCodeBtn}" :disabled="disableCodeBtn" @tap="sendCode">{{codeBtn.text}}</button>
+		<view class="content">
+			<view class="uni-form-item uni-column">
+				<view>账号</view>
+				<input type="tel" class="uni-input" v-model="phone" name="" placeholder="请输入手机号" />
+			</view>
+			<view class="uni-form-item uni-column">
+				<view>密码</view>
+				<view style="position: relative;padding: 10upx 0;">
+					<input type="text" class="uni-input" name="" v-model="code" placeholder="请输入验证码" />
+					<button class="veribtn" @click="getCode" :disabled="!show">
+						 <span v-show="show">获取验证码</span>
+						 <span v-show="!show" class="count">{{count}} s</span>
+					</button>
+				</view>
+			</view>
+			<button type="primary"  class="login-btn" @tap='register'>注册</button>
+			<view class="links">已有账号？<view class="link-highlight" @tap="gotoLogin">点此登录</view></view>
 		</view>
-		<view class="uni-form-item uni-column">
-			<input type="password" class="uni-input" name="" v-model="password" placeholder="请输入密码" />
-		</view>
-		<button type="primary" @tap='register'>注册</button>
-		<view class="links">已有账号？<view class="link-highlight" @tap="gotoLogin">点此登陆</view></view>
 	</view>
 </template>
 
@@ -23,11 +31,9 @@
 		data() {
 			return {
 				seconds: 10,
-				codeBtn: {
-					text: '获取验证码',
-					waitingCode: false,
-					count: this.seconds
-				},
+				count:60,
+				timer:null,
+				show:true,
 				phone:'',
 				code:'',
 				password:''
@@ -37,21 +43,41 @@
 
 		},
 		methods: {
-			sendCode: function () {
-				this.codeBtn.waitingCode = true;
-				this.codeBtn.count = this.seconds;
-				this.codeBtn.text = this.codeBtn.count + 's';
-				
-				let countdown = setInterval( () => {
-					this.codeBtn.count--;
-					this.codeBtn.text = this.codeBtn.count + 's';
-					if( this.codeBtn.count < 0 ){
-						clearInterval(countdown);
-						this.codeBtn.text = '重新发送';
-						this.codeBtn.waitingCode = false;
-					}
-				},1000);
-			},
+			getCode() {
+			       //axios请求
+			      // 验证码倒计时
+								global.showLoading()
+			     var data={
+			     	code:code
+			     }
+							   var that=this
+			     request.apiGet('/toc/tocUser/getOpenId',data).then((res) =>{
+			     	if(res.code == '0'){
+									that.settimer()
+			     	}else{
+			     		global.showToast('短信获取失败')
+			     	}
+			     	global.hideLoading()
+			     }).catch((reason) =>{
+			     	global.hideLoading()
+			     	global.showToast('网络错误')
+			     })
+			    },
+							  settimer(){
+								  if (!this.timer) {
+								    this.count = 60;
+								    this.show = false;
+								    this.timer = setInterval(() => {
+								      if (this.count > 0 && this.count <= 60) {
+								        this.count--;
+								      } else {
+								        this.show = true;
+								        clearInterval(this.timer);
+								        this.timer = null;
+								      }
+								    }, 1000);
+								  }
+							  },
 			register:function(){
 				var regexp=/^1[3456789]\d{9}$/
 				if((regexp.test(this.phone))){
@@ -100,9 +126,14 @@
 
 <style lang="scss" scoped>
 	$color-primary: #FA436A;
-	.content{
-		padding: 60upx 100upx 100upx;
+	.content {
+		padding: 50upx 20upx;
+		margin: 0 30upx 0;
+		background-color: #fff;
+		border-radius: 8px 8px 0 0;
+		box-shadow: 0 0 8px #ccc;
 	}
+	
 	.logo{
 	    text-align: center;
 		image{
@@ -163,4 +194,27 @@
 			color: $color-primary
 		}
 	}
+	
+	.login-bg{
+		background-image: url(../../static/img/login/bg.png);
+		background-size: 100%;
+		background-repeat: no-repeat;
+		padding-top: 110upx;
+		border-top: 0;
+	}
+	.login-btn{
+		background:rgba(63,135,255,1) !important;
+		border-radius:34px !important;
+	}
+	.veribtn{
+		position: absolute;
+		right: 0;
+		top: -10upx;
+		height: 100%;
+		margin-top: 0;
+		line-height: 56upx;
+		background-color: #fff;
+		color: #3F87FF;
+		border: 1px solid #3F87FF;
+		}
 </style>

@@ -1,29 +1,36 @@
 <template>
-	<view class="content">
-		<view class="logo">
-			<image src="../../static/logo.png" mode=""></image>
+	<view class="login-bg">
+		<view class="appname" style="margin-top: 100upx;">
+			锡消宝
 		</view>
-		<view class="uni-form-item uni-column">
-			<input type="tel" class="uni-input" v-model="phone" name="" placeholder="请输入手机号" />
+		<view class="content">
+			
+			<view class="uni-form-item uni-column">
+				<view>账号</view>
+				<input type="tel" class="uni-input" v-model="phone" name="" placeholder="请输入手机号" />
+			</view>
+			<view class="uni-form-item uni-column">
+				<view>密码</view>
+				<view style="position: relative;padding: 10upx 0;">
+					<input type="text" class="uni-input" name="" v-model="code" placeholder="请输入验证码" />
+					<button class="veribtn" @click="getCode" :disabled="!show">
+						 <span v-show="show">获取验证码</span>
+						 <span v-show="!show" class="count">{{count}} s</span>
+					</button>
+				</view>
+			</view>
+			<button type="primary" class="login-btn" @tap="login">登录</button>
+			<!-- @tap="login" -->
+			<view class="links">
+				<view class="link-highlight" @tap="gotoRegistration">注册账号</view>
+			</view>
+			<!-- <chunLei-modal v-model="value" :mData="data" :type="type" @onConfirm="onConfirm" :maskEnable='false'  navMask>
+				<div class="custom-view" @tap.stop>
+		
+				</div>
+			</chunLei-modal> -->
+			<!-- <button @tap="loginwx">登录微信</button> -->
 		</view>
-		<view class="uni-form-item uni-column">
-			<input type="text" class="uni-input" name="" v-model="code" placeholder="请输入验证码" />
-			<button class="veribtn" @click="getCode" :disabled="!show">
-				 <span v-show="show">获取验证码</span>
-				 <span v-show="!show" class="count">{{count}} s</span>
-			</button>
-		</view>
-		<button type="primary" @tap="login">登陆</button>
-		<!-- @tap="login" -->
-		<!-- <view class="links">
-			<view class="link-highlight" @tap="gotoRegistration">注册账号</view>
-		</view> -->
-		<!-- <chunLei-modal v-model="value" :mData="data" :type="type" @onConfirm="onConfirm" :maskEnable='false'  navMask>
-			<div class="custom-view" @tap.stop>
-
-			</div>
-		</chunLei-modal> -->
-		<button @tap="loginwx">登录微信</button>
 	</view>
 </template>
 
@@ -340,7 +347,11 @@
 	$color-primary: #FA436A;
 
 	.content {
-		padding: 100upx;
+		padding: 50upx 20upx;
+		margin: 0 30upx 0;
+		background-color: #fff;
+		border-radius: 8px 8px 0 0;
+		box-shadow: 0 0 8px #ccc;
 	}
 
 	.logo {
@@ -434,10 +445,24 @@
 	.veribtn{
 		position: absolute;
 		right: 0;
-		top: 0;
+		top: -10upx;
 		height: 100%;
 		margin-top: 0;
-		line-height: initial;
+		line-height: 56upx;
+		background-color: #fff;
+		color: #3F87FF;
+		border: 1px solid #3F87FF;
+		}
+		.login-bg{
+			background-image: url(../../static/img/login/bg.png);
+			background-size: 100%;
+			background-repeat: no-repeat;
+			padding-top: 110upx;
+			border-top: 0;
+		}
+		.login-btn{
+			background:rgba(63,135,255,1) !important;
+			border-radius:34px !important;
 		}
 </style>
 

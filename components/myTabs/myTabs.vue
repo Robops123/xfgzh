@@ -1,17 +1,27 @@
 <template>
 	<view :class="{'my-tabs':true,'space-between':formatBe}">
-		<view  v-for="(item,index) in getModelData" :key="index" :class="{'tab-item':true,'active':formatIndex==index}" @tap="tap(index)">
-			<text :style="item.backgroud">{{item.label}}</text>
+		<view  :class="{'tab-item':true,'active':curIndex==0}" @tap="tap(0)" style="border-radius: 90upx 0 0 90upx;">
+			<text >告警</text><uni-badge text="11" type="error" size="small"></uni-badge>
+		</view>
+		<view  :class="{'tab-item':true,'active':curIndex==1}" @tap="tap(1)">
+			<text >故障</text><uni-badge text="0" type="error" size="small"></uni-badge>
+		</view>
+		<view  :class="{'tab-item':true,'active':curIndex==2}" @tap="tap(2)" style="border-radius: 0 90upx 90upx 0;">
+			<text >离线</text><uni-badge text="22" type="error" size="small"></uni-badge>
 		</view>
 	</view>
 </template>
 
 <script>
+	import uniBadge from "@/components/uni-badge/uni-badge.vue"
 	export default {
 		props:['modelData','initIndex'],
+		components:{
+			uniBadge
+		},
 		data() {
 			return {
-				
+				curIndex:0
 			}
 		},
 		computed:{
@@ -29,6 +39,7 @@
 		},
 		methods: {
 			tap(index){
+				this.curIndex=index
 				this.$emit("change",index);
 			}
 		}
@@ -42,20 +53,27 @@
 		display: flex;
 		justify-content: space-around;
 		box-sizing: border-box;
-		border-top: 2upx solid #dddddd;
-		border-bottom: 2upx solid #dddddd;
-		min-width: 100%;
+		/* border-top: 2upx solid #dddddd; */
+		/* border-bottom: 2upx solid #dddddd; */
+		/* min-width: 100%; */
+		width: 80%;
+		margin: 20upx auto;
+		border-radius: 90upx;
 		overflow-x: auto;
 		
 		.tab-item{
+			box-sizing: border-box;
+			width: 33%;
 			line-height: 48upx;
-			padding: 20upx;
+			padding: 20upx 0;
 			min-width: 100upx;
-			text-align: center;
+			display: flex;
+			justify-content: center;
 		}
 		.tab-item.active{
 			position: relative;
-			color: #3682FF;
+			background-color: #2a95f0;
+			color: #fff;
 		}
 		.tab-item.active::after{
 			content: "";
@@ -65,7 +83,7 @@
 			transform: translateX(-50%);
 			width: 100%;
 			border-bottom: 4upx solid #3682FF;
-			animation: test ease 1 1.5s;
+			/* animation: test ease 1 1.5s; */
 		}
 	}
 	.my-tabs.space-between{
@@ -75,5 +93,8 @@
 		0%{width: 100%}
 		50%{width: 150%}
 		100%{width: 100%}
+	}
+	uni-badge{
+		display: inline-block;
 	}
 </style>

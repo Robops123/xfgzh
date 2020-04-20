@@ -4,36 +4,26 @@
 		<scroll-view class="purchase-body" scroll-y="true" @scrolltolower="scrolltolower" style="height: calc(100vh - 260upx);"
 		 @scrolltoupper="scrolltoupper"  @touchstart="touchstart" @touchend="touchend">
 			<!-- <my-unit v-for="(item,index) in 1" :key="index" :info="item"></my-unit> -->
-			<view class="list">
-				<view class="flex_col"  :class="{'active':pickerUserIndex==index}"  v-for="(item,index) in userList"
+				<view class="list"  :class="{'active':pickerUserIndex==index}"  v-for="(item,index) in 2"
 				 :key="index" :data-index="index">
-					<image :src="item.iconUrl" mode="aspectFill"></image>
-					<view class="flex_grow">
-						<view class="flex_col">
-							<view class="flex_grow">{{item.title}}</view>
-						</view>
-						<view class="flex_col">
-							<view class="info flex_grow">地点:{{item.devLocation}}</view>
-							
-						</view>
-						<view class="flex_col">
-							<view class="time flex_grow">时间:{{item.updateTime}}</view>
-							<!-- 故障 -->
-							<view @tap="listTap(item,index,curType)" class="more" v-if="usertype=='gr'">···</view>
-							<!-- <view @tap="listTap(item)" class="more" v-if="curType==1 && item.brokenStatus==0">···</view> -->
-								<!-- <text style="background-color: #07BB07;" v-if="item.warnStatus===1">正常</text> -->
-								
-						</view>
-						<text style="background-color:#DC3545;color: white;padding: 0 5px;" v-if="(curType==2 && item.status==1) || (item.type==2 && item.status==1)">故障提交</text>
-						<text style="background-color:#DC3545;color: white;padding: 0 5px;" v-if="(curType==2 && item.status==2) || (item.type==2 && item.status==2)">处理中</text>
-						<text style="background-color:#DC3545;color: white;padding: 0 5px;" v-if="(curType==2 && item.status==3) || (item.type==2 && item.status==3)">误报</text>
-						<text style="background-color:#DC3545;color: white;padding: 0 5px;" v-if="(curType==1 && item.status===1) || (item.type==1 && item.status==1)">普通告警</text>
-						<text style="background-color:#DC3545;color: white;padding: 0 5px;" v-if="(curType==1 && item.status===2) || (item.type==1 && item.status==2)">已确认</text>
-						<text style="background-color:#DC3545;color: white;padding: 0 5px;" v-if="(curType==1 && item.status===3) || (item.type==1 && item.status==3)">误报</text>
+				 <image src="../../static/img/message/bx.png" mode="" class="status"></image>
+					<view class="title">
+						可燃气体检测仪3发现疑似媒体谢咯大厦时间段
 					</view>
-					
+					<view class="brief">
+						<view>
+							<image src="../../static/img/device/location.png" mode=""></image>
+						</view>
+						<view>
+							<view class="address cblue">啥啥啥肯定会将卡仕达</view>
+							<view class="date coffline">2020-04-20 12:23:11</view>
+						</view>
+					</view>
+					<view class="operate">
+						<view class="cblue">误报</view>
+						<view class="cblue" @click="toFix('')">报修</view>
+					</view>
 				</view>
-			</view>
 			<view class="shade" v-show="showShade" @tap="hidePop">
 				<view class="pop" :style="popStyle" :class="{'show':showPop}">
 					<view v-for="(item,index) in popButton" :key="index" @tap="pickerMenu" :data-index="index">{{item}}</view>
@@ -312,6 +302,15 @@
 				 如果行的菜单方法存在异步情况，请在隐藏之前将该值保存，或通过参数传入异步函数中
 				 */
 				this.hidePop();
+			},
+			toFix(sth){
+				var that=this
+				uni.$on('update',function(res){
+					that.userList[res].status=1
+				})
+				 uni.navigateTo({
+				 	url:"/pages/repair/repairEdit?sth="+sth
+				 })
 			}
 		},
 		mixins:[myPull({})],
@@ -366,7 +365,9 @@
 		font-size: 28upx;
 		color: #333;
 		user-select: none;
+		position: relative;
 		touch-callout: none;
+		margin: 0 20upx 20upx 20upx;
 		.more{
 			float: right;
 			/* font-size: 1rem; */
@@ -416,7 +417,7 @@
 				content: '';
 				display: block;
 				height: 0;
-				border-top: #CCC solid 1px;
+				/* border-top: #CCC solid 1px; */
 				width: 620upx;
 				position: absolute;
 				top: -1px;
@@ -469,5 +470,40 @@
 				}
 			}
 		}
+	}
+	
+	
+	.list .title{
+		max-width: 80%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
+	.list .status{
+		position: absolute;
+		right: 15upx;
+		top: 0;
+		width: 90upx;
+		height: 90upx;
+	}
+	.brief{
+		padding-top: 0 !important;
+	}
+	.brief>view{
+		display: inline-block;
+		vertical-align: top;
+	}
+	.brief image{
+		width: 60upx !important;
+		height: 60upx !important;
+	}
+	.brief .address{
+		font-size: 32upx;
+	}
+	.operate{
+		display: flex;
+		justify-content: space-evenly;
+		padding: 20upx 0;
+		border-top: 1px solid #f2f2f2;
 	}
 </style>

@@ -46,6 +46,15 @@
 			}
 		},
 		{
+			"path": "pages/repair/repairDetail",
+			"style": {
+				"navigationBarTitleText": "报修记录",
+				"app-plus": {
+					"bounce": "none"
+				}
+			}
+		},
+		{
 			"path": "pages/repair/repairEdit",
 			"style": {
 				"navigationBarTitleText": "设备报修",
@@ -177,25 +186,25 @@
 	},
 	"tabBar": {
 		"color": "#C0C4CC",
-		"selectedColor": "#fa436a",
+		"selectedColor": "#147DE4",
 		"borderStyle": "black",
 		"backgroundColor": "#ffffff",
 		"list": [{
 				"pagePath": "pages/index/index",
-				"iconPath": "static/tab-home.png",
-				"selectedIconPath": "static/tab-home-current.png",
+				"iconPath": "static/img/tab/icon1.png",
+				"selectedIconPath": "static/img/tab/icon1_se.png",
 				"text": "首页"
 			},
 			{
 				"pagePath": "pages/message/message",
-				"iconPath": "static/tab-cate.png",
-				"selectedIconPath": "static/tab-cate-current.png",
+				"iconPath": "static/img/tab/icon2.png",
+				"selectedIconPath": "static/img/tab/icon2_se.png",
 				"text": "消息"
 			},
 			{
 				"pagePath": "pages/personCenter/personCenter",
-				"iconPath": "static/tab-my.png",
-				"selectedIconPath": "static/tab-my-current.png",
+				"iconPath": "static/img/tab/icon3.png",
+				"selectedIconPath": "static/img/tab/icon3_se.png",
 				"text": "我的"
 			}
 		] 

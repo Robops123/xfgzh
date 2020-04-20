@@ -455,4 +455,32 @@
 		top: 44px !important;
 		bottom: initial;
 		} */
+		
+		.fr{
+			float: right;
+		}
+		.appname{
+			font-size: 26px;
+			color: #fff;
+			margin: 150upx 0;
+			text-align: center;
+		}
+		.cgray{
+			color: #666;
+		}
+		.cblue{
+			color: #2a95f0;
+		}
+		.cerror{
+			color: #FB3434;
+		}
+		.cwarning{
+			color: #ff5925;
+		}
+		.conline{
+			color: #87caa4;
+		}
+		.coffline{
+			color: #666;
+		}
 </style>
