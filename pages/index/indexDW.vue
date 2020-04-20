@@ -1,7 +1,7 @@
 <template>
 	<view class="container">
-		<scroll-view 
-			style=" border-bottom:#07BB07 solid 2upx; z-index: 1000;background-color: #ccc;" 
+	<!-- 	<scroll-view 
+			style=" border-bottom:#07BB07 solid 2upx; z-index: 1000;" 
 			scroll-y="true" v-if="usertype=='gr'">
 			<view class="title uni-text-gray fl-row">
 				<view class="ml10 mt10 mb10 i-cube"></view>
@@ -11,62 +11,16 @@
 					添加设备
 				</view>
 			</view>
-			<view class="device-container" style="width: 100%;overflow-x: auto;background-color: #fff;">
-				<!-- <zy-grid :showTip="true"
+			<view style="width: 100%;overflow-x: auto;">
+				<zy-grid :showTip="true"
 					:col="3" 
 					v-if="deviceList.length > 0"
 					:list="deviceList">
-				</zy-grid> -->
-				<view class="my-device" v-for="(item,index) in myDeviceList" :key='index'>
-					<view class="device-top">
-						<text>{{item.name}}</text>
-						<text class="fr cblue" @click="toDetail">详情</text>
-					</view>
-					<view class="device-main">
-						<view class="device-main-left">
-							<image src="../../static/img/cameraIcoOffline.png" mode=""></image>
-							<view>{{item.status}}</view>
-						</view>
-						<view class="device-main-right">
-							<view>{{item.type}}</view>
-							<view>{{item.iswarn}}</view>
-							<view>共享人数:{{item.num}}</view>
-						</view>
-					</view>
-				</view>
+				</zy-grid>
 			</view>
-			
-			<view class="title uni-text-gray fl-row">
-				<view class="ml10 mt10 mb10 i-cube"></view>
-				<text class="ml30">共享设备</text>
-			</view>
-			<view class="device-container" style="width: 100%;overflow-x: auto;background-color: #fff;">
-				<!-- <zy-grid :showTip="true"
-					:col="3" 
-					v-if="deviceList.length > 0"
-					:list="deviceList">
-				</zy-grid> -->
-				<view class="my-device" v-for="(item,index) in myDeviceList" :key='index'>
-					<view class="device-top">
-						<text>{{item.name}}</text>
-						<text class="fr cblue">详情</text>
-					</view>
-					<view class="device-main">
-						<view class="device-main-left">
-							<image src="../../static/img/cameraIcoOffline.png" mode=""></image>
-							<view>{{item.status}}</view>
-						</view>
-						<view class="device-main-right">
-							<view>{{item.type}}</view>
-							<view>{{item.iswarn}}</view>
-							<view>共享人数:{{item.num}}</view>
-						</view>
-					</view>
-				</view>
-			</view>
-		</scroll-view>
-		<!-- <view class="top-entrance" v-if="usertype=='gr'">
-			<view class="bg-wrapper"></view>
+		</scroll-view> -->
+		<view class="top-entrance">
+			<!-- <view class="bg-wrapper"></view>
 			<view class="bg-content">
 				<view class="bg-item" @click="goDevice">
 					<view>
@@ -92,14 +46,7 @@
 						<text>告警历史</text>
 					</view>
 				</view>
-			</view>
-		</view> -->
-		<view v-if='usertype=="dw"'>
-			<view class="search-line">
-				<uni-icons type='search'></uni-icons>
-				<input type="text" value="" placeholder="请输入单位名称"/>
-				<button type="primary" class="search-btn">搜索</button>
-			</view>
+			</view> -->
 		</view>
 		<block v-for="(item, index) in arr" :key="index" v-if="usertype=='gr'">
 			<view v-if="item.group" 
@@ -112,8 +59,8 @@
 			<view class="ml10 mt10 mb10 i-cube"></view>
 			<text class="ml30">地图</text>
 		</view> -->
-		<hchPosition :storeData="storeData" :markers="markers"  :usertype='usertype' v-if='usertype=="dw"'
-		 :class="usertype=='dw' ? 'fullscreen':''" @mapclick='pulldata'></hchPosition>
+		<hchPosition :storeData="storeData" :markers="markers"  :usertype='usertype'
+		 class="fullscreen" @mapclick='pulldata'></hchPosition>
 		<min-action-sheet ref="as"></min-action-sheet>
 		<min-action-sheet ref="as1"></min-action-sheet>
 	</view>
@@ -123,14 +70,12 @@
 	import minActionSheet  from '../../components/comselect/comselect'
 	import zyGrid from '../../components/zy-grid/zy-grid.vue'
 	import hchPosition from "../../components/hch-position/hch-position"
-	import UniIcons from '@/components/uni-icon/uni-icon.vue'
 	import request from '../../api/request.js'
 	import global from '../../static/js/global.js'
 	export default {
 		components:{
 			zyGrid,
 			hchPosition,
-			UniIcons,
 			minActionSheet 
 		},
 		data() {
@@ -157,16 +102,16 @@
 					},
 				],
 				markers: [//门店在地图上的标记 以下字段必填 
-				{
-				         longitude: 116.405,
-				         latitude: 39.901,
-				         showFlag:false //flag放在每一条数据里
-				       },
-				       {
-				         longitude: 116.404,
-				         latitude: 39.900,
-				         showFlag:false
-				       }
+				 {
+				          longitude: 116.405,
+				          latitude: 39.901,
+				          showFlag:false //flag放在每一条数据里
+				        },
+				        {
+				          longitude: 116.404,
+				          latitude: 39.900,
+				          showFlag:false
+				        }
 					],
 				baseUrl:'',
 				deviceList:[],
@@ -175,12 +120,7 @@
 							icon: 'iconfont active',
 							color: '#007aff',
 							image: '/static/img/scanCode.png'
-						}],
-						myDeviceList:[
-							{name:'烟感报警器',type:'独立烟感',status:'在线',iswarn:'有告警','num':3},
-							{name:'烟感报警器1',type:'独立烟感1',status:'在线1',iswarn:'有告警1','num':13},
-							{name:'烟感报警器2',type:'独立烟感2',status:'在线2',iswarn:'有告警2','num':23}
-						]
+						}]
 			};
 		},
 		onShow(){
@@ -225,45 +165,6 @@
 			getDeviceList(devlocation){
 				var that=this
 				global.showLoading()
-				if(this.usertype=='gr'){
-					var param = {
-						openId:uni.getStorageSync('openid'),
-						devLocation:devlocation || ''
-					}
-					request.apiGet('/toc/device/list',param).then((res) =>{
-						if(res.code == '0'){
-							that.deviceList = res.data.filter((item) =>item.baiduLatitude!='');
-							var total=[]
-							// res.data.forEach((item,index) =>{
-							// 	if(item.baiduLatitude!=''){
-							// 		total.push({
-							// 				id:item.id,
-							// 				latitude: item.baiduLatitude,
-							// 				longitude: item.baiduLongitude,
-							// 				iconPath: item.iconUrl,
-							// 				// iconPath: that.departures(item.typeName).icon,
-							// 				callout:{
-							// 					content: that.departures(item.typeName).introduce,
-							// 					borderRadius:10,
-							// 					padding:10,
-							// 					display:"ALWAYS",
-							// 				}
-							// 		})
-							// 	}
-							// })
-							that.markers=res.data.filter((item) =>item.baiduLatitude!='');
-							that.markersReady=true
-							that.getDevState()
-							global.hideLoading()
-						}else{
-							global.hideLoading()
-							global.showToast(res.msg)
-						}
-					}).catch((reason) =>{
-						global.hideLoading()
-						global.showToast(reason)
-					})
-				}else if(this.usertype=='dw'){
 					var param = {
 						openId:'wx123456',
 					}
@@ -300,7 +201,6 @@
 						global.hideLoading()
 						global.showToast(reason)
 					})
-				}
 			},
 			// 添加设备
 			AddDevice() {
@@ -438,18 +338,11 @@
 			// 扫码
 			scanQrCode(){
 				// 允许从相机和相册扫码
-				// uni.scanCode({
-				// 	success: function (res) {
-				// 		console.log('条码类型：' + res.scanType);
-				// 		console.log('条码内容：' + res.result);
-				// 	}
-				// });
-				this.$wechat.scanQRCode({
-				  needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-				  scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
-				  success: function (res) {
-				    var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-				  }
+				uni.scanCode({
+					success: function (res) {
+						console.log('条码类型：' + res.scanType);
+						console.log('条码内容：' + res.result);
+					}
 				});
 			},
 
@@ -512,11 +405,6 @@
 						url:"/pages/personCenter/warnhistroy"
 					})
 			},
-			toDetail(){
-				uni.navigateTo({
-					url:"/pages/adddevice/devicedetail"
-				})
-			}
 		}
 		// 判断公众号截取code
 	}
@@ -652,7 +540,7 @@
 	}
 	.title {
 		line-height: 80upx;
-		background-color: #ccc;
+		background-color: #fafafa;
 		text-indent: 20upx;
 		font-size: 30upx;
 		color: #000000;
@@ -752,69 +640,5 @@
 		height: 100%;
 		flex: 1;
 		text-align: center;
-	}
-	
-	
-	.search-line{
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 65upx;
-		margin-top: 20upx;
-		background-color: #fff;
-		border: 1px solid #ff9900;
-		border-radius: 65upx;
-		z-index: 999;
-		display: flex;
-		align-items: center;
-	}
-	.search-line input{
-		flex: 1;
-	}
-	.search-btn{
-		background-color: #ff9900;
-		height: 65upx;
-		line-height: 65upx;
-		width: 160upx;
-		border-radius: 65upx;
-	}
-	
-	
-	.my-device{
-		display: inline-block;
-		width: 46%;
-		margin: 20upx 1% 0 2%;
-		border-radius: 8px;
-		border: 1px solid #333;
-	}
-	.device-top{
-		padding: 15upx 0;
-		border-bottom: 1px solid #333;
-	}
-	.device-main{
-		padding: 20upx;
-		box-sizing: border-box;
-	}
-	.device-main-left{
-		width: 45%;
-	}
-	.device-main-right{
-		width: 55%;
-	}
-	.device-main-right{
-		line-height: 1.5;
-	}
-	.device-main-left,
-	.device-main-right{
-		display: inline-block;
-		vertical-align: middle;
-	}
-	.device-main-left image{
-		width: 60upx;
-		height: 60upx;
-	}
-	.device-container{
-		padding-bottom: 30upx;
 	}
 </style>
