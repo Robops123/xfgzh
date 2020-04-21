@@ -395,7 +395,7 @@
 		}
 
 		.link-highlight {
-			color: $color-primary
+			color: #3f87ff;
 		}
 	}
 

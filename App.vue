@@ -483,4 +483,7 @@
 		.coffline{
 			color: #666;
 		}
+		uni-input{
+			height: initial !important; 
+		}
 </style>

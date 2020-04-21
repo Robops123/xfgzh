@@ -9,13 +9,20 @@
 				<input type="tel" class="uni-input" v-model="phone" name="" placeholder="请输入手机号" />
 			</view>
 			<view class="uni-form-item uni-column">
-				<view>密码</view>
+				<view>短信验证码</view>
 				<view style="position: relative;padding: 10upx 0;">
-					<input type="text" class="uni-input" name="" v-model="code" placeholder="请输入验证码" />
+					<input type="text" class="uni-input" name="" v-model="code" placeholder="短信验证码" />
 					<button class="veribtn" @click="getCode" :disabled="!show">
 						 <span v-show="show">获取验证码</span>
 						 <span v-show="!show" class="count">{{count}} s</span>
 					</button>
+				</view>
+			</view>
+			<view class="uni-form-item uni-column">
+				<view>验证码</view>
+				<view style="position: relative;padding: 10upx 0;">
+					<input type="text" class="uni-input" name="" v-model="picCode" placeholder="请输入验证码" />
+					<image :src="pic" mode="" class="veribtn veripic" @click="changePic"></image>
 				</view>
 			</view>
 			<button type="primary"  class="login-btn" @tap='register'>注册</button>
@@ -36,24 +43,29 @@
 				show:true,
 				phone:'',
 				code:'',
-				password:''
+				picCode:'',
+				password:'',
+				t:''
 			}
 		},
 		onLoad() {
-
+				this.t=this.generateRandom()
+				// this.getPic(t)
 		},
 		methods: {
 			getCode() {
 			       //axios请求
 			      // 验证码倒计时
-								global.showLoading()
+				global.showLoading()
 			     var data={
-			     	code:code
+			     	phone:this.phone,
+					t:this.t,
+					captchaCode:this.picCode
 			     }
-							   var that=this
-			     request.apiGet('/toc/tocUser/getOpenId',data).then((res) =>{
+				var that=this
+			     request.apiGet('/weixin/sendVaildMsg',data).then((res) =>{
 			     	if(res.code == '0'){
-									that.settimer()
+						that.settimer()
 			     	}else{
 			     		global.showToast('短信获取失败')
 			     	}
@@ -114,12 +126,25 @@
 				uni.navigateTo({
 					url: 'login'
 				})
+			},
+			generateRandom(){
+				var str='abcdefghijklmnopqrstuvwxyz1234567890',pattern='',l=str.length
+				for(var i=0;i<4;i++){
+					pattern+=str[Math.floor(Math.random()*l)]
+				}
+				return pattern;
+			},
+			changePic(t){
+				this.t=this.generateRandom()
 			}
 		},
 		computed: {
 			disableCodeBtn: function (){
 				return this.codeBtn.waitingCode < 4;
-			} 
+			},
+			pic(){
+				return request.baseURL+'/weixin/captcha?t='+this.t
+			}
 		}
 	}
 </script>
@@ -191,7 +216,7 @@
 			margin: 0 10upx;
 		}
 		.link-highlight{
-			color: $color-primary
+			color: #3f87ff;
 		}
 	}
 	
@@ -209,12 +234,15 @@
 	.veribtn{
 		position: absolute;
 		right: 0;
-		top: -10upx;
-		height: 100%;
+		top: 20upx;
+		height: 70%;
 		margin-top: 0;
 		line-height: 56upx;
 		background-color: #fff;
 		color: #3F87FF;
 		border: 1px solid #3F87FF;
+		}
+		.veripic{
+			width: 230upx;
 		}
 </style>
