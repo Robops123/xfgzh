@@ -13,10 +13,11 @@
 					v-if="deviceList.length > 0"
 					:list="deviceList">
 				</zy-grid> -->
+				<view v-if="myDeviceList==''">暂无数据</view>
 				<view class="my-device" v-for="(item,index) in myDeviceList" :key='index'>
 					<view class="device-top">
-						<text>{{item.name}}</text>
-						<text class="status offline" :class="{online:item.status=='在线'}">{{item.status}}</text>
+						<text>{{item.devName}}</text>
+						<text class="status offline" :class="{online:item.devState==1}">{{item.devState==0 ? '离线':'在线'}}</text>
 						
 					</view>
 					<view class="device-main">
@@ -24,13 +25,13 @@
 							<image src="../../static/img/cameraIcoOffline.png" mode=""></image>
 						</view>
 						<view class="device-main-right">
-							<view>{{item.type}}</view>
-							<view>{{item.iswarn}}</view>
-							<view>共享人数:{{item.num}}</view>
+							<view>{{item.typeName}}</view>
+							<view>{{item.iswarn==0 ? '无告警':'告警'}}</view>
+							<view>共享人数:{{item.shareCount}}</view>
 						</view>
 					</view>
 					<view class="device-bottom">
-						<text class=" cblue" @click="toDetail(item.id,0)">查看详情</text>
+						<text class=" cblue" @click="toDetail(item.devId,0)">查看详情</text>
 					</view>
 				</view>
 			</view>
@@ -45,10 +46,11 @@
 					v-if="deviceList.length > 0"
 					:list="deviceList">
 				</zy-grid> -->
-				<view class="my-device" v-for="(item,index) in myDeviceList" :key='index'>
+				<view v-if="myShareDeviceList==''">暂无数据</view>
+				<view class="my-device" v-for="(item,index) in myShareDeviceList" :key='index'>
 					<view class="device-top">
-						<text>{{item.name}}</text>
-						<text class="status offline" :class="{online:item.status=='在线'}">{{item.status}}</text>
+						<text>{{item.devName}}</text>
+						<text class="status offline" :class="{online:item.devState==1}">{{item.devState==0 ? '离线':'在线'}}</text>
 						
 					</view>
 					<view class="device-main">
@@ -56,13 +58,13 @@
 							<image src="../../static/img/cameraIcoOffline.png" mode=""></image>
 						</view>
 						<view class="device-main-right">
-							<view>{{item.type}}</view>
-							<view>{{item.iswarn}}</view>
-							<view>共享人数:{{item.num}}</view>
+							<view>{{item.typeName}}</view>
+							<view>{{item.iswarn==0 ? '无告警':'告警'}}</view>
+							<view>共享人数:{{item.shareCount}}</view>
 						</view>
 					</view>
 					<view class="device-bottom">
-						<text class=" cblue" @click="toDetail(item.id,1)">查看详情</text>
+						<text class=" cblue" @click="toDetail(item.devId,1)">查看详情</text>
 					</view>
 				</view>
 			</view>
@@ -127,6 +129,8 @@
 				设备
 			</view>
 		</view>
+		
+		<view id="liquidFill"></view>
 	</view>
 </template>
 
@@ -137,6 +141,7 @@
 	import UniIcons from '@/components/uni-icon/uni-icon.vue'
 	import request from '../../api/request.js'
 	import global from '../../static/js/global.js'
+	 
 	export default {
 		components:{
 			zyGrid,
@@ -187,11 +192,8 @@
 							color: '#007aff',
 							image: '/static/img/scanCode.png'
 						}],
-						myDeviceList:[
-							{name:'烟感报警器',type:'独立烟感',status:'在线',iswarn:'有告警','num':3},
-							{name:'烟感报警器1',type:'独立烟感1',status:'离线',iswarn:'有告警1','num':13},
-							{name:'烟感报警器2',type:'独立烟感2',status:'在线',iswarn:'有告警2','num':23}
-						]
+						myDeviceList:'',
+						myShareDeviceList:''
 			};
 		},
 		onShow(){
@@ -212,6 +214,7 @@
 			window.clearInterval(this.timer)
 		},
 		onLoad(e) {
+			this.getDeviceList()
 			var that=this
 			uni.$on('update',function(res){
 				that.init()
@@ -239,12 +242,13 @@
 				if(this.usertype=='gr'){
 					var param = {
 						openId:uni.getStorageSync('openid'),
-						devLocation:devlocation || ''
+						// devLocation:devlocation || ''
 					}
 					request.apiGet('/toc/device/list',param).then((res) =>{
 						if(res.code == '0'){
-							that.deviceList = res.data.filter((item) =>item.baiduLatitude!='');
-							var total=[]
+							console.log(res)
+							that.myDeviceList=res.data.selfList
+							that.myShareDeviceList=res.data.shareList
 							// res.data.forEach((item,index) =>{
 							// 	if(item.baiduLatitude!=''){
 							// 		total.push({
@@ -262,9 +266,11 @@
 							// 		})
 							// 	}
 							// })
-							that.markers=res.data.filter((item) =>item.baiduLatitude!='');
-							that.markersReady=true
-							that.getDevState()
+							// that.deviceList = res.data.filter((item) =>item.baiduLatitude!='');
+							// var total=[]
+							// that.markers=res.data.filter((item) =>item.baiduLatitude!='');
+							// that.markersReady=true
+							// that.getDevState()
 							global.hideLoading()
 						}else{
 							global.hideLoading()
@@ -527,7 +533,8 @@
 				uni.navigateTo({
 					url:"/pages/adddevice/devicedetail?id="+id+'&type='+type
 				})
-			}
+			},
+			
 		}
 		// 判断公众号截取code
 	}
@@ -852,7 +859,10 @@
 		height: 100upx;
 		text-align: center;
 		color: #fff;
+		line-height: 1.3;
 		background-color: #2A95F0;
 		border-radius: 50%;
 	}
+	
+	
 </style>

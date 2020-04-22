@@ -8,7 +8,6 @@
 		// 		}
 		// 	}
 		// }
-		
 		{
 			"path": "pages/login/login",
 			"style": {
@@ -26,8 +25,16 @@
 					"titleNView": false
 				}
 			}
-		}
-		, {
+		},
+		
+		
+		{
+			"path": "pages/index/dwDetail",
+			"style": {
+				"navigationBarTitleText": "单位详情"
+			}
+		},
+		{
 			"path": "pages/message/message",
 			"style": {
 				"navigationBarTitleText": "消息提醒",

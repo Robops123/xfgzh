@@ -13,7 +13,7 @@
 						<text>{{emptyTips}}</text>
 					</view>
 					<view class="uni-combox__selector-item" v-for="(item,index) in filterCandidates" :key="index" @click="onSelectorClick(index)">
-						<text>{{item}}</text>
+						<text>{{item.address}}</text>
 					</view>
 				</scroll-view>
 			</view>
@@ -73,7 +73,7 @@
 			},
 			filterCandidates() {
 				return this.candidates.filter((item) => {
-					return item.indexOf(this.inputVal) > -1
+					return item.address.indexOf(this.inputVal) > -1
 				})
 			},
 			filterCandidatesLength() {
@@ -83,6 +83,7 @@
 		watch: {
 			value: {
 				handler(newVal) {
+					console.log(newVal)
 					this.inputVal = newVal
 				},
 				immediate: true
@@ -101,9 +102,9 @@
 				},50)
 			},
 			onSelectorClick(index) {
-				this.inputVal = this.filterCandidates[index]
+				this.inputVal = this.filterCandidates[index].address
 				this.showSelector = false
-				this.$emit('input', this.inputVal)
+				this.$emit('click', this.filterCandidates[index].id)
 			},
 			onInput() {
 				setTimeout(() => {

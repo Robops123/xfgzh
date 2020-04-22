@@ -50,38 +50,43 @@
 		<view class="card">
 			<view class="line">
 				<text class="cgray">所属地址:</text>
-				无锡不塌信息科技有限公司
+				{{data.devLocation}}
 			</view>
 			<view class="line">
 				<text class="cgray">设备型号:</text>
-				烟感
+				{{data.typeName}}
 				<text class="fr">
 					<text class="cgray">设备名称:</text>
-					烟感报警器
+					{{data.devName}}
 				</text>
 			</view>
 			<view class="line">
 				<text class="cgray">告警状态:</text>
-				<text>有</text>/<text class="cwarning">无</text>
+				<text :class="{cwarning:data.isWarn==1}">{{data.isWarn==1 ? '有':'无'}}</text>
 				<text class="fr">
 					<text class="cgray">在线状态:</text>
-					<text class="conline">在线</text>/<text class="coffline">离线</text>/<text class="cwarning">故障</text>
+					<text v-if="data.isBroken==0">
+						<text :class="{conline:data.devState==1,coffline:data.devState==0}">
+							{{data.devState==1 ? '在线':'离线'}}
+						</text>
+					</text>
+					<text class="cwarning" v-else>故障</text>
 				</text>
 			</view>
-			<view class="line">
+			<!-- <view class="line">
 				<text class="cgray">设备编号:</text>
-				0563452345
+				{{data.devId}}
 			</view>
 			<view class="line">
 				<text class="cgray">设备本地编码:</text>
 				21231232
-			</view>
+			</view> -->
 			<view class="line">
 				<text class="cgray">历史告警数:</text>
-				5
+				{{data.warnCount}}
 				<text class="fr">
 					<text class="cgray">历史误报数:</text>
-					1
+					{{data.misreportCount}}
 				</text>
 			</view>
 			<view class="edit-btn cblue" @click="editAddress">修改</view>
@@ -96,10 +101,10 @@
 		</view>
 		
 		<view class="card card2"  v-if="type==0">
-			<view class="line border-line" v-for='(item,index) in 3' :key='index'>
-				<text class="col1">历史本</text>
-				<text class="left-border col2">1293283823723</text>
-				<text class="left-border col3">微信昵称阿大声道</text>
+			<view class="line border-line" v-for='(item,index) in data.deviceShareList' :key='index'>
+				<text class="col1">{{item.shareToUser}}</text>
+				<text class="left-border col2">{{item.shareToUserPhone}}</text>
+				<text class="left-border col3">{{item.nickName}}</text>
 				<text class="cblue left-border col4">取消共享</text>
 			</view>
 		</view>
@@ -107,21 +112,25 @@
 		
 		<view class="yt-list-cell desc-cell">
 			<view class="map-warpper"></view>
-			<baidu-map :class='{sharemap:type==1}' style="width: 100%; height: 500upx;" v-if='mapReady'
+			<baidu-map :class='{sharemap:type==1}' style="width: 100%; height: 500upx;" v-if='data'
 			 :center="{
-												lng:form.baiduLongitude,
-												lat:form.baiduLatitude
+												lng:data.baiduLongitude,
+												lat:data.baiduLatitude
 											}" :zoom="15"
 			 @ready="handler" >
-				<bm-marker  :position="{lng: form.baiduLongitude, lat: form.baiduLatitude}" :dragging="false"
-				   :zIndex="999999999" :icon="{url:'http://developer.baidu.com/map/jsdemo/img/fox.gif',size: {width: 34, height: 34}}">
+			 <bm-label :content="data.devLocation" 
+			 :position="{lng: data.baiduLongitude, lat:data.baiduLatitude}" :labelStyle="{color: '#333', fontSize : '16px'}" />
+				<bm-marker  :position="{lng: data.baiduLongitude,lat:data.baiduLatitude}" :dragging="false"
+				   :zIndex="999999999" >
 				</bm-marker>
 			</baidu-map>
 		</view>
 		
 		
-		<prompt :visible.sync="promptVisible" title='新地址' placeholder="输入新地址"  @confirm="clickPromptConfirm" mainColor="#e74a39">
+		<prompt :visible.sync="promptVisible" title='新地址'   @confirm="clickPromptConfirm" mainColor="#e74a39">
 		  <!-- 这里放入slot内容-->
+		  <uni-combox class="input" @input='getAddress' @click='chooseLocation'
+		  :candidates="candidates" :value="address" v-model="address"></uni-combox>
 		</prompt>
 		<!-- <uni-popup ref='addressEdit' type="middle">
 			<view>输入新地址:</view>
@@ -147,16 +156,21 @@
 	} from "./index.js"
 	import UniIcons from '@/components/uni-icon/uni-icon.vue'
 import Prompt from '@/components/zz-prompt/index.vue'
+import uniCombox from "@/components/uni-combox/uni-combox"
+import request from '../../api/request.js'
+import global from '../../static/js/global.js'
 	export default {
 		components: {
 			UniIcons,
-			Prompt
+			Prompt,
+			uniCombox
 		},
 		data() {
 			return {
 				promptVisible:false,
 				mapReady:false,
-				address: "选择位置",
+				address: "",
+				candidates:[],
 				id:'',
 				type:'',
 				form: {
@@ -173,12 +187,17 @@ import Prompt from '@/components/zz-prompt/index.vue'
 				},
 				markers: [
 
-				]
+				],
+				
+				shareList:'',
+				data:'',
+				choosedLocationId:''
 			}
 		},
 		onLoad(p) {
 			this.id=p.id
 			this.type=p.type
+			this.getDetail()
 			// var params = JSON.parse(p.item)
 			// console.log(params)
 			// this.form.devId = params.devId
@@ -323,6 +342,70 @@ import Prompt from '@/components/zz-prompt/index.vue'
 				},
 				clickPromptConfirm(){
 					console.log('confirm')
+				},
+				
+				
+				// 
+				getDetail(){
+					var that=this
+					var param = {
+						openId:uni.getStorageSync('openid'),
+						devId:this.id
+					}
+					request.apiGet('/toc/device/info',param).then((res) =>{
+						if(res.code == '0'){
+							that.data=res.data
+							global.hideLoading()
+						}else{
+							global.hideLoading()
+							global.showToast(res.msg)
+						}
+					}).catch((reason) =>{
+						global.hideLoading()
+						global.showToast(reason)
+					})
+				},
+				getAddress(){
+					var that=this
+					var param = {
+						page:1,
+						count:10,
+						address:this.address
+					}
+					that.candidates=[]
+					request.apiGet('/toc/address/bindList',param).then((res) =>{
+						// res.rows.forEach((item) =>{
+						// 	that.candidates.push(item.address)
+						// })
+							that.candidates=res.rows
+							global.hideLoading()
+					}).catch((reason) =>{
+						global.hideLoading()
+						global.showToast(reason)
+					})
+				},
+				chooseLocation(e){
+					this.choosedLocationId=e
+				},
+				clickPromptConfirm(){
+					var that=this
+					var param = {
+						openId:uni.getStorageSync('openid'),
+						devId:this.data.devId,
+						addressId:this.choosedLocationId
+					}
+					request.apiPost('/toc/device/changeAddress',param).then((res) =>{
+							if(res.code == '0'){
+								global.showToast('更改成功')
+								that.getDetail()
+							}else{
+								global.showToast(res.msg)
+							}
+							global.hideLoading()
+					}).catch((reason) =>{
+						global.hideLoading()
+						global.showToast(reason)
+					})
 				}
 		}
 	}
@@ -515,5 +598,11 @@ import Prompt from '@/components/zz-prompt/index.vue'
 		border-radius:34px !important;
 		font-size: 34upx;
 		margin-top: 60upx;
+	}
+	
+	.input{
+		font-size: 28upx;
+		width: 85%;
+		border: 1px solid #f2f2f2;
 	}
 </style>

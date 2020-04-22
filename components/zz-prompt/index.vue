@@ -2,11 +2,12 @@
   <view class="prompt-box" v-if="visible" @touchmove="true">
     <view class="prompt">
       <view class="prompt-top">
-        <text class="prompt-title">{{title}}</text>
-        <input v-if="!isMutipleLine" class="prompt-input" :style="inputStyle" type="text" :placeholder="placeholder" v-model="value">
-        <textarea v-else class="prompt-input" :style="inputStyle" type="text" :placeholder="placeholder" v-model="value"></textarea>
+       <text class="prompt-title">{{title}}</text>
+       <!-- <input v-if="!isMutipleLine" class="prompt-input" :style="inputStyle" type="text" :placeholder="placeholder" v-model="value">
+        <textarea v-else class="prompt-input" :style="inputStyle" type="text" :placeholder="placeholder" v-model="value"></textarea> -->
+		<slot></slot>
       </view>
-      <slot></slot>
+      
       <view class="prompt-buttons">
         <button class="prompt-cancle" :style="'color:' + mainColor" @click="close">取消</button>
         <button class="prompt-confirm" :style="'background:' + mainColor" @click="confirm">确定</button>

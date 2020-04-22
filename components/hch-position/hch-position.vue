@@ -42,26 +42,34 @@
 					:center="{
 						lng:markers[0].longitude,
 						lat:markers[0].latitude
-					}" :zoom="zoom" @ready="handler" @click="getClickInfo" :scroll-wheel-zoom='true'>
+					}" :zoom="zoom" @ready="handler" @click="infoWindowOpen" :scroll-wheel-zoom='true'>
 						<bml-marker-clusterer :averageCenter="true" >
-						       <bm-marker v-for='(item,index) in markers' :position="{lng: item.longitude, lat: item.latitude}"
+						       <bm-marker v-for='(item,index) in markers' :position="{lng: item.longitude, lat: item.latitude}" :key='index'
 						        :dragging="false" @click='clusterclick2(item)'>
 						          </bm-marker>
 						   </bml-marker-clusterer>
-						   <bm-info-window :show="show" :position="{lng: info.longitude, lat: info.latitude}" :key=''
+						   <bm-info-window :show="show" :position="{lng: info.longitude, lat: info.latitude}" 
 						   @close="infoWindowClose" @open="infoWindowOpen" class='infowindow'>
 						   	<view>
 						   		<view>
-						   			<image src="../../static/selected.png" mode=""></image>
-						   			{{info.describe}}
+									鸿兴源小区3-1102
 						   		</view>
-						   		<view>
-						   			<image src="../../static/定位.png" mode=""></image>
-						   			{{info.location}}
+						   		<view class="cgray">
+						   			<text class="type-name">联系人：</text>
+									<text>赵X</text>
+									<text class="fr">193827326412</text>
 						   		</view>
-						   		<view class="time">
-						   			{{info.location}}
+						   		<view class="cgray">
+						   			<text class="type-name">安全指数：</text>
+						   			<text>75</text>
 						   		</view>
+								<view class="cgray">
+									<text class="type-name">未处理告警：</text>
+									<text>15</text>
+								</view>
+								<view class="detail" @click="todwDetail">
+									查看详情
+								</view>
 						   	</view>
 						   </bm-info-window>
 					    </baidu-map>
@@ -258,6 +266,11 @@ export default {
 			},
 			infoWindowClose(){
 				this.show=false
+			},
+			todwDetail(){
+				uni.navigateTo({
+					url:'../../pages/index/dwDetail'
+				})
 			}
     },
 	created() {
@@ -374,5 +387,17 @@ export default {
 	}
 	.infowindow .time{
 		padding-left: 12px;
+	}
+	
+	.detail{
+		background-color: #4676ca;
+		color: #fff;
+		text-align: center;
+		padding: 15upx 0;
+	}
+	.type-name{
+		text-align: right;
+		display: inline-block;
+		width: 200upx;
 	}
 </style>

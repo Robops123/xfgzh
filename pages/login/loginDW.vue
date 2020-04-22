@@ -1,33 +1,47 @@
 <template>
-	<view class="content">
-		<uni-steps :options="steps" active-color="#0f87f5" :active="active"></uni-steps>
-		<view class="logo"><image src="../../static/logo.png" mode=""></image></view>
-		
-		<!-- 登录 -->
-		<view class="" v-if="active==0">
-			<view class="uni-form-item uni-column">
-				<input type="tel" class="uni-input" v-model="loginName" name="" placeholder="请输入手机号码" />
-			</view>
-			<view class="uni-form-item uni-column column-with-btn">
-				<input type="text" class="uni-input" name="" v-model="code" placeholder="请输入验证码" />
-				<button class="veribtn" @click="getCode" :disabled="!show">
-					 <span v-show="show">获取验证码</span>
-					 <span v-show="!show" class="count">{{count}} s</span>
-				</button>
-			</view>
-			<button type="primary" @tap="login">登录</button>
-			<button class="regBtn" type="text" @tap='gotoRegistration'>注册</button>
+	<view class=" login-bg">
+		<!-- <view class="logo"><image src="../../static/logo.png" mode=""></image></view> -->
+		<view class="appname" style="margin-top: 100upx;">
+			锡消宝
 		</view>
-		
-		<!-- 绑定 -->
-		<view class="" v-if="active==1">
-			<view class="uni-form-item uni-column">
-				<input type="tel" class="uni-input" v-model="loginName" name="" placeholder="用户名称 xxx@xxx" />
+		<view class="content">
+			<view class="step">
+				<view class="step-btn" :class="{active:active==0}">登录</view>
+				<view class="line"></view>
+				<view class="step-btn step-btn1" :class="{active:active==1}">认证绑定</view>
 			</view>
-			<view class="uni-form-item uni-column column-with-btn">
-				<input type="text" class="uni-input" name="" v-model="code" placeholder="请输入密码" />
+			<!-- 登录 -->
+			<view class="" v-if="active==0">
+				<view class="uni-form-item uni-column">
+					<view>账号</view>
+					<input type="tel" class="uni-input" v-model="loginName" name="" placeholder="请输入手机号码" />
+				</view>
+				<view>密码</view>
+				<view class="uni-form-item uni-column ">
+					<view style="position: relative;padding: 10upx 0;">
+						<input type="text" class="uni-input" name="" v-model="code" placeholder="请输入验证码" />
+						<button class="veribtn" @click="getCode" :disabled="!show">
+							 <span v-show="show">获取验证码</span>
+							 <span v-show="!show" class="count">{{count}} s</span>
+						</button>
+					</view>
+				</view>
+				<button type="primary" @tap="login">登录</button>
+				<button class="regBtn" type="text" @tap='gotoRegistration'>注册</button>
 			</view>
-			<button type="primary" @tap="rz">认证&绑定</button>
+			
+			<!-- 绑定 -->
+			<view class="" v-if="active==1">
+				<view class="uni-form-item uni-column">
+					<view>账号</view>
+					<input type="tel" class="uni-input" v-model="loginName" name="" placeholder="用户名称 xxx@xxx" />
+				</view>
+				<view class="uni-form-item uni-column ">
+					<view>密码</view>
+					<input type="text" class="uni-input" name="" v-model="code" placeholder="请输入密码" />
+				</view>
+				<button type="primary" @tap="rz">认证&绑定</button>
+			</view>
 		</view>
 	</view>
 </template>
@@ -35,10 +49,10 @@
 <script>
 	import request from '../../api/request.js'
 	import global from '../../static/js/global.js'
-	import uniSteps from '@/components/uni-steps/uni-steps.vue'
+	// import uniSteps from '@/components/uni-steps/uni-steps.vue'
 	export default {
 		components:{
-			uniSteps
+			// uniSteps
 		},
 		data() {
 			return {
@@ -152,7 +166,11 @@
 <style lang="scss" scoped>
 	$color-primary: #FA436A;
 	.content{
-		padding: 100upx;
+		padding: 50upx 20upx;
+		margin: 0 30upx 0;
+		background-color: #fff;
+		border-radius: 8px 8px 0 0;
+		box-shadow: 0 0 8px #ccc;
 	}
 	.logo{
 	    text-align: center;
@@ -216,10 +234,13 @@
 	.veribtn{
 		position: absolute;
 		right: 0;
-		top: 0;
+		top: -10upx;
 		height: 100%;
 		margin-top: 0;
-		line-height: initial;
+		line-height: 56upx;
+		background-color: #fff;
+		color: #3F87FF;
+		border: 1px solid #3F87FF;
 		}
 		
 		.regBtn{
@@ -230,5 +251,45 @@
 		}
 		.regBtn::after{
 			display: none;
+		}
+		
+		
+		.login-bg{
+			background-image: url(../../static/img/login/bg.png);
+			background-size: 100%;
+			background-repeat: no-repeat;
+			padding-top: 110upx;
+			border-top: 0;
+		}
+		.login-btn{
+			background:rgba(63,135,255,1) !important;
+			border-radius:34px !important;
+		}
+		
+		.step{
+			display: flex;
+			width: 60%;
+			align-items: center;
+			margin: 20upx auto;
+		}
+		.step-btn{
+			width: 80upx;
+			height: 80upx;
+			line-height: 80upx;
+			text-align: center;
+			border-radius: 50%;
+			background-color: #CBCDD0;
+			color: #fff;
+		}
+		.step .step-btn1{
+			line-height: 40upx;
+		}
+		.step .line{
+			flex: 1;
+			margin: 0 20upx;
+			border-top: 1px dashed #D2C2C2;
+		}
+		.step-btn.active{
+			background-color: #1d76fb;
 		}
 </style>
