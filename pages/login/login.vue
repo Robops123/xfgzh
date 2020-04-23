@@ -48,7 +48,7 @@
 			return {
 				value: false,
 				type: 'default',
-				phone:'18851504776',
+				phone:'18912345678',
 				code:'',
 				count:60,
 				timer:null,
@@ -139,14 +139,14 @@
 					global.showLoading()
 					var param = {
 						// openId:uni.getStorageSync('openid'),
-						openId:'oBdba1DuCx1i2_wG4DuVYWz4ZrqM',
+						openId:'wx123456789',
 						phone:this.phone,
 						code:'123'
 					}
 					request.apiPost('/toc/tocUser/login',param).then((res) =>{
 						if(res.code == '0'){
 							uni.setStorageSync('usertype','gr')
-							uni.setStorageSync('openid','oBdba1DuCx1i2_wG4DuVYWz4ZrqM')
+							uni.setStorageSync('openid','wx123456789')
 							uni.setStorageSync('userinfo',res.data)
 							uni.switchTab({
 								url: '/pages/index/index'

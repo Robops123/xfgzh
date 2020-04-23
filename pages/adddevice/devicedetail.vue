@@ -89,12 +89,12 @@
 					{{data.misreportCount}}
 				</text>
 			</view>
-			<view class="edit-btn cblue" @click="editAddress">修改</view>
+			<view class="edit-btn cblue" v-if="type==0" @click="editAddress">修改</view>
 		</view>
 		
 		<view style="margin: 0 30upx;" v-if="type==0">
 			<text>共享记录</text>
-			<view class="fr add-share-btn">
+			<view class="fr add-share-btn" @click="promptVisible2=true">
 				<uni-icons type="plus" color="#fff"></uni-icons>
 				添加共享
 			</view>
@@ -105,7 +105,7 @@
 				<text class="col1">{{item.shareToUser}}</text>
 				<text class="left-border col2">{{item.shareToUserPhone}}</text>
 				<text class="left-border col3">{{item.nickName}}</text>
-				<text class="cblue left-border col4">取消共享</text>
+				<text class="cblue left-border col4" @click="stopShare(item.id)">取消共享</text>
 			</view>
 		</view>
 		
@@ -131,6 +131,14 @@
 		  <!-- 这里放入slot内容-->
 		  <uni-combox class="input" @input='getAddress' @click='chooseLocation'
 		  :candidates="candidates" :value="address" v-model="address"></uni-combox>
+		</prompt>
+		
+		<prompt :visible.sync="promptVisible2" title='添加分享' class="prompt2"  @confirm="clickPromptConfirm2" mainColor="#e74a39">
+		  <!-- 这里放入slot内容-->
+		 <view>手机号</view>
+		 <input type="text" class="input" value="" v-model="toPhone" placeholder="请输入对方手机号"/>
+		 <view>名称</view>
+		 <input type="text" class="input" value="" v-model="toName" placeholder="请输入对方名称"/>
 		</prompt>
 		<!-- <uni-popup ref='addressEdit' type="middle">
 			<view>输入新地址:</view>
@@ -167,7 +175,7 @@ import global from '../../static/js/global.js'
 		},
 		data() {
 			return {
-				promptVisible:false,
+				promptVisible:false,promptVisible2:false,
 				mapReady:false,
 				address: "",
 				candidates:[],
@@ -191,7 +199,9 @@ import global from '../../static/js/global.js'
 				
 				shareList:'',
 				data:'',
-				choosedLocationId:''
+				choosedLocationId:'',
+				toPhone:'',
+				toName:''
 			}
 		},
 		onLoad(p) {
@@ -340,9 +350,6 @@ import global from '../../static/js/global.js'
 				editAddress(){
 					this.promptVisible=true
 				},
-				clickPromptConfirm(){
-					console.log('confirm')
-				},
 				
 				
 				// 
@@ -395,6 +402,48 @@ import global from '../../static/js/global.js'
 						addressId:this.choosedLocationId
 					}
 					request.apiPost('/toc/device/changeAddress',param).then((res) =>{
+							if(res.code == '0'){
+								global.showToast('更改成功')
+								that.promptVisible=false
+								that.getDetail()
+							}else{
+								global.showToast(res.msg)
+							}
+							global.hideLoading()
+					}).catch((reason) =>{
+						global.hideLoading()
+						global.showToast(reason)
+					})
+				},
+				clickPromptConfirm2(){
+					var that=this
+					var param = {
+						openId:uni.getStorageSync('openid'),
+						devId:this.data.devId,
+						toPhone:this.toPhone,
+						toName:this.toName
+					}
+					request.apiPost('/toc/device/share',param).then((res) =>{
+							if(res.code == '0'){
+								global.showToast('更改成功')
+								that.promptVisible2=false
+								that.getDetail()
+							}else{
+								global.showToast(res.msg)
+							}
+							global.hideLoading()
+					}).catch((reason) =>{
+						global.hideLoading()
+						global.showToast(reason)
+					})
+				},
+				stopShare(id){
+					var that=this
+					var param = {
+						openId:uni.getStorageSync('openid'),
+						shareId:id,
+					}
+					request.apiPost('/toc/device/cancelShare',param).then((res) =>{
 							if(res.code == '0'){
 								global.showToast('更改成功')
 								that.getDetail()
@@ -531,7 +580,7 @@ import global from '../../static/js/global.js'
 		position: absolute;
 		left: 0;
 		top: 0;
-		z-index: 99;
+		// z-index: 2;
 		width: 100%;
 		height: 100%;
 	}
@@ -561,7 +610,9 @@ import global from '../../static/js/global.js'
 	}
 	
 	.card2{
-		padding: 20upx 0 0;
+		// padding: 20upx 0 0;
+		padding: 0 !important;
+		margin: 40upx 30upx;
 	}
 	.card2 .border-line{
 		font-size: 24upx;
@@ -601,8 +652,13 @@ import global from '../../static/js/global.js'
 	}
 	
 	.input{
+		margin: 20upx 0;
+		padding: 15upx 0;
 		font-size: 28upx;
 		width: 85%;
 		border: 1px solid #f2f2f2;
+	}
+	.prompt2{
+		
 	}
 </style>

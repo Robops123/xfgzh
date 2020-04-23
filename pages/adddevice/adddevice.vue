@@ -28,27 +28,28 @@
 		<view class="card">
 			<view class="line border-line">
 				<text><text class="cerror">*</text>设备型号:</text>
-				<input type="text" value="" disabled/>
+				<input type="text"  v-model="info.typeName" disabled/>
 			</view>
 			<view class="line border-line">
 				<text><text class="cerror">*</text>设备名称:</text>
-				<input type="text" value="" disabled/>
+				<input type="text" v-model="info.devName" disabled/>
 			</view>
 			<view class="line border-line">
 				<text><text class="cerror">*</text>设备编号:</text>
-				<input type="text" value="" disabled/>
+				<input type="text" v-model="info.devId" disabled/>
 			</view>
 			<view class="line border-line">
 				<text><text class="cerror">*</text>地址:</text>
-				<uni-combox class="input"  :candidates="candidates"  v-model="address"></uni-combox>
+				<uni-combox class="input" @input='getAddress' @click='chooseLocation'
+				:candidates="candidates" :value="address" v-model="address"></uni-combox>
 			</view>
 			<view class="line border-line">
 				<text><text class="cerror">*</text>设备批次址:</text>
-				<input type="text" value="" disabled/>
+				<input type="text" v-model="info.devLocation" disabled/>
 			</view>
 			<view class="line border-line">
 				<text><text class="cerror">*</text>设备本地编码:</text>
-				<input type="text" value="" disabled/>
+				<input type="text" v-model="info.imei" disabled/>
 			</view>
 		</view>
 		
@@ -60,14 +61,14 @@
 		
 		<view class="yt-list-cell desc-cell">
 			<view class="map-warpper"></view>
-			<baidu-map :class='{sharemap:type==1}' style="width: 100%; height: 500upx;margin-top: 100upx;" v-if='mapReady'
+			<baidu-map :class='{sharemap:type==1}' style="width: 100%; height: 500upx;margin-top: 100upx;" 
 			 :center="{
-												lng:form.baiduLongitude,
-												lat:form.baiduLatitude
+												lng:info.baiduLongitude,
+												lat:info.baiduLatitude
 											}" :zoom="15"
 			 @ready="handler" >
-				<bm-marker  :position="{lng: form.baiduLongitude, lat: form.baiduLatitude}" :dragging="false"
-				   :zIndex="999999999" :icon="{url:'http://developer.baidu.com/map/jsdemo/img/fox.gif',size: {width: 34, height: 34}}">
+				<bm-marker  :position="{lng: info.baiduLongitude, lat: info.baiduLatitude}" :dragging="false"
+				   :zIndex="999999999" >
 				</bm-marker>
 			</baidu-map>
 		</view>
@@ -106,10 +107,14 @@
 					baiduLatitude:'',
 					baiduLongitude:'',
 				},
+				code:'',
+				info:'',
+				choosedLocationId:''
 			}
 		},
 		onLoad(p){
-			this.form.devName=p.type
+			this.code=p.code
+			this.getDeviceInfo()
 			 // var geolocation = new BMap.Geolocation();
 		},
 		onShow(){
@@ -123,15 +128,22 @@
 			submit: function() {
 				var that=this
 				global.showLoading()
-				request.apiPost('/toc/device/save',this.form).then((res) =>{
+				var params={
+					openId:uni.getStorageSync('openid'),
+					devId:this.info.devId,
+					addressId:this.choosedLocationId,
+					devName:this.info.devName
+				}
+				request.apiPost('/toc/device/bind',params).then((res) =>{
 					if(res.code == '0'){
 						global.showToast('添加成功')
-						var pages = getCurrentPages();
-						var currPage = pages[pages.length - 1]; //当前页面
-						var prevPage = pages[pages.length - 2]; //上一个页面
+						// var pages = getCurrentPages();
+						// var currPage = pages[pages.length - 1]; //当前页面
+						// var prevPage = pages[pages.length - 2]; //上一个页面
 						//直接调用上一个页面的setData()方法，把数据存到上一个页面中去
-						prevPage.refresh=true
+						// prevPage.refresh=true
 						 setTimeout(function(){
+							 uni.$emit('updateIndex')
 							uni.navigateBack();
 						},1000)
 						global.hideLoading()
@@ -226,7 +238,47 @@
 			      console.log(e.point.lat)
 			      this.center.lng = e.point.lng
 			      this.center.lat = e.point.lat
-			    }
+			    },
+				getDeviceInfo(){
+					var that=this
+					var param = {
+						openId:uni.getStorageSync('openid'),
+						code:this.code,
+					}
+					request.apiGet('/toc/device/bindInfo',param).then((res) =>{
+							if(res.code == '0'){
+								that.info=res.data
+							}else{
+								global.showToast(res.msg)
+							}
+							global.hideLoading()
+					}).catch((reason) =>{
+						global.hideLoading()
+						global.showToast(reason)
+					})
+				},
+				getAddress(){
+					var that=this
+					var param = {
+						page:1,
+						count:10,
+						address:this.address
+					}
+					that.candidates=[]
+					request.apiGet('/toc/address/bindList',param).then((res) =>{
+						// res.rows.forEach((item) =>{
+						// 	that.candidates.push(item.address)
+						// })
+							that.candidates=res.rows
+							global.hideLoading()
+					}).catch((reason) =>{
+						global.hideLoading()
+						global.showToast(reason)
+					})
+				},
+				chooseLocation(e){
+					this.choosedLocationId=e
+				},
 		}
 	}
 </script>

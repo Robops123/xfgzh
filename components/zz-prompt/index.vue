@@ -9,8 +9,8 @@
       </view>
       
       <view class="prompt-buttons">
-        <button class="prompt-cancle" :style="'color:' + mainColor" @click="close">取消</button>
-        <button class="prompt-confirm" :style="'background:' + mainColor" @click="confirm">确定</button>
+        <button class="prompt-cancle" style="color: #3f87ff" @click="close">取消</button>
+        <button class="prompt-confirm " style="background-color: #3f87ff;"  @click="confirm">确定</button>
       </view>
     </view>
   </view>
@@ -34,7 +34,7 @@
       },
       mainColor: {
         type: String,
-        default: '#e74a39',
+        default: '#3f87ff',
       },
       defaultValue: {
         type: String,
@@ -107,7 +107,8 @@
     min-height: 300upx;
     background: white;
     border-radius: 20upx;
-    overflow: hidden;
+    /* overflow: hidden; */
+	z-index: 9999;
   }
 
   .prompt-top {

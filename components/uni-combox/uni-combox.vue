@@ -194,6 +194,7 @@
 		text-align: center;
 		border-bottom: solid 1px #DDDDDD;
 		margin: 0px 10px;
+		z-index: 9999;
 	}
 
 	.uni-combox__selector-empty:last-child,

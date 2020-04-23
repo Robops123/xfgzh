@@ -26,7 +26,7 @@
 						</view>
 						<view class="device-main-right">
 							<view>{{item.typeName}}</view>
-							<view>{{item.iswarn==0 ? '无告警':'告警'}}</view>
+							<view :class="{cwarning:item.isWarn==1}">{{item.isWarn==0 ? '无告警':'告警'}}</view>
 							<view>共享人数:{{item.shareCount}}</view>
 						</view>
 					</view>
@@ -59,7 +59,7 @@
 						</view>
 						<view class="device-main-right">
 							<view>{{item.typeName}}</view>
-							<view>{{item.iswarn==0 ? '无告警':'告警'}}</view>
+							<view :class="{cwarning:item.isWarn==1}">{{item.isWarn==0 ? '无告警':'告警'}}</view>
 							<view>共享人数:{{item.shareCount}}</view>
 						</view>
 					</view>
@@ -376,6 +376,7 @@
 								break
 							case 1:
 								this.scanQrCode()
+								
 								break					
 					  	}
 					}
@@ -389,12 +390,12 @@
 				request.apiGet('/toc/deviceType/list',param).then((res) =>{
 					if(res.code == '0'){
 						res.data.forEach(element => {
-							that.deviceTypeList.unshift({
-								name: element.typeName,
-								icon: element.iconUrl,
-								color: '#007aff',
-								typeId:element.typeId
-							});
+							// that.deviceTypeList.unshift({
+							// 	name: element.typeName,
+							// 	icon: element.iconUrl,
+							// 	color: '#007aff',
+							// 	typeId:element.typeId
+							// });
 						});
 						
 						that.getDeviceList()
@@ -461,13 +462,15 @@
 				// 		console.log('条码内容：' + res.result);
 				// 	}
 				// });
-				this.$wechat.scanQRCode({
-				  needResult: 0, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
-				  scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
-				  success: function (res) {
-				    var result = res.resultStr; // 当needResult 为 1 时，扫码返回的结果
-				  }
-				});
+				var that=this
+				uni.$on('updateIndex',function(){
+					that.init()
+				})
+				setTimeout(function(){
+					uni.navigateTo({
+						url:'../adddevice/adddevice?code='+866971034464029
+					})
+				},10)
 			},
 
 			change(idx,type,etype){
