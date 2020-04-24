@@ -2,13 +2,16 @@
 	<view class="content b-t">
 		<view :class="{'my-tabs':true}">
 			<view  :class="{'tab-item':true,'active':curIndex==0}" @tap="tap(0)" style="border-radius: 90upx 0 0 90upx;">
-				<text >全部</text><uni-badge text="11" type="error" size="small"></uni-badge>
+				<text >全部</text>
+				<!-- <uni-badge text="11" type="error" size="small"></uni-badge> -->
 			</view>
 			<view  :class="{'tab-item':true,'active':curIndex==1}" @tap="tap(1)">
-				<text >三个月内</text><uni-badge text="0" type="error" size="small"></uni-badge>
+				<text >三个月内</text>
+				<!-- <uni-badge text="0" type="error" size="small"></uni-badge> -->
 			</view>
 			<view  :class="{'tab-item':true,'active':curIndex==2}" @tap="tap(2)" style="border-radius: 0 90upx 90upx 0;">
-				<text >半年内</text><uni-badge text="22" type="error" size="small"></uni-badge>
+				<text >半年内</text>
+				<!-- <uni-badge text="22" type="error" size="small"></uni-badge> -->
 			</view>
 		</view>
 		<view>

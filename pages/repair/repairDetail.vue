@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="list"  :class="{'active':pickerUserIndex==index}"  v-for="(item,index) in 1"
+		<view class="list"    v-for="(item,index) in 1"
 		 :key="index" :data-index="index">
 		 <image src="../../static/img/message/bx.png" mode="" class="status"></image>
 			<view class="title">
@@ -17,14 +17,36 @@
 				</view>
 			</view>
 		</view>
+		
+		<view class="list"   v-for="(item,index) in 1"
+		 :key="index" :data-index="index">
+		 <evan-steps :active="3" primaryColor="green">
+		 			<evan-step v-for='(item,index) in steps' :key='index'
+				:progress="item.status"	 :title="item.des" :description="item.date"></evan-step>
+		 			<!-- <evan-step title="第二步" description="详情详情详情详情"></evan-step>
+		 			<evan-step title="第三步" description="详情详情详情详情"></evan-step> -->
+		 		</evan-steps>
+		</view>
 	</view>
 </template>
 
 <script>
+	import EvanSteps from '@/components/evan-steps/evan-steps.vue'
+		import EvanStep from '@/components/evan-steps/evan-step.vue'
 	export default{
+		components:{
+			EvanSteps,
+			EvanStep
+		},
 		data(){
 			return {
-				id:''
+				id:'',
+				steps:[
+					{status:'提交申请',des:'申请已提交，等待受理',date:'2020-04-15 22:08:12'},
+					{status:'正式受理',des:'维保员-张三已接收工单，等待上门处理',date:'2020-04-15 22:08:13'},
+					{status:'受理反馈',des:'维修已完成',date:'2020-04-15 22:08:14'},
+					{status:'提交申请',des:'保修处理完成',date:'2020-04-15 22:08:15'},
+				]
 			}
 		},
 		onLoad(p){

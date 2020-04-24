@@ -1,6 +1,6 @@
 <template>
 	<view class="center">
-		<view class="logo" 
+		<!-- <view class="logo" 
 			@click="goLogin" 
 			:hover-class="!login ? 'logo-hover' : ''">
 			<image class="logo-img" 
@@ -10,20 +10,26 @@
 				<text class="uer-name">Hi，{{login ? uerInfo.name : '您未登录'}}</text>
 				<text class="go-login navigat-arrow" v-if="!login">&#xe65e;</text>
 			</view>
-		</view>
+		</view> -->
 		<view class="center-list" v-if="usertype=='gr'">
-			<view class="center-list-item border-bottom" @click="goDevice">
-				<text class="list-icon">&#xe60f;</text>
+			<view class="center-list-item " @click="goDevice">
+				<!-- <text class="list-icon">&#xe60f;</text> -->
+				<image src="../../static/img/mine/icon.png" mode=""></image>
 				<text class="list-text">我的设备</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
 			<view class="center-list-item" @click="goRepair">
-				<text class="list-icon">&#xe639;</text>
+				<image src="../../static/img/mine/icon1.png" mode=""></image>
 				<text class="list-text">我的报修</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
+			<view class="center-list-item" >
+				<image src="../../static/img/mine/icon2.png" mode=""></image>
+				<text class="list-text">意见反馈</text>
+				<text class="navigat-arrow">&#xe65e;</text>
+			</view>
 		</view>
-		<view class="center-list">
+		<!-- <view class="center-list">
 			<view class="center-list-item border-bottom" @click="goWarnhistroy" v-if="usertype=='gr'">
 				<text class="list-icon">&#xe60b;</text>
 				<text class="list-text">告警历史</text>
@@ -39,9 +45,9 @@
 				<text class="list-text">分享</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
-		</view>
+		</view> -->
 		
-		<view class="share-box" v-if="show">
+		<!-- <view class="share-box" v-if="show">
 			<view class="share-wrapper" @click="close"></view>
 			<view class="share-content">
 				<view class="share-title">
@@ -53,7 +59,7 @@
 					<image src="../../static/img/qq.png" mode="" @click="share"></image>
 				</view>
 			</view>
-		</view>
+		</view> -->
 	</view>
 </template>
 
@@ -120,9 +126,12 @@
 			},
 			goDevice() {
 				// if (this.login) {
-					uni.navigateTo({
-											url:"/pages/personCenter/mydevice"
-										})
+					// uni.navigateTo({
+					// 						url:"/pages/personCenter/mydevice"
+					// 					})
+					uni.switchTab({
+						url:'../index/index'
+					})
 				// }else{
 				// 	this.tologin()
 				// }
@@ -246,18 +255,23 @@
 	}
 
 	.center-list {
-		background-color: #FFFFFF;
+		/* background-color: #FFFFFF; */
 		margin-top: 20upx;
 		width: 750upx;
 		flex-direction: column;
 	}
 
 	.center-list-item {
-		height: 90upx;
-		width: 750upx;
-		box-sizing: border-box;
 		flex-direction: row;
-		padding: 0upx 20upx;
+		padding: 20upx;
+		align-items: center;
+		margin: 30upx 20upx 0;
+		background-color: #fff;
+	}
+	
+	.center-list-item image{
+		width: 70upx;
+		height: 70upx;
 	}
 
 	.border-bottom {
