@@ -4,19 +4,19 @@
 		<scroll-view class="purchase-body" scroll-y="true" @scrolltolower="scrolltolower" style="height: calc(100vh - 260upx);"
 		 @scrolltoupper="scrolltoupper"  @touchstart="touchstart" @touchend="touchend">
 			<!-- <my-unit v-for="(item,index) in 1" :key="index" :info="item"></my-unit> -->
-				<view class="list"  :class="{'active':pickerUserIndex==index}"  v-for="(item,index) in 2"
+				<view class="list"  :class="{'active':pickerUserIndex==index}"  v-for="(item,index) in userList"
 				 :key="index" :data-index="index">
-				 <image src="../../static/img/message/bx.png" mode="" class="status"></image>
+				 <image :src="item.iconUrl" mode="" class="status"></image>
 					<view class="title">
-						可燃气体检测仪3发现疑似媒体谢咯大厦时间段
+						{{item.title}}
 					</view>
 					<view class="brief">
 						<view>
 							<image src="../../static/img/device/location.png" mode=""></image>
 						</view>
 						<view>
-							<view class="address cblue">啥啥啥肯定会将卡仕达</view>
-							<view class="date coffline">2020-04-20 12:23:11</view>
+							<view class="address cblue">{{item.devLocation}}</view>
+							<view class="date coffline">{{item.updateTime}}</view>
 						</view>
 					</view>
 					<view class="operate">
@@ -83,7 +83,7 @@
 		},
 		onLoad() {
 			
-			this.getListData('/toc/deviceWarn/listNews')
+			this.getListData('/toc/news/deviceWarn')
 			this.getWindowSize();
 		
 			// #ifdef H5
@@ -105,14 +105,15 @@
 					this.page=1
 					this.total=0
 					this.userList=[]
-					if(this.curType==0){
-						this.getListData('/toc/deviceWarn/listNews')
+					// if(this.curType==0){
+					// 	this.getListData('/toc/deviceWarn/listNews')
+					// }else
+					 if(this.curType==0){
+						this.getListData('/toc/news/deviceWarn')
 					}else if(this.curType==1){
-						this.getListData('/toc/deviceWarn/listWarn')
-					}else if(this.curType==2){
 							// 故障
-						this.getListData('/toc/deviceBroken/list')
-					}else if(this.curType==3){
+						this.getListData('/toc/news/deviceBroken')
+					}else if(this.curType==2){
 						// 离线
 						this.getListData('/toc/device/listOff')
 					}
@@ -204,7 +205,7 @@
 				var param = {
 					openId:uni.getStorageSync('openid'),
 					page:this.page,
-					limit:10
+					count:10
 				}
 				request.apiGet(url,param).then((res) =>{
 					if(res.code == '0'){
@@ -215,17 +216,17 @@
 				})
 			},
 			scrolltolower(){
-				console.log(this.userList.length,this.total)
 				if(this.userList.length<this.total){
 					this.page++
+					// if(this.curType==0){
+					// 	this.getListData('/toc/deviceWarn/listNews')
+					// }else 
 					if(this.curType==0){
-						this.getListData('/toc/deviceWarn/listNews')
+						this.getListData('/toc/news/deviceWarn')
 					}else if(this.curType==1){
-						this.getListData('/toc/deviceWarn/listWarn')
-					}else if(this.curType==2){
 						// 故障
-						this.getListData('/toc/deviceBroken/list')
-					}else if(this.curType==3){
+						this.getListData('/toc/news/deviceBroken')
+					}else if(this.curType==2){
 							// 离线
 							this.getListData('/toc/device/listOff')
 						}

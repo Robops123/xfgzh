@@ -10,7 +10,7 @@
 					<view id="liquidFill"></view>
 					<view class="cgray">
 						<view>
-							<image src="../../static/img/device/locationg.png" mode=""></image>
+							<image src="../../static/img/device/locationg.png" mode="" style="vertical-align: middle;"></image>
 							<text>清明桥历史文化街区-游船码头</text>
 						</view>
 						<view>
@@ -49,23 +49,59 @@
 			</view>
 			
 			
-			<view class="list"    v-for="(item,index) in 2"
-			 :key="index" :data-index="index" @click="toDetail(item.id)">
-			 <view class="status-word finish">已处理</view>
-				<view class="title">
-					可燃气体检测仪3发现疑似媒体谢咯大厦时间段
-				</view>
-				<view class="coffline describe">啊实打实大师到江安石大姐爱神的箭暗色调驾驶机动阿萨德奥斯迪偶家艾斯欧到江安死哦精雕机搜的窘境艾斯欧弟就欧艾斯的我OA就搜到</view>
-				<view class="brief">
-					<view>
-						<image src="../../static/img/device/location.png" mode=""></image>
+			<!-- 介入设备 -->
+			<view v-if="curIndex==0">
+				<view class="my-device" v-for="(item,index) in 2" :key='index'>
+					<view class="device-top">
+						<text>{{item.devName}}</text>
+						<text class="status offline" :class="{online:item.devState==1}">{{item.devState==0 ? '离线':'在线'}}</text>
+						
 					</view>
-					<view>
-						<view class="address cblue">啥啥啥肯定会将卡仕达</view>
-						<view class="date coffline">2020-04-20 12:23:11
-						<text class="fr warn">已延期一天3小时</text>
+					<view class="device-main">
+						<view class="device-main-left">
+							<image src="../../static/img/cameraIcoOffline.png" mode=""></image>
+						</view>
+						<view class="device-main-right">
+							<view>{{item.typeName}}</view>
+							<view :class="{cwarning:item.isWarn==1}">{{item.isWarn==0 ? '无告警':'告警'}}</view>
+							<view>共享人数:{{item.shareCount}}</view>
 						</view>
 					</view>
+					<view class="device-bottom">
+						<text class=" cblue" @click="toDetail(item.devId,0)">查看详情</text>
+					</view>
+				</view>
+			</view>
+			
+			
+			<!-- 告警 -->
+			<view v-if="curIndex==1">
+				<view class="list"    v-for="(item,index) in 2" :key="index" >
+				 <view class="status-word finish">已处理</view>
+					<view class="title">
+						可燃气体检测仪3发现疑似媒体谢咯大厦时间段
+					</view>
+					<view class="coffline describe">啊实打实大师到江安石大姐爱神的箭暗色调驾驶机动阿萨德奥斯迪偶家艾斯欧到江安死哦精雕机搜的窘境艾斯欧弟就欧艾斯的我OA就搜到</view>
+					<view class="brief2 brief">
+							<image src="../../static/img/device/location.png" mode=""></image>
+						<view>
+							<view class="address cblue">啥啥啥肯定会将卡仕达</view>
+							<view class="date coffline">2020-04-20 12:23:11
+							<text class="fr warn">已延期一天3小时</text>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			
+			<!-- 巡检 -->
+			<view v-if="curIndex==2">
+				<view class="list"    v-for="(item,index) in 2" :key="index" >
+				 <view class="status-word finish">已处理</view>
+					<view class="title">
+						2020-04-02 12:12:12~2020-04-02 12:12:13
+					</view>
+					<view class="coffline describe">巡检人:阿萨德打</view>
 				</view>
 			</view>
 		</view>
@@ -239,6 +275,10 @@
 	.brief>view{
 		display: inline-block;
 		vertical-align: top;
+		
+	}
+	.brief2>view{
+		width: 580upx;
 	}
 	.brief image{
 		width: 60upx !important;
@@ -343,5 +383,59 @@
 	}
 	.warn{
 		color: #EA7A19;
+	}
+	
+	
+	.my-device{
+		display: inline-block;
+		background-color: #fff;
+		width: 46%;
+		margin: 20upx 1% 0 2%;
+		border-radius: 8px;
+	}
+	.device-top{
+		padding: 15upx 0;
+		border-bottom: 1px solid #333;
+	}
+	.device-main{
+		padding: 20upx;
+		box-sizing: border-box;
+	}
+	.device-main-left{
+		width: 45%;
+	}
+	.device-main-right{
+		width: 55%;
+	}
+	.device-main-right{
+		line-height: 1.5;
+	}
+	.device-main-left,
+	.device-main-right{
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.device-main-left image{
+		width: 60upx;
+		height: 60upx;
+	}
+	.device-container{
+		padding-bottom: 30upx;
+	}
+	.device-bottom{
+		color: #2794F0;
+		text-align: center;
+		padding: 15upx 0;
+		border-top: 1px solid #333;
+		font-size: 30upx;
+	}
+	.status.online{
+		border: 1px solid #6BBD8F !important;
+		color: #6BBD8F !important;
+	}
+	.status.offline{
+		border: 1px solid #999999;
+		color: #999999;
+		margin-left: 20upx;
 	}
 </style>
