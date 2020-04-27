@@ -1,12 +1,14 @@
 <template>
 	<view class='purchase-list'>
-		<my-tabs @change="tapChange" :modelData="modelData" :initIndex="initIndex"></my-tabs>
+		<my-tabs @change="tapChange" :modelData="modelData" :badges='badges' :initIndex="initIndex"></my-tabs>
 		<scroll-view class="purchase-body" scroll-y="true" @scrolltolower="scrolltolower" style="height: calc(100vh - 260upx);"
 		 @scrolltoupper="scrolltoupper"  @touchstart="touchstart" @touchend="touchend">
 			<!-- <my-unit v-for="(item,index) in 1" :key="index" :info="item"></my-unit> -->
 				<view class="list"  :class="{'active':pickerUserIndex==index}"  v-for="(item,index) in userList"
 				 :key="index" :data-index="index">
-				 <image :src="item.iconUrl" mode="" class="status"></image>
+				 <image src="../../static/img/message/cl.png" mode="" class="status" v-if="item.status==0"></image>
+				 <image src="../../static/img/message/clz.png" mode="" class="status" v-if="item.status==2"></image>
+				 <image src="../../static/img/message/wb.png" mode="" class="status" v-if="item.status==3"></image>
 					<view class="title">
 						{{item.title}}
 					</view>
@@ -19,9 +21,10 @@
 							<view class="date coffline">{{item.updateTime}}</view>
 						</view>
 					</view>
-					<view class="operate">
-						<view class="cblue">误报</view>
-						<view class="cblue" @click="toFix('')">报修</view>
+					<view class="operate" v-if='item.status==1'>
+						<view class="cblue" v-if="curType==0" @click="changeStatus(item.id,0,index)">解除</view>
+						<view class="cblue" @click="changeStatus(item.id,3,index)">误报</view>
+						<view class="cblue" @click="toFix(item)" v-if="curType==1">报修</view>
 					</view>
 				</view>
 			<view class="shade" v-show="showShade" @tap="hidePop">
@@ -64,14 +67,18 @@
 				curType:0,
 				page:1,
 				total:1,
-				usertype:''
+				usertype:'',
+				badges:{
+					badge0:'',
+					badge1:''
+				}
 			}
 		},
 		onShow(){
 			this.usertype=uni.getStorageSync('usertype')
 			if(this.refresh){
 				this.refresh=false
-				this.getWindowSize();
+				// this.getWindowSize();
 						
 				// #ifdef H5
 				document.onLong = function(e) {
@@ -84,7 +91,8 @@
 		onLoad() {
 			
 			this.getListData('/toc/news/deviceWarn')
-			this.getWindowSize();
+			this.getListBadge('/toc/news/deviceBroken')
+			// this.getWindowSize();
 		
 			// #ifdef H5
 			document.onLong = function(e) {
@@ -99,6 +107,7 @@
 			 * @param val 索引
 			 */
 			tapChange(val){
+				console.log(val)
 				if(this.curType!=val){
 					this.initIndex=val
 					this.curType=val
@@ -211,6 +220,22 @@
 					if(res.code == '0'){
 						that.userList=that.userList.concat(res.data)
 						that.total=res.total
+						that.badges['badge'+that.curType]=res.displayCount
+						global.hideLoading()
+					}
+				})
+			},
+			getListBadge(url) {
+				global.showLoading()
+				var that = this
+				var param = {
+					openId:uni.getStorageSync('openid'),
+					page:this.page,
+					count:6
+				}
+				request.apiGet(url,param).then((res) =>{
+					if(res.code == '0'){
+						that.badges['badge1']=res.displayCount
 						global.hideLoading()
 					}
 				})
@@ -307,11 +332,40 @@
 			toFix(sth){
 				var that=this
 				uni.$on('update',function(res){
-					that.userList[res].status=1
+					// that.userList[res].status=1
 				})
 				 uni.navigateTo({
-				 	url:"/pages/repair/repairEdit?sth="+sth
+				 	url:"/pages/repair/repairEdit?sth="+JSON.stringify(sth)
 				 })
+			},
+			changeStatus(id,status,index){
+				global.showLoading()
+				var that = this
+				var param = {
+					openId:uni.getStorageSync('openid'),
+					id:id,
+					status:status
+				}
+				if(this.curType==0){
+					param.type=1
+				}else if(this.curType==1){
+					param.type=2
+				}
+				var url='/toc/deviceBroken/update'
+				request.apiPost(url,param).then((res) =>{
+					if(res.code == '0'){
+						uni.showToast({
+							title:'状态更改成功'
+						})
+						if(that.curType==0){
+							that.badges.badge0--
+						}else if(that.curType==1){
+							that.badges.badge1--
+						}
+						that.userList[index].status=status
+						global.hideLoading()
+					}
+				})
 			}
 		},
 		mixins:[myPull({})],

@@ -3,24 +3,25 @@
 		<view class="card">
 			<view class="line border-line">
 				<text><text class="cerror">*</text>联系人:</text>
-				<input type="text" value="" placeholder="输入联系人姓名"/>
+				<input type="text" v-model="form.contact" placeholder="输入联系人姓名"/>
 			</view>
 			<view class="line border-line">
 				<text><text class="cerror">*</text>联系电话:</text>
-				<input type="text" value="" placeholder="输入电话"/>
+				<input type="text" v-model="form.phone" placeholder="输入电话"/>
 			</view>
 			<view class="line border-line">
 				<text><text class="cerror">*</text>设备所在地:</text>
-				<uni-combox class="input"  :candidates="candidates"  v-model="address"></uni-combox>
+				<input type="text" v-model="devLocation" disabled/>
+				<!-- <uni-combox class="input"  :candidates="candidates"  v-model="form.contact"></uni-combox> -->
 			</view>
 			<view class="line border-line">
-				<text>设备IMEI号:</text>
-				<input type="text" value="23123123123123" disabled/>
+				<text>设备ID:</text>
+				<input type="text" v-model="form.devId" disabled/>
 			</view>
 		</view>
 		
 		<view class="card">
-			<textarea value="" placeholder="输入故障描述" />
+			<textarea v-model="form.remark" placeholder="输入故障描述" />
 		</view>
 		
 		<view style="text-align: center;">
@@ -53,29 +54,20 @@
 				candidates:[],
 				form:{
 					devId:'',
-					baiduLongitude:'',
-					baiduLatitude:'',
 					contact:'',
 					phone:'',
-					address:'',
-					imei:'',
 					remark:'',
-					buyTime:'',
-					buyCompany:''
+					openId:uni.getStorageSync('openid'),
+					brokenId:''
 				}
 			}
 		},
 		onLoad(p){
-			var params=JSON.parse(p.item)
+			var params=JSON.parse(p.sth)
 			console.log(params)
-			this.index=p.index
 			this.form.devId=params.devId
-			this.form.address=params.devLocation
-			this.form.imei=params.imei
-			this.form.baiduLongitude=params.baiduLongitude
-			this.form.baiduLatitude=params.baiduLatitude
-			this.form.buyCom=params.buyCom
-			this.form.buyDate=params.buyDate
+			this.devLocation=params.devLocation
+			this.form.brokenId=params.id
 		},
 		methods: {
 			submit: function() {
@@ -83,13 +75,13 @@
 				// 	url:"/pages/index/index"
 				// })
 				var that=this
-				this.form.buyTime=this.$refs.datePicker.date
+				// this.form.buyTime=this.$refs.datePicker.date
 				// if(this.check().pass){
 					global.showLoading()
 					request.apiPost('/toc/deviceRepair/repair',this.form).then((res) =>{
 						if(res.code == '0'){
 							global.showToast('提交报修成功')
-							uni.$emit('update',that.index)
+							uni.$emit('update')
 							 setTimeout(function(){
 								uni.navigateBack()
 							},1000)

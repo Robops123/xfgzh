@@ -1,13 +1,13 @@
 <template>
 	<view :class="{'my-tabs':true,'space-between':formatBe}">
 		<view  :class="{'tab-item':true,'active':curIndex==0}" @tap="tap(0)" style="border-radius: 90upx 0 0 90upx;">
-			<text >告警</text><uni-badge text="11" type="error" size="small"></uni-badge>
+			<text >告警</text><uni-badge :text="badges.badge0" type="error" size="small"></uni-badge>
 		</view>
 		<view  :class="{'tab-item':true,'active':curIndex==1}" @tap="tap(1)">
-			<text >故障</text><uni-badge text="0" type="error" size="small"></uni-badge>
+			<text >故障</text><uni-badge :text="badges.badge1" type="error" size="small"></uni-badge>
 		</view>
 		<view  :class="{'tab-item':true,'active':curIndex==2}" @tap="tap(2)" style="border-radius: 0 90upx 90upx 0;">
-			<text >离线</text><uni-badge text="22" type="error" size="small"></uni-badge>
+			<text >离线</text><uni-badge  type="error" size="small"></uni-badge>
 		</view>
 	</view>
 </template>
@@ -15,7 +15,7 @@
 <script>
 	import uniBadge from "@/components/uni-badge/uni-badge.vue"
 	export default {
-		props:['modelData','initIndex'],
+		props:['modelData','initIndex','badges'],
 		components:{
 			uniBadge
 		},
@@ -23,6 +23,9 @@
 			return {
 				curIndex:0
 			}
+		},
+		mounted(){
+			console.log(this.badges)
 		},
 		computed:{
 			getModelData(){
