@@ -1,28 +1,26 @@
 <template>
 	<view>
-		<view class="list"    v-for="(item,index) in 1"
-		 :key="index" :data-index="index">
+		<view class="list"    >
 		 <image src="../../static/img/message/bx.png" mode="" class="status"></image>
 			<view class="title">
-				可燃气体检测仪3发现疑似媒体谢咯大厦时间段
+				{{data.devName}}
 			</view>
-			<view class="coffline describe">啊实打实大师到江安石大姐爱神的箭暗色调驾驶机动阿萨德奥斯迪偶家艾斯欧到江安死哦精雕机搜的窘境艾斯欧弟就欧艾斯的我OA就搜到</view>
+			<view class="coffline describe">{{data.remark}}</view>
 			<view class="brief">
 				<view>
 					<image src="../../static/img/device/location.png" mode=""></image>
 				</view>
 				<view>
-					<view class="address cblue">啥啥啥肯定会将卡仕达</view>
-					<view class="date coffline">2020-04-20 12:23:11</view>
+					<view class="address cblue">{{data.address}}</view>
+					<view class="date coffline">{{data.updateTime}}</view>
 				</view>
 			</view>
 		</view>
 		
-		<view class="list"   v-for="(item,index) in 1"
-		 :key="index" :data-index="index">
-		 <evan-steps :active="3" primaryColor="green">
-		 			<evan-step v-for='(item,index) in steps' :key='index'
-				:progress="item.status"	 :title="item.des" :description="item.date"></evan-step>
+		<view class="list" >
+		 <evan-steps :active="data.repairHandleList.length-1" >
+		 			<evan-step v-for="(item,index) in data.repairHandleList" :key="index"
+				:progress="item.handleType"	 :title="item.handleContent" :description="item.handleTime"></evan-step>
 		 			<!-- <evan-step title="第二步" description="详情详情详情详情"></evan-step>
 		 			<evan-step title="第三步" description="详情详情详情详情"></evan-step> -->
 		 		</evan-steps>
@@ -33,6 +31,8 @@
 <script>
 	import EvanSteps from '@/components/evan-steps/evan-steps.vue'
 		import EvanStep from '@/components/evan-steps/evan-step.vue'
+		import request from '../../api/request.js'
+		import global from '../../static/js/global.js'
 	export default{
 		components:{
 			EvanSteps,
@@ -40,6 +40,7 @@
 		},
 		data(){
 			return {
+				data:'',
 				id:'',
 				steps:[
 					{status:'提交申请',des:'申请已提交，等待受理',date:'2020-04-15 22:08:12'},
@@ -51,6 +52,25 @@
 		},
 		onLoad(p){
 			this.id=p.id
+			this.getDetail()
+		},
+		methods:{
+			getDetail(){
+				global.showLoading()
+				var that = this
+				var param = {
+					openId:uni.getStorageSync('openid'),
+					repairId:this.id
+				}
+				request.apiGet(url,param).then((res) =>{
+					if(res.code == '0'){
+						that.data=res.data
+						global.hideLoading()
+					}
+				}).catch(() =>{
+					global.hideLoading()
+				})
+			}
 		}
 	}
 </script>

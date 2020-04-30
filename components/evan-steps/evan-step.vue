@@ -14,7 +14,7 @@
 			 v-else>{{index+1}}</text>
 		</view>
 		<view style="display: flex;flex: 1;">
-			<view class="arrow_box" :class="['evan-step__circle--'+currentStatus]" :style="{borderColor:circleStyle.borderColor,backgroundColor:circleStyle.backgroundColor}">{{progress}}</view>
+			<view class="arrow_box" :class="['evan-step__circle--'+currentStatus]" :style="{borderColor:circleStyle.borderColor}">{{progress}}</view>
 			<view class="evan-step__content" :class="'evan-step__content--'+direction" :style="{height:contentHeight}">
 				<text ref="content" class="evan-step__content__title" :class="'evan-step__content__title--'+direction" :style="{color:titleColor}">{{title}}</text>
 				<text ref="description" v-if="description" class="evan-step__content__description" :class="'evan-step__content__description--'+direction"

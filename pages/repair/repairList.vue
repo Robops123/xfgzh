@@ -17,20 +17,20 @@
 		<view>
 			<scroll-view   style="height: calc(100vh - 180upx);"
 			class="scroll-Y" @scrolltolower="lower" scroll-y="true"   >
-			                    <view class="list"  :class="{'active':pickerUserIndex==index}"  v-for="(item,index) in 2"
-			                     :key="index" :data-index="index" @click="toDetail(item.id)">
+			                    <view class="list"  :class="{'active':pickerUserIndex==index}"  v-for="(item,index) in addressList"
+			                     :key="index" :data-index="index" @click="toDetail(item.repairId)">
 			                     <image src="../../static/img/message/bx.png" mode="" class="status"></image>
 			                    	<view class="title">
-			                    		可燃气体检测仪3发现疑似媒体谢咯大厦时间段
+			                    		{{item.title}}
 			                    	</view>
-									<view class="coffline describe">啊实打实大师到江安石大姐爱神的箭暗色调驾驶机动阿萨德奥斯迪偶家艾斯欧到江安死哦精雕机搜的窘境艾斯欧弟就欧艾斯的我OA就搜到</view>
+									<view class="coffline describe">{{item.remark}}</view>
 			                    	<view class="brief">
 			                    		<view>
 			                    			<image src="../../static/img/device/location.png" mode=""></image>
 			                    		</view>
 			                    		<view>
-			                    			<view class="address cblue">啥啥啥肯定会将卡仕达</view>
-			                    			<view class="date coffline">2020-04-20 12:23:11</view>
+			                    			<view class="address cblue">{{item.address}}</view>
+			                    			<view class="date coffline">{{item.updateTime}}</view>
 			                    		</view>
 			                    	</view>
 			                    </view>
