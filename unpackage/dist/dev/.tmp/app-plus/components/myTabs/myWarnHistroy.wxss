@@ -11,13 +11,10 @@
   font-size: 28rpx;
   display: -webkit-box;
   display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   -webkit-justify-content: space-around;
-      -ms-flex-pack: distribute;
           justify-content: space-around;
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   border-top: 2rpx solid #dddddd;
   border-bottom: 2rpx solid #dddddd;
   min-width: 100%;
@@ -39,7 +36,6 @@
     bottom: 0;
     left: 50%;
     -webkit-transform: translateX(-50%);
-        -ms-transform: translateX(-50%);
             transform: translateX(-50%);
     width: 100%;
     border-bottom: 4rpx solid #3682FF;
@@ -49,7 +45,6 @@
 .my-tabs.space-between {
   -webkit-box-pack: justify;
   -webkit-justify-content: space-between;
-      -ms-flex-pack: justify;
           justify-content: space-between;
 }
 @-webkit-keyframes test {

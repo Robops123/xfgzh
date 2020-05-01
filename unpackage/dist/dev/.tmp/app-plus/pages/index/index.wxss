@@ -20,8 +20,7 @@ page {
 .carousel-section .titleNview-placing {
     height: var(--status-bar-height);
     padding-top: 38px;
-    -webkit-box-sizing: content-box;
-            box-sizing: content-box;
+    box-sizing: content-box;
 }
 .carousel-section .titleNview-background {
     position: absolute;
@@ -30,17 +29,14 @@ page {
     width: 100%;
     height: 426rpx;
     -webkit-transition: .4s;
-    -o-transition: .4s;
     transition: .4s;
 }
 .grid-title {
   display: -webkit-box;
   display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
   -webkit-align-items: center;
-      -ms-flex-align: center;
           align-items: center;
   font-size: 32rpx;
   color: rgba(0, 0, 0, 0.63);
@@ -55,12 +51,10 @@ page {
 .fl-row {
   display: -webkit-box;
   display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
   -webkit-flex-direction: row;
-      -ms-flex-direction: row;
           flex-direction: row;
 }
 .bgwh {
@@ -99,12 +93,10 @@ page {
   width: 96%;
   padding: 10rpx 2%;
   -webkit-flex-wrap: nowrap;
-      -ms-flex-wrap: nowrap;
           flex-wrap: nowrap;
 }
 .container {
-  -webkit-box-sizing: border-box;
-          box-sizing: border-box;
+  box-sizing: border-box;
   height: 100%;
   background-color: #efeff4;
 }
@@ -115,7 +107,7 @@ page {
 }
 .title {
   line-height: 80rpx;
-  background-color: #fafafa;
+  background-color: #ccc;
   text-indent: 20rpx;
   font-size: 30rpx;
   color: #000000;
@@ -164,12 +156,10 @@ page {
   margin-left: 30rpx;
   display: -webkit-box;
   display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
   -webkit-flex-direction: row;
-      -ms-flex-direction: row;
           flex-direction: row;
   font-size: 30rpx;
   margin-top: 20rpx;
@@ -182,5 +172,140 @@ page {
 }
 .fullscreen {
   height: calc(100vh - 50px);
+}
+.top-entrance {
+  position: absolute;
+  height: 96px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+}
+.bg-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #040B29;
+  opacity: 0.89;
+  box-shadow: 0px 2px 4px #b1b4bf;
+}
+.bg-content {
+  position: relative;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+}
+.bg-content image {
+  width: 25px;
+  height: 25px;
+  margin: 24px 0 7px;
+}
+.bg-item {
+  color: white;
+  height: 100%;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+  text-align: center;
+}
+.search-line {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 65rpx;
+  margin-top: 20rpx;
+  background-color: #fff;
+  border: 1px solid #ff9900;
+  border-radius: 65rpx;
+  z-index: 999;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.search-line input {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+}
+.search-btn {
+  background-color: #ff9900;
+  height: 65rpx;
+  line-height: 65rpx;
+  width: 160rpx;
+  border-radius: 65rpx;
+}
+.my-device {
+  display: inline-block;
+  width: 46%;
+  margin: 20rpx 1% 0 2%;
+  border-radius: 8px;
+  border: 1px solid #333;
+}
+.device-top {
+  padding: 15rpx 0;
+  border-bottom: 1px solid #333;
+}
+.device-main {
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+.device-main-left {
+  width: 45%;
+}
+.device-main-right {
+  width: 55%;
+}
+.device-main-right {
+  line-height: 1.5;
+}
+.device-main-left,
+.device-main-right {
+  display: inline-block;
+  vertical-align: middle;
+}
+.device-main-left image {
+  width: 60rpx;
+  height: 60rpx;
+}
+.device-container {
+  padding-bottom: 30rpx;
+}
+.device-bottom {
+  color: #2794F0;
+  text-align: center;
+  padding: 15rpx 0;
+  border-top: 1px solid #333;
+  font-size: 30rpx;
+}
+.status.online {
+  border: 1px solid #6BBD8F !important;
+  color: #6BBD8F !important;
+}
+.status.offline {
+  border: 1px solid #999999;
+  color: #999999;
+  margin-left: 20rpx;
+}
+.float-btn {
+  position: fixed;
+  bottom: 150rpx;
+  right: 50rpx;
+  width: 100rpx;
+  height: 100rpx;
+  text-align: center;
+  color: #fff;
+  line-height: 1.3;
+  background-color: #2A95F0;
+  border-radius: 50%;
 }
 

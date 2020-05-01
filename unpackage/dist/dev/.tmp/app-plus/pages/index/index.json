@@ -1,9 +1,9 @@
 {
   "bounce": "none",
-  "titleNView": false,
   "usingComponents": {
     "zy-grid": "/components/zy-grid/zy-grid",
     "hch-position": "/components/hch-position/hch-position",
+    "uni-icons": "/components/uni-icon/uni-icon",
     "min-action-sheet": "/components/comselect/comselect"
   }
 }

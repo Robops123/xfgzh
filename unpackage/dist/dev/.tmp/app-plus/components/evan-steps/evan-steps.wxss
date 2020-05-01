@@ -1,0 +1,28 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+.evan-steps {
+  width: 100%;
+}
+.evan-steps--horizontal {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  -webkit-box-align: start;
+  -webkit-align-items: flex-start;
+          align-items: flex-start;
+}
+.evan-steps--horizontal evan-step {
+    -webkit-box-flex: 1;
+    -webkit-flex: 1;
+            flex: 1;
+}
+

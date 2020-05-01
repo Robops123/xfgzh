@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "单位详情",
+  "usingComponents": {
+    "fa-icon": "/components/fa-icon/fa-icon",
+    "uni-load-more": "/components/uni-load-more/uni-load-more"
+  }
+}

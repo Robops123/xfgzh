@@ -112,7 +112,7 @@ export default({getList="getList",listData="listData",page="page",initIndex="ini
 				var that=this
 				global.showLoading()
 				var param = {
-					openId:'wx123456789',
+					openId:uni.getStorageSync('openid'),
 				}
 				request.apiGet('/toc/deviceType/list',param).then((res) =>{
 					if(res.code == '0'){

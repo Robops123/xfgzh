@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "报修记录",
+  "bounce": "none",
+  "usingComponents": {
+    "evan-steps": "/components/evan-steps/evan-steps",
+    "evan-step": "/components/evan-steps/evan-step"
+  }
+}

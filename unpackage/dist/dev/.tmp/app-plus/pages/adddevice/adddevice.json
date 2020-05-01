@@ -1,5 +1,7 @@
 {
   "navigationBarTitleText": "新增设备",
   "bounce": "none",
-  "usingComponents": {}
+  "usingComponents": {
+    "uni-combox": "/components/uni-combox/uni-combox"
+  }
 }

@@ -56,7 +56,7 @@
 		},
 		data() {
 			return {
-				loginName:'root@yz0001',
+				loginName:'root@jg0001',
 				password:123456,
 				active:0,
 				steps:[
@@ -74,42 +74,43 @@
 		},
 		methods: {
 			login: function () {
-				this.active=1
-				// if(this.loginName!=''){
-				// 	if(this.password==''){
-				// 		global.showToast('请输入登录密码')
-				// 	}else{
-				// 		var that=this
-				// 		global.showLoading()
-				// 		var param = {
-				// 			openId:'wx123456',
-				// 			loginName:this.loginName,
-				// 			password:this.password
-				// 		}
-				// 		request.apiPost('/toc/user/login',param).then((res) =>{
-				// 			if(res.code == '0'){
-								// uni.setStorageSync('usertype','dw')
-								// uni.setStorageSync('userinfo',res.data)
-								// uni.switchTab({
-								// 	url: '/pages/index/index'
-								// });
-				// 				global.hideLoading()
-				// 			}
-				// 			// else if(res.code == '2'){
+				// this.active=1
+				if(this.loginName!=''){
+					if(this.password==''){
+						global.showToast('请输入登录密码')
+					}else{
+						var that=this
+						global.showLoading()
+						var param = {
+							openId:'wx123456789',
+							loginName:this.loginName,
+							password:this.password
+						}
+						request.apiPost('/tob/user/login',param).then((res) =>{
+							if(res.code == '0'){
+								uni.setStorageSync('usertype','dw')
+								uni.setStorageSync('openid','wx123456789')
+								uni.setStorageSync('userinfo',res.data)
+								uni.switchTab({
+									url: '/pages/index/index'
+								});
+								global.hideLoading()
+							}
+							// else if(res.code == '2'){
 								
-				// 			// }
-				// 			else{
-				// 				global.hideLoading()
-				// 				global.showToast(res.msg)
-				// 			}
-				// 		}).catch((reason) =>{
-				// 			global.hideLoading()
-				// 			global.showToast(reason)
-				// 		})
-				// 	}
-				// }else{
-				// 	global.showToast('请输入用户名')
-				// }
+							// }
+							else{
+								global.hideLoading()
+								global.showToast(res.msg)
+							}
+						}).catch((reason) =>{
+							global.hideLoading()
+							global.showToast(reason)
+						})
+					}
+				}else{
+					global.showToast('请输入用户名')
+				}
 			
 			},
 			rz(){

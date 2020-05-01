@@ -1,9 +1,11 @@
 {
   "pages": [
-    "pages/login/login",
     "pages/login/loginDW",
+    "pages/login/login",
+    "pages/index/dwDetail",
     "pages/message/message",
     "pages/repair/repairList",
+    "pages/repair/repairDetail",
     "pages/repair/repairEdit",
     "pages/adddevice/adddevice",
     "pages/chooseLocation/chooseLocation",
@@ -15,6 +17,7 @@
     "pages/login/login",
     "pages/login/registration",
     "pages/login/forget-password",
+    "pages/login/focus",
     "pages/index/index"
   ],
   "window": {
@@ -25,26 +28,26 @@
   },
   "tabBar": {
     "color": "#C0C4CC",
-    "selectedColor": "#fa436a",
+    "selectedColor": "#147DE4",
     "borderStyle": "black",
     "backgroundColor": "#ffffff",
     "list": [
       {
         "pagePath": "pages/index/index",
-        "iconPath": "static/tab-home.png",
-        "selectedIconPath": "static/tab-home-current.png",
+        "iconPath": "static/img/tab/icon1.png",
+        "selectedIconPath": "static/img/tab/icon1_se.png",
         "text": "首页"
       },
       {
         "pagePath": "pages/message/message",
-        "iconPath": "static/tab-cate.png",
-        "selectedIconPath": "static/tab-cate-current.png",
+        "iconPath": "static/img/tab/icon2.png",
+        "selectedIconPath": "static/img/tab/icon2_se.png",
         "text": "消息"
       },
       {
         "pagePath": "pages/personCenter/personCenter",
-        "iconPath": "static/tab-my.png",
-        "selectedIconPath": "static/tab-my-current.png",
+        "iconPath": "static/img/tab/icon3.png",
+        "selectedIconPath": "static/img/tab/icon3_se.png",
         "text": "我的"
       }
     ]
@@ -56,6 +59,6 @@
     "autoclose": false
   },
   "appname": "物联网消防安全管理",
-  "compilerVersion": "2.4.2",
+  "compilerVersion": "2.5.1",
   "usingComponents": {}
 }

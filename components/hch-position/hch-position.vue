@@ -39,35 +39,42 @@
 					v-if='markers.length>0 && usertype=="dw"'
 					style="width: 100%; height: calc(100vh - 94);"  
 					class='fullscreen'
-					:center="{
-						lng:markers[0].longitude,
-						lat:markers[0].latitude
-					}" :zoom="zoom" @ready="handler" @click="infoWindowOpen" :scroll-wheel-zoom='true'>
-						<bml-marker-clusterer :averageCenter="true" >
-						       <bm-marker v-for='(item,index) in markers' :position="{lng: item.longitude, lat: item.latitude}" :key='index'
+					:center="mapCenter" :zoom="zoom" @ready="handler" @click="infoWindowOpen" :scroll-wheel-zoom='true'>
+						<!-- <bml-marker-clusterer :averageCenter="true" >
+						       <bm-marker v-for='(item,index) in realMarkers'  :key='index'
+							   :position="{lng: realMarkers[index].mapEarePoints, lat: item.mapEarePoints}" 
 						        :dragging="false" @click='clusterclick2(item)'>
 						          </bm-marker>
-						   </bml-marker-clusterer>
-						   <bm-info-window :show="show" :position="{lng: info.longitude, lat: info.latitude}" 
+						   </bml-marker-clusterer> -->
+						    <bm-polygon :path="item.mapEarePoints"  v-for='(item,index) in realMarkers' :key='index' 
+							stroke-color="blue" :stroke-weight="0.5" :stroke-opacity='0.3' 
+							fill-color='#4779FF' :fill-opacity='0.3' :clicking='true' 
+							/>
+							<bm-marker v-for='(item,index) in realMarkers' :key='index+9' @click='polygonClick(item)'
+							:position="{lng: item.mapEarePoints[0].lng, lat: item.mapEarePoints[0].lat}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
+							   <bm-label :content="item.ownerName" :position="{lng: item.mapEarePoints[0].lng, lat: item.mapEarePoints[0].lat}" 
+							   :labelStyle="{color: 'red', fontSize : '14px'}" :offset="{width: -35, height: 30}" />
+								</bm-marker>
+						   <bm-info-window :show="show" :position="center" 
 						   @close="infoWindowClose" @open="infoWindowOpen" class='infowindow'>
 						   	<view>
 						   		<view>
-									鸿兴源小区3-1102
+									{{info.ownerName}}
 						   		</view>
 						   		<view class="cgray">
 						   			<text class="type-name">联系人：</text>
-									<text>赵X</text>
-									<text class="fr">193827326412</text>
+									<text>{{info.chargeUser}}</text>
+									<text class="fr">{{info.chargeUserConn}}</text>
 						   		</view>
 						   		<view class="cgray">
 						   			<text class="type-name">安全指数：</text>
-						   			<text>75</text>
+						   			<text>{{info.safeScore}}</text>
 						   		</view>
 								<view class="cgray">
 									<text class="type-name">未处理告警：</text>
-									<text>15</text>
+									<text>{{info.warnCount}}</text>
 								</view>
-								<view class="detail" @click="todwDetail">
+								<view class="detail" @click="todwDetail(info.tenantId)">
 									查看详情
 								</view>
 						   	</view>
@@ -104,10 +111,11 @@ export default {
 	},
     data() {
         return {
+			mapCenter:{},
 			show:false,
 			info:{},
 			markerIcon:"",
-			center: {lng: 109.45744048529967, lat: 36.49771311230842},
+			center: {},
 			      zoom: 15,
 			store:{},
 			storeFlag:false,
@@ -216,7 +224,8 @@ export default {
 			console.log(detail)
 		},
 		initPosition(){
-			this.scale=15
+			this.zoom=15
+			this.$forceUpdate()
 			// this.latitude=this.markers[0].latitude
 			// this.longitude=this.markers[0].longitude
 		},
@@ -267,16 +276,46 @@ export default {
 			infoWindowClose(){
 				this.show=false
 			},
-			todwDetail(){
+			todwDetail(id){
 				uni.navigateTo({
-					url:'../../pages/index/dwDetail'
+					url:'../../pages/index/dwDetail?id='+id
 				})
+			},
+			polygonClick(item){
+				this.show=true
+				this.center={
+					lng:item.mapEarePoints[0].lng,
+					lat:item.mapEarePoints[0].lat
+				}
+				this.info={
+					ownerName:item.ownerName,
+					chargeUser:item.chargeUser,
+					chargeUserConn:item.chargeUserConn,
+					safeScore:item.safeScore,
+					warnCount:item.warnCount,
+					tenantId:item.tenantId
+				}
+			},
+			setMarkers(){
+				this.realMarkers=this.markers
+				this.realMarkers=this.realMarkers.map((item,index) =>{
+					item.mapEarePoints=item.mapEarePoints.split(';').map((item2,index2) =>{
+						item2={lng:item2.split(',')[1],lat:item2.split(',')[0]}
+						return item2
+					})
+					return item
+				})
+				this.mapCenter={
+					lng:this.realMarkers[0].mapEarePoints[0].lng,
+					lat:this.realMarkers[0].mapEarePoints[0].lat
+				}
+				this.$forceUpdate()
 			}
     },
 	created() {
 		this.usertype=uni.getStorageSync('usertype')
 		this.initPosition()
-		console.log(this.markers)
+		this.setMarkers()
 		// var map = new BMap.Map("myMap");    // 创建Map实例
 		// 	map.centerAndZoom(new BMap.Point(this.latitude,this.longitude), 11);  // 初始化地图,设置中心点坐标和地图级别
 		// 	//添加地图类型控件
@@ -288,9 +327,11 @@ export default {
 		// 	map.setCurrentCity("");          // 设置地图显示的城市 此项是必须设置的
 		// 	map.enableScrollWheelZoom(true);     //开启鼠标滚轮缩放
 	},
-	onReady() {
-		
-  },
+	watch:{
+		markers(n){
+			this.setMarkers()
+		}
+	},
  
   components:{
 	  BmlMarkerClusterer

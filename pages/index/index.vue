@@ -101,8 +101,8 @@
 		<view v-if='usertype=="dw"'>
 			<view class="search-line">
 				<uni-icons type='search'></uni-icons>
-				<input type="text" value="" placeholder="请输入单位名称"/>
-				<button type="primary" class="search-btn">搜索</button>
+				<input type="text" v-model="ownerName" placeholder="请输入业主名称"/>
+				<button type="primary" class="search-btn" @click="search">搜索</button>
 			</view>
 		</view>
 		<block v-for="(item, index) in arr" :key="index" v-if="usertype=='gr'">
@@ -116,13 +116,13 @@
 			<view class="ml10 mt10 mb10 i-cube"></view>
 			<text class="ml30">地图</text>
 		</view> -->
-		<hchPosition :storeData="storeData" :markers="markers"  :usertype='usertype' v-if='usertype=="dw"'
+		<hchPosition :storeData="storeData" :markers="markers"  :usertype='usertype' v-if='usertype=="dw" & markersReady'
 		 :class="usertype=='dw' ? 'fullscreen':''" @mapclick='pulldata'></hchPosition>
 		<min-action-sheet ref="as"></min-action-sheet>
 		<min-action-sheet ref="as1"></min-action-sheet>
 		
 		
-		<view class="float-btn"
+		<view class="float-btn" v-if="usertype=='gr'"
 			@click="AddDevice()">
 			<uni-icons type="plus" color="#fff"></uni-icons>
 			<view>
@@ -151,6 +151,7 @@
 		},
 		data() {
 			return {
+				ownerName:'',
 				markersReady:false,
 				refresh:false,
 				canvas: true,
@@ -173,16 +174,16 @@
 					},
 				],
 				markers: [//门店在地图上的标记 以下字段必填 
-				{
-				         longitude: 116.405,
-				         latitude: 39.901,
-				         showFlag:false //flag放在每一条数据里
-				       },
-				       {
-				         longitude: 116.404,
-				         latitude: 39.900,
-				         showFlag:false
-				       }
+				// {
+				//          longitude: 116.405,
+				//          latitude: 39.901,
+				//          showFlag:false //flag放在每一条数据里
+				//        },
+				//        {
+				//          longitude: 116.404,
+				//          latitude: 39.900,
+				//          showFlag:false
+				//        }
 					],
 				baseUrl:'',
 				deviceList:[],
@@ -198,7 +199,7 @@
 		},
 		onShow(){
 			var that=this
-			this.usertype=uni.getStorageSync('usertype')
+			
 			if(this.refresh){
 				this.refresh=false
 				this.init()
@@ -208,18 +209,19 @@
 				// 	this.getCode();
 				// }
 			}
-			this.timer=setInterval(that.getDevState,30000)
+			// this.timer=setInterval(that.getDevState,30000)
 		},
 		onHide(){
-			window.clearInterval(this.timer)
+			// window.clearInterval(this.timer)
 		},
 		onLoad(e) {
+			this.usertype=uni.getStorageSync('usertype')
 			this.getDeviceList()
 			var that=this
-			uni.$on('update',function(res){
-				that.init()
-			})
-			this.init()
+			// uni.$on('update',function(res){
+			// 	that.init()
+			// })
+			// this.init()
 			// 判断是否在微信端
 			// if (isWechat()) {
 			// 	//如果为微信端就进行code
@@ -229,14 +231,11 @@
 		methods: {
 			// 默认加载
 			init(){
-				this.cWidth=uni.upx2px(750);
-				this.cHeight=uni.upx2px(400);
-				this.query()
 				
-				this.getDeviceTypeList()
+				// this.getDeviceTypeList()
 			},
 			//获取设备列表
-			getDeviceList(devlocation){
+			getDeviceList(){
 				var that=this
 				global.showLoading()
 				if(this.usertype=='gr'){
@@ -246,7 +245,6 @@
 					}
 					request.apiGet('/toc/device/list',param).then((res) =>{
 						if(res.code == '0'){
-							console.log(res)
 							that.myDeviceList=res.data.selfList
 							that.myShareDeviceList=res.data.shareList
 							// res.data.forEach((item,index) =>{
@@ -282,12 +280,13 @@
 					})
 				}else if(this.usertype=='dw'){
 					var param = {
-						openId:'wx123456',
+						openId:uni.getStorageSync('openid'),
 					}
-					request.apiGet('/toc/device/list',param).then((res) =>{
+					request.apiGet('/tob/owner/list',param).then((res) =>{
 						if(res.code == '0'){
-							that.deviceList = res.data.filter((item) =>item.baiduLatitude!='');
-							var total=[]
+							that.markers=res.data
+							// that.deviceList = res.data.filter((item) =>item.baiduLatitude!='');
+							// var total=[]
 							// res.data.forEach((item,index) =>{
 							// 	if(item.baiduLatitude!=''){
 							// 		total.push({
@@ -305,9 +304,11 @@
 							// 		})
 							// 	}
 							// })
-							that.markers=res.data.filter((item) =>item.baiduLatitude!='');
+							that.markers=res.data.filter((item) =>{
+							return	item.mapEarePoints!='' & item.mapEarePoints.split(';').length>1
+							});
 							that.markersReady=true
-							that.getDevState()
+							// that.getDevState()
 							global.hideLoading()
 						}else{
 							global.hideLoading()
@@ -445,9 +446,6 @@
 					break;
 				}
 			},
-			query(){
-				// this.findFamilyQYByList()
-			},
 			// 跳转
 			jump(url, title='',to=3) {
 				// this.$api.jump(url,title,to)
@@ -537,7 +535,34 @@
 					url:"/pages/adddevice/devicedetail?id="+id+'&type='+type
 				})
 			},
-			
+			// 搜索业主
+			search(){
+				global.showLoading()
+				var param = {
+					openId:uni.getStorageSync('openid'),
+					ownerName:this.ownerName,
+					page:1,
+					count:5
+				},that=this
+				request.apiGet('/tob/owner/search',param).then((res) =>{
+					if(res.code == '0'){
+						that.markers=res.data
+						that.markers=res.data.filter((item) =>{
+						return	item.mapEarePoints!='' & item.mapEarePoints.split(';').length>1
+						});
+						that.markersReady=true
+						// that.getDevState()
+						global.hideLoading()
+					}else{
+						console.log('else')
+						global.hideLoading()
+						global.showToast(res.msg)
+					}
+				}).catch((reason) =>{
+					global.hideLoading()
+					global.showToast(reason)
+				})
+			}
 		}
 		// 判断公众号截取code
 	}

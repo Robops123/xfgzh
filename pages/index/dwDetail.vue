@@ -3,7 +3,7 @@
 		<view>
 			<view class="list"  >
 				<view class="title">
-					<text>可燃气体检测仪3发现疑似媒体谢咯大厦时间段</text>
+					<text>{{data.ownerName}}</text>
 					<fa-icon class="fr" type="file-video-o" color="#327BF8"></fa-icon>
 				</view>
 				<view class="brief">
@@ -11,20 +11,20 @@
 					<view class="cgray">
 						<view>
 							<image src="../../static/img/device/locationg.png" mode="" style="vertical-align: middle;"></image>
-							<text>清明桥历史文化街区-游船码头</text>
+							<text>{{data.ownerAddress}}</text>
 						</view>
 						<view>
 							<text class="type-name">联系人：</text>
-							<text>张XX</text>
-							<text class="fr">1029327831723</text>
+							<text>{{data.chargeUser}}</text>
+							<text class="fr">{{data.chargeUserConn}}</text>
 						</view>
 						<view>
 							<text class="type-name">建筑数量：</text>
-							<text>23</text>
+							<text>{{data.buildCount}}</text>
 						</view>
 						<view>
 							<text class="type-name">消防等级：</text>
-							<text>非消防安全重点单位</text>
+							<text>{{data.ownerRegulatorName}}</text>
 						</view>
 						
 					</view>
@@ -50,60 +50,62 @@
 			
 			
 			<!-- 介入设备 -->
-			<view v-if="curIndex==0">
-				<view class="my-device" v-for="(item,index) in 2" :key='index'>
-					<view class="device-top">
-						<text>{{item.devName}}</text>
-						<text class="status offline" :class="{online:item.devState==1}">{{item.devState==0 ? '离线':'在线'}}</text>
-						
-					</view>
-					<view class="device-main">
-						<view class="device-main-left">
-							<image src="../../static/img/cameraIcoOffline.png" mode=""></image>
+			<scroll-view scroll-y="true" >
+				<view v-if="curIndex==0">
+					<view class="my-device" v-for="(item,index) in dataList" :key='index'>
+						<view class="device-top">
+							<text>{{item.devName}}</text>
+							<text class="status offline" :class="{online:item.devState==1}">{{item.devState==0 ? '离线':'在线'}}</text>
+							
 						</view>
-						<view class="device-main-right">
-							<view>{{item.typeName}}</view>
-							<view :class="{cwarning:item.isWarn==1}">{{item.isWarn==0 ? '无告警':'告警'}}</view>
-							<view>共享人数:{{item.shareCount}}</view>
+						<view class="device-main">
+							<view class="device-main-left">
+								<image src="../../static/img/cameraIcoOffline.png" mode=""></image>
+							</view>
+							<view class="device-main-right">
+								<view>{{item.typeName}}</view>
+								<view :class="{cwarning:item.isWarn==1}">{{item.isWarn==0 ? '无告警':'告警'}}</view>
+								<view>共享人数:{{item.shareCount}}</view>
+							</view>
 						</view>
-					</view>
-					<view class="device-bottom">
-						<text class=" cblue" @click="toDetail(item.devId,0)">查看详情</text>
+						<view class="device-bottom">
+							<text class=" cblue" @click="toDetail(item.devId,0)">查看详情</text>
+						</view>
 					</view>
 				</view>
-			</view>
-			
-			
-			<!-- 告警 -->
-			<view v-if="curIndex==1">
-				<view class="list"    v-for="(item,index) in 2" :key="index" >
-				 <view class="status-word finish">已处理</view>
-					<view class="title">
-						可燃气体检测仪3发现疑似媒体谢咯大厦时间段
-					</view>
-					<view class="coffline describe">啊实打实大师到江安石大姐爱神的箭暗色调驾驶机动阿萨德奥斯迪偶家艾斯欧到江安死哦精雕机搜的窘境艾斯欧弟就欧艾斯的我OA就搜到</view>
-					<view class="brief2 brief">
-							<image src="../../static/img/device/location.png" mode=""></image>
-						<view>
-							<view class="address cblue">啥啥啥肯定会将卡仕达</view>
-							<view class="date coffline">2020-04-20 12:23:11
-							<text class="fr warn">已延期一天3小时</text>
+				
+				
+				<!-- 告警 -->
+				<view v-if="curIndex==1">
+					<view class="list"    v-for="(item,index) in dataList" :key="index" >
+					 <view class="status-word finish">已处理</view>
+						<view class="title">
+							{{item.title}}
+						</view>
+						<view class="coffline describe">OA就搜到</view>
+						<view class="brief2 brief">
+								<image src="../../static/img/device/location.png" mode=""></image>
+							<view>
+								<view class="address cblue">{{item.devLocation}}</view>
+								<view class="date coffline">{{item.updateTime}}
+								<text class="fr warn">已延期一天3小时</text>
+								</view>
 							</view>
 						</view>
 					</view>
 				</view>
-			</view>
-			
-			<!-- 巡检 -->
-			<view v-if="curIndex==2">
-				<view class="list"    v-for="(item,index) in 2" :key="index" >
-				 <view class="status-word finish">已处理</view>
-					<view class="title">
-						2020-04-02 12:12:12~2020-04-02 12:12:13
+				
+				<!-- 巡检 -->
+				<view v-if="curIndex==2">
+					<view class="list"    v-for="(item,index) in dataList" :key="index" >
+					 <view class="status-word finish">已处理</view>
+						<view class="title">
+							{{item.updateTime}}
+						</view>
+						<view class="coffline describe">巡检人:</view>
 					</view>
-					<view class="coffline describe">巡检人:阿萨德打</view>
 				</view>
-			</view>
+			</scroll-view>
 		</view>
 	</view>
 </template>
@@ -112,6 +114,8 @@
 	import echartsLiquidfill from 'echarts-liquidfill'
 	import faIcon from '@/components/fa-icon/fa-icon.vue'
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
+	import request from '../../api/request.js'
+	import global from '../../static/js/global.js'
 	export default{
 		components:{
 			faIcon,
@@ -119,13 +123,17 @@
 		},
 		data(){
 			return{
+				tenantId:'',
+				url:'/tob/owner/deviceList',
+				data:'',
 				curIndex:0,
 				sh:'',
 				dataList:[],
 				page:1,
-				pageSize:20,
+				pageSize:10,
 				total:0,
-				more:''
+				more:'',
+				url:''
 			}
 		},
 		computed: {
@@ -133,9 +141,11 @@
 		       return this.dataList.length >= this.total
 		     },
 		   },
-		mounted(){
+		onLoad(p){
 			var that=this
-			this.liquidFill(); 
+			this.tenantId=p.id
+			this.getDetail()
+			this.getList(this.page)
 		},
 		onReachBottom(){
 			if(this.noMore){
@@ -146,19 +156,21 @@
 							this.more='loading'
 			// setTimeout(function(){
 							  that.page++
-							  that.getList(that.page,id)
+							  that.getList(that.page)
 			// },2000)
 		},
 		methods:{
 			tap(index){
 				this.curIndex=index
-				if(t==1){
-					 
-				}else{
-					
+				if(index==0){
+					 this.url='/tob/owner/deviceList'
+				}else if(index==1){
+					this.url='/tob/owner/warnList'
+				}else if(index==2){
+					this.url='/tob/owner/brokenList'
 				}
 				this.reset()
-				this.getList()
+				this.getList(this.page)
 			},
 			reset(){
 				this.page=1
@@ -166,32 +178,53 @@
 				this.dataList=[]
 				this.more=''
 			},
-			getList(p,id){
-				var that=this
-				// var params={
-				//   page:p,
-				//   pagesize: this.pageSize
-				// }
-				// if(this.page==1){
-				// 	this.$loading()
-				// }
-				  // var params={
-				  // 	   id:id
-				  // }
-				  if(this.active==1){
-					  this.url2+='&cateid='+id
-				  }else{
-					  this.url2+='&brandid='+id
-				  }
-				  this.$apiPost(this.url2).then((res) =>{
-					  that.dataList=that.dataList.concat(res.data)
-					  that.more=''
-					  // if(that.page==1){
-					  // 	uni.hideLoading()
-					  // }
-				  })
+			getList(p){
+				global.showLoading()
+				var param = {
+					openId:uni.getStorageSync('openid'),
+					tenantId:this.tenantId,
+					page:p,
+					count:5
+				},that=this
+				request.apiGet(this.url,param).then((res) =>{
+					if(res.code == '0'){
+						that.dataList=res.data
+						that.total=res.total
+						// that.getDevState()
+						global.hideLoading()
+					}else{
+						console.log('else')
+						global.hideLoading()
+						global.showToast(res.msg)
+					}
+				}).catch((reason) =>{
+					global.hideLoading()
+					global.showToast(reason)
+				})
 			},
-			liquidFill (){//方法
+			// 业主详情
+			getDetail(){
+				global.showLoading()
+				var param = {
+					openId:uni.getStorageSync('openid'),
+					tenantId:this.tenantId,
+				},that=this
+				request.apiGet('/tob/owner/info',param).then((res) =>{
+					if(res.code == '0'){
+						// that.markers=res.data
+						that.data=res.data
+						that.liquidFill(data.safeScore); 
+						global.hideLoading()
+					}else{
+						global.hideLoading()
+						global.showToast(res.msg)
+					}
+				}).catch((reason) =>{
+					global.hideLoading()
+					global.showToast(reason)
+				})
+			},
+			liquidFill (s){//方法
 			                  var arrWatter1={};
 			           		arrWatter1.warterId = 'water_echarts_hd';
 			           		arrWatter1.data=[
@@ -200,7 +233,7 @@
 			            
 			            
 			               var myChart = this.$echarts.init(document.getElementById('liquidFill'));
-			           		var value = 70;//水滴中间显示的数据
+			           		var value = s;//水滴中间显示的数据
 			           		var toldata = 100;//该水滴的总数据
 			           		var num = parseFloat(value/toldata);
 			           		var data = [];

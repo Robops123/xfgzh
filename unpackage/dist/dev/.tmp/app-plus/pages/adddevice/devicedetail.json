@@ -1,5 +1,9 @@
 {
   "navigationBarTitleText": "设备详情",
   "bounce": "none",
-  "usingComponents": {}
+  "usingComponents": {
+    "uni-icons": "/components/uni-icon/uni-icon",
+    "prompt": "/components/zz-prompt/index",
+    "uni-combox": "/components/uni-combox/uni-combox"
+  }
 }

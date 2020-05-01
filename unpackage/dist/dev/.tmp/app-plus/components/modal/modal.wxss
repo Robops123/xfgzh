@@ -14,21 +14,17 @@
   z-index: 9999;
   background: transparent;
   -webkit-transition: background 0.3s linear;
-  -o-transition: background 0.3s linear;
   transition: background 0.3s linear;
   display: -webkit-box;
   display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
   -webkit-align-items: center;
-      -ms-flex-align: center;
           align-items: center;
   opacity: 0;
   visibility: hidden;
   -webkit-box-pack: center;
   -webkit-justify-content: center;
-      -ms-flex-pack: center;
           justify-content: center;
 }
 .mask.mask-show {
@@ -50,15 +46,12 @@
     height: 100rpx;
     display: -webkit-box;
     display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     -webkit-box-pack: center;
     -webkit-justify-content: center;
-        -ms-flex-pack: center;
             justify-content: center;
     -webkit-box-align: center;
     -webkit-align-items: center;
-        -ms-flex-align: center;
             align-items: center;
 }
 .default-view .content {
@@ -73,50 +66,40 @@
     height: 100rpx;
     display: -webkit-box;
     display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
     -webkit-flex-direction: row;
-        -ms-flex-direction: row;
             flex-direction: row;
     border-top: 1px solid #ccc;
 }
 .default-view .btn .cancel {
       display: -webkit-box;
       display: -webkit-flex;
-      display: -ms-flexbox;
       display: flex;
       -webkit-box-flex: 1;
       -webkit-flex: 1;
-          -ms-flex: 1;
               flex: 1;
       -webkit-box-pack: center;
       -webkit-justify-content: center;
-          -ms-flex-pack: center;
               justify-content: center;
       -webkit-box-align: center;
       -webkit-align-items: center;
-          -ms-flex-align: center;
               align-items: center;
       border-right: 1px solid #ccc;
 }
 .default-view .btn .confirm {
       display: -webkit-box;
       display: -webkit-flex;
-      display: -ms-flexbox;
       display: flex;
       -webkit-box-flex: 1;
       -webkit-flex: 1;
-          -ms-flex: 1;
               flex: 1;
       -webkit-box-pack: center;
       -webkit-justify-content: center;
-          -ms-flex-pack: center;
               justify-content: center;
       -webkit-box-align: center;
       -webkit-align-items: center;
-          -ms-flex-align: center;
               align-items: center;
       color: #007aff;
 }
@@ -130,20 +113,16 @@
     padding: 20rpx;
     display: -webkit-box;
     display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
     -webkit-flex-direction: row;
-        -ms-flex-direction: row;
             flex-direction: row;
     -webkit-box-pack: justify;
     -webkit-justify-content: space-between;
-        -ms-flex-pack: justify;
             justify-content: space-between;
     -webkit-box-align: center;
     -webkit-align-items: center;
-        -ms-flex-align: center;
             align-items: center;
     border-bottom: 0.5px solid #ddd;
 }
@@ -174,15 +153,12 @@
     height: 100rpx;
     display: -webkit-box;
     display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     -webkit-box-pack: center;
     -webkit-justify-content: center;
-        -ms-flex-pack: center;
             justify-content: center;
     -webkit-box-align: center;
     -webkit-align-items: center;
-        -ms-flex-align: center;
             align-items: center;
 }
 .notify-view .content {
@@ -197,19 +173,15 @@
     height: 100rpx;
     display: -webkit-box;
     display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     -webkit-box-flex: 1;
     -webkit-flex: 1;
-        -ms-flex: 1;
             flex: 1;
     -webkit-box-pack: center;
     -webkit-justify-content: center;
-        -ms-flex-pack: center;
             justify-content: center;
     -webkit-box-align: center;
     -webkit-align-items: center;
-        -ms-flex-align: center;
             align-items: center;
     border-top: 1px solid #E7E7E7;
 }
@@ -217,16 +189,13 @@
   overflow: hidden;
   display: -webkit-box;
   display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-flex-direction: column;
-      -ms-flex-direction: column;
           flex-direction: column;
   -webkit-box-align: center;
   -webkit-align-items: center;
-      -ms-flex-align: center;
           align-items: center;
 }
 .advert-view .confirm {
@@ -246,35 +215,28 @@
   padding: 20rpx;
   display: -webkit-box;
   display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: horizontal;
   -webkit-box-direction: normal;
   -webkit-flex-direction: row;
-      -ms-flex-direction: row;
           flex-direction: row;
   -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
           flex-wrap: wrap;
   font-size: 18px;
 }
 .share-view .share-box {
     display: -webkit-box;
     display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
     -webkit-flex-direction: column;
-        -ms-flex-direction: column;
             flex-direction: column;
     -webkit-box-pack: center;
     -webkit-justify-content: center;
-        -ms-flex-pack: center;
             justify-content: center;
     -webkit-box-align: center;
     -webkit-align-items: center;
-        -ms-flex-align: center;
             align-items: center;
     width: 33.33%;
     padding: 40rpx 0;
@@ -295,15 +257,12 @@
     height: 100rpx;
     display: -webkit-box;
     display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     -webkit-box-pack: center;
     -webkit-justify-content: center;
-        -ms-flex-pack: center;
             justify-content: center;
     -webkit-box-align: center;
     -webkit-align-items: center;
-        -ms-flex-align: center;
             align-items: center;
     border-bottom: 1px solid #ccc;
 }
@@ -316,7 +275,6 @@
 .input-view .input-box {
     display: -webkit-box;
     display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     margin-bottom: 20rpx;
 }
@@ -331,50 +289,40 @@
     height: 100rpx;
     display: -webkit-box;
     display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     -webkit-box-orient: horizontal;
     -webkit-box-direction: normal;
     -webkit-flex-direction: row;
-        -ms-flex-direction: row;
             flex-direction: row;
     border-top: 1px solid #ccc;
 }
 .input-view .btn .cancel {
       display: -webkit-box;
       display: -webkit-flex;
-      display: -ms-flexbox;
       display: flex;
       -webkit-box-flex: 1;
       -webkit-flex: 1;
-          -ms-flex: 1;
               flex: 1;
       -webkit-box-pack: center;
       -webkit-justify-content: center;
-          -ms-flex-pack: center;
               justify-content: center;
       -webkit-box-align: center;
       -webkit-align-items: center;
-          -ms-flex-align: center;
               align-items: center;
       border-right: 1px solid #ccc;
 }
 .input-view .btn .confirm {
       display: -webkit-box;
       display: -webkit-flex;
-      display: -ms-flexbox;
       display: flex;
       -webkit-box-flex: 1;
       -webkit-flex: 1;
-          -ms-flex: 1;
               flex: 1;
       -webkit-box-pack: center;
       -webkit-justify-content: center;
-          -ms-flex-pack: center;
               justify-content: center;
       -webkit-box-align: center;
       -webkit-align-items: center;
-          -ms-flex-align: center;
               align-items: center;
       color: #007aff;
 }

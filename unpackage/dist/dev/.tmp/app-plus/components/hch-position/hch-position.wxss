@@ -22,7 +22,6 @@
   top: 10rpx;
   left: 50%;
   -webkit-transform: translate(-50%, 0);
-      -ms-transform: translate(-50%, 0);
           transform: translate(-50%, 0);
   z-index: 2;
   overflow: hidden;
@@ -78,7 +77,6 @@
   font-size: 24rpx;
   background: #fff;
   -webkit-transform: translate(-50%, 0);
-      -ms-transform: translate(-50%, 0);
           transform: translate(-50%, 0);
 }
 .fullscreen {
@@ -90,5 +88,16 @@
 }
 .infowindow .time {
   padding-left: 12px;
+}
+.detail {
+  background-color: #4676ca;
+  color: #fff;
+  text-align: center;
+  padding: 15rpx 0;
+}
+.type-name {
+  text-align: right;
+  display: inline-block;
+  width: 200rpx;
 }
 

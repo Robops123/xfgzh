@@ -6,6 +6,7 @@
 /* 图片加载中颜色 */
 /* 行为相关颜色 */
 page {
+  background: #f2f2f2;
   padding-bottom: 100rpx;
 }
 .yt-list {
@@ -15,11 +16,9 @@ page {
 .yt-list-cell {
   display: -webkit-box;
   display: -webkit-flex;
-  display: -ms-flexbox;
   display: flex;
   -webkit-box-align: center;
   -webkit-align-items: center;
-      -ms-flex-align: center;
           align-items: center;
   padding: 10rpx 30rpx 10rpx 40rpx;
   line-height: 70rpx;
@@ -51,7 +50,6 @@ page {
 .yt-list-cell .cell-tit {
     -webkit-box-flex: 1;
     -webkit-flex: 1;
-        -ms-flex: 1;
             flex: 1;
     font-size: 26rpx;
     color: dimgray;
@@ -76,41 +74,50 @@ page {
 .yt-list-cell .desc {
     -webkit-box-flex: 1;
     -webkit-flex: 1;
-        -ms-flex: 1;
             flex: 1;
     font-size: 28rpx;
     color: darkgray;
 }
 .yt-list-cell switch {
     -webkit-transform: translateX(16rpx) scale(0.84);
-        -ms-transform: translateX(16rpx) scale(0.84);
             transform: translateX(16rpx) scale(0.84);
 }
 .add-btn {
-  position: fixed;
-  left: 30rpx;
-  right: 30rpx;
-  bottom: 16rpx;
-  z-index: 95;
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-      -ms-flex-align: center;
-          align-items: center;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  width: 690rpx;
-  height: 80rpx;
-  font-size: 32rpx;
+  background: #3f87ff !important;
+  border-radius: 34px !important;
+  font-size: 34rpx;
+  margin-top: 40rpx;
   color: #fff;
-  background-color: #fa436a;
-  border-radius: 10rpx;
-  -webkit-box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
-          box-shadow: 1px 2px 5px rgba(219, 63, 96, 0.4);
+  width: 80%;
+}
+.card {
+  padding: 20rpx 20rpx 0;
+  background-color: #fff;
+  margin: 30rpx;
+  border-radius: 8px;
+}
+.card .line {
+  padding: 20rpx 0;
+}
+.card .border-line {
+  border-bottom: 1px solid #f2f2f2;
+}
+.line > text {
+  display: inline-block;
+  vertical-align: middle;
+  width: 30%;
+  text-align: right;
+}
+.line > input,
+.line > .input {
+  display: inline-block;
+  vertical-align: middle;
+  width: 64%;
+  font-size: 28rpx;
+  margin-left: 5%;
+}
+.uni-input-placeholder,
+textarea {
+  font-size: 28rpx;
 }
 

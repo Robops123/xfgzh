@@ -18,6 +18,7 @@
     "url": ""
   },
   "permissions": {
+    "Share": {},
     "UniNView": {
       "description": "UniNView原生渲染"
     }
@@ -74,6 +75,11 @@
       },
       "apple": {},
       "plugins": {
+        "share": {
+          "weixin": {
+            "appid": "wx72d5703c23ec2632"
+          }
+        },
         "audio": {
           "mp3": {
             "description": "Android平台录音支持MP3格式文件"
@@ -81,6 +87,7 @@
         }
       }
     },
+    "arguments": "{\"name\":\"\",\"path\":\"\",\"query\":\"\",\"id\":0}",
     "allowsInlineMediaPlayback": true,
     "safearea": {
       "background": "#ffffff",
@@ -89,7 +96,7 @@
       }
     },
     "uni-app": {
-      "compilerVersion": "2.4.2",
+      "compilerVersion": "2.5.1",
       "control": "v8",
       "nvueCompiler": "uni-app",
       "renderer": "auto",
@@ -99,26 +106,26 @@
     },
     "tabBar": {
       "color": "#C0C4CC",
-      "selectedColor": "#fa436a",
+      "selectedColor": "#147DE4",
       "borderStyle": "rgba(0,0,0,0.4)",
       "backgroundColor": "#ffffff",
       "list": [
         {
           "pagePath": "pages/index/index",
-          "iconPath": "static/tab-home.png",
-          "selectedIconPath": "static/tab-home-current.png",
+          "iconPath": "static/img/tab/icon1.png",
+          "selectedIconPath": "static/img/tab/icon1_se.png",
           "text": "首页"
         },
         {
           "pagePath": "pages/message/message",
-          "iconPath": "static/tab-cate.png",
-          "selectedIconPath": "static/tab-cate-current.png",
+          "iconPath": "static/img/tab/icon2.png",
+          "selectedIconPath": "static/img/tab/icon2_se.png",
           "text": "消息"
         },
         {
           "pagePath": "pages/personCenter/personCenter",
-          "iconPath": "static/tab-my.png",
-          "selectedIconPath": "static/tab-my-current.png",
+          "iconPath": "static/img/tab/icon3.png",
+          "selectedIconPath": "static/img/tab/icon3_se.png",
           "text": "我的"
         }
       ],

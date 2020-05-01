@@ -1,0 +1,2 @@
+setCssToHead([".",[1],"outer{ padding: 30px 0 0; text-align: center; font-size: 1.6rem; line-height: 1.6rem; font-weight: bold; }\n",],undefined,{path:"./pages/login/focus.wxss"})();
+document.dispatchEvent(new CustomEvent("generateFuncReady", { detail: { generateFunc: $gwx('./pages/login/focus.wxml') } }));
