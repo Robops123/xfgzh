@@ -26,8 +26,10 @@
 				</view>
 			</view>
 			<button type="primary"  class="login-btn" @tap='register'>注册</button>
-			<view class="links">已有账号？<view class="link-highlight" @tap="gotoLogin">点此登录</view></view>
+			<!-- <view class="links">已有账号？<view class="link-highlight" @tap="gotoLogin">点此登录</view></view> -->
 		</view>
+		
+		<!-- <button @click="test">返回</button> -->
 	</view>
 </template>
 
@@ -45,10 +47,12 @@
 				code:'',
 				picCode:'',
 				password:'',
-				t:''
+				t:'',
+				userType:''
 			}
 		},
-		onLoad() {
+		onLoad(p) {
+			this.userType=p.userType
 				this.t=this.generateRandom()
 				// this.getPic(t)
 		},
@@ -103,9 +107,21 @@
 						}
 						request.apiPost('/toc/tocUser/register',param).then((res) =>{
 							if(res.code == '0'){
-								uni.switchTab({
-									url:'/pages/index/index'
-								});
+								if(that.userType==0){
+									// 个人
+									uni.setStorageSync('usertype','gr')
+									uni.setStorageSync('openid',that.openId)
+									uni.setStorageSync('userinfo',res.data)
+									uni.switchTab({
+										url:'/pages/index/index'
+									});
+								}else{
+										// 单位
+										uni.$emit('registered')
+										uni.redirectTo({
+											url:'./loginDW'
+										})
+								}
 								global.hideLoading()
 							}else{
 								global.hideLoading()

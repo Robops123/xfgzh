@@ -4,7 +4,7 @@
 			<view class="list"  >
 				<view class="title">
 					<text>{{data.ownerName}}</text>
-					<fa-icon class="fr" type="file-video-o" color="#327BF8"></fa-icon>
+					<fa-icon class="fr" type="file-video-o" color="#327BF8" ></fa-icon>
 				</view>
 				<view class="brief">
 					<view id="liquidFill"></view>
@@ -30,8 +30,8 @@
 					</view>
 				</view>
 				<view class="operate">
-					<view class="cblue">督办</view>
-					<view class="cblue" >查岗</view>
+					<view class="cblue" @click="promptVisible2=true">督办</view>
+					<view class="cblue" @click="promptVisible=true">查岗</view>
 				</view>
 			</view>
 			
@@ -69,7 +69,7 @@
 							</view>
 						</view>
 						<view class="device-bottom">
-							<text class=" cblue" @click="toDetail(item.devId,0)">查看详情</text>
+							<text class=" cblue" @click="toDetail(item.devId,1)">查看详情</text>
 						</view>
 					</view>
 				</view>
@@ -78,7 +78,9 @@
 				<!-- 告警 -->
 				<view v-if="curIndex==1">
 					<view class="list"    v-for="(item,index) in dataList" :key="index" >
-					 <view class="status-word finish">已处理</view>
+					  <view class="status-word finish" v-if="item.status==0">已解除</view>
+					   <view class="status-word progress" v-if="item.status==2">已确认</view>
+					    <view class="status-word finish" v-if="item.status==3">误报</view>
 						<view class="title">
 							{{item.title}}
 						</view>
@@ -97,16 +99,39 @@
 				
 				<!-- 巡检 -->
 				<view v-if="curIndex==2">
-					<view class="list"    v-for="(item,index) in dataList" :key="index" >
-					 <view class="status-word finish">已处理</view>
+					<view class="list"    v-for="(item,index) in dataList" :key="index" @click='previewFile(item.missionId)'>
+					 <view class="status-word finish" v-if="item.hasTrouble==0">无隐患</view>
+					 <view class="status-word problem" v-else>有隐患</view>
 						<view class="title">
-							{{item.updateTime}}
+							{{item.missionStartTime}} - {{item.missionEndTime}}
 						</view>
-						<view class="coffline describe">巡检人:</view>
+						<view class="coffline describe">巡检人:{{item.name}}</view>
 					</view>
 				</view>
 			</scroll-view>
 		</view>
+		
+		
+		<!-- 查岗 -->
+		<prompt :visible.sync="promptVisible" title='查岗下发' class="prompt2"  @confirm="clickPromptConfirm" mainColor="#e74a39">
+		  <!-- 这里放入slot内容-->
+		 <view>查岗问题</view>
+		 <input type="text" class="input" value="" v-model="question" placeholder=""/>
+		 <view>答案</view>
+		 <input type="text" class="input" value="" v-model="answer" placeholder=""/>
+		</prompt>
+		
+		
+		<!-- 督办 -->
+		<prompt :visible.sync="promptVisible2" title='督办下发' class="prompt2"  @confirm="clickPromptConfirm2" mainColor="#e74a39">
+		  <!-- 这里放入slot内容-->
+		 <view>督办标题</view>
+		 <input type="text" class="input" value="" v-model="title" placeholder=""/>
+		 <view>督办内容</view>
+		 <textarea value="" placeholder="" class="input" v-model="content"/>
+		</prompt>
+		
+		
 	</view>
 </template>
 
@@ -114,15 +139,22 @@
 	import echartsLiquidfill from 'echarts-liquidfill'
 	import faIcon from '@/components/fa-icon/fa-icon.vue'
 	import uniLoadMore from "@/components/uni-load-more/uni-load-more.vue"
+	import Prompt from '@/components/zz-prompt/index.vue'
 	import request from '../../api/request.js'
 	import global from '../../static/js/global.js'
 	export default{
 		components:{
 			faIcon,
-			uniLoadMore
+			uniLoadMore,
+			Prompt
 		},
 		data(){
 			return{
+				showFilePreview:false,
+				fileSrc:'',
+				question:'',answer:'',title:'',content:'',
+				promptVisible:false,
+				promptVisible2:false,
 				tenantId:'',
 				url:'/tob/owner/deviceList',
 				data:'',
@@ -133,7 +165,6 @@
 				pageSize:10,
 				total:0,
 				more:'',
-				url:''
 			}
 		},
 		computed: {
@@ -167,7 +198,7 @@
 				}else if(index==1){
 					this.url='/tob/owner/warnList'
 				}else if(index==2){
-					this.url='/tob/owner/brokenList'
+					this.url='/tob/owner/inspection'
 				}
 				this.reset()
 				this.getList(this.page)
@@ -179,6 +210,7 @@
 				this.more=''
 			},
 			getList(p){
+				console.log('p')
 				global.showLoading()
 				var param = {
 					openId:uni.getStorageSync('openid'),
@@ -214,6 +246,54 @@
 						// that.markers=res.data
 						that.data=res.data
 						that.liquidFill(data.safeScore); 
+						global.hideLoading()
+					}else{
+						global.hideLoading()
+						global.showToast(res.msg)
+					}
+				}).catch((reason) =>{
+					global.hideLoading()
+					global.showToast(reason)
+				})
+			},
+			// 查岗
+			clickPromptConfirm(){
+				global.showLoading()
+				var param = {
+					openId:uni.getStorageSync('openid'),
+					tenantId:this.tenantId,
+					question:encodeURIComponent(this.question),
+					answer:this.answer
+				},that=this
+				request.apiPost('/tob/owner/checkPost',param).then((res) =>{
+					if(res.code == '0'){
+						// that.markers=res.data
+						global.showToast('下发成功')
+						this.promptVisible=false
+						global.hideLoading()
+					}else{
+						global.hideLoading()
+						global.showToast(res.msg)
+					}
+				}).catch((reason) =>{
+					global.hideLoading()
+					global.showToast(reason)
+				})
+			},
+			// 督办
+			clickPromptConfirm2(){
+				global.showLoading()
+				var param = {
+					openId:uni.getStorageSync('openid'),
+					tenantId:this.tenantId,
+					title:this.title,
+					content:this.content
+				},that=this
+				request.apiPost('/tob/owner/urge',param).then((res) =>{
+					if(res.code == '0'){
+						// that.markers=res.data
+						global.showToast('下发成功')
+						this.promptVisible2=false
 						global.hideLoading()
 					}else{
 						global.hideLoading()
@@ -270,7 +350,17 @@
 			           			}]
 			           		};
 			           		myChart.setOption(option);
-			       }
+			       },
+				   previewFile(id){
+					   uni.navigateTo({
+					   	url:'./filePreview?inspectionId='+id
+					   })
+				   },
+				   toDetail(id,type){
+					   uni.navigateTo({
+					   	url:"/pages/adddevice/devicedetail?id="+id+'&type='+type
+					   })
+				   }
 		}
 	}
 </script>
@@ -470,5 +560,58 @@
 		border: 1px solid #999999;
 		color: #999999;
 		margin-left: 20upx;
+	}
+	.input{
+		margin: 20upx 0;
+		padding: 15upx 0;
+		font-size: 28upx;
+		width: 85%;
+		border: 1px solid #f2f2f2;
+	}
+	
+	
+	
+	
+	.file-preview{
+		    position: fixed;
+		    left: 0;
+		    top: 0;
+		    display: -webkit-box;
+		    display: -webkit-flex;
+		    display: flex;
+		    -webkit-box-pack: center;
+		    -webkit-justify-content: center;
+		    justify-content: center;
+		    -webkit-box-align: center;
+		    -webkit-align-items: center;
+		    align-items: center;
+		    width: 100%;
+		    height: 100vh;
+		    background: rgba(0, 0, 0, .2);
+		    -webkit-transition: opacity .2s linear;
+		    transition: opacity .2s linear;
+	}
+	file-preview-content{
+		    position: relative;
+		    display: -webkit-box;
+		    display: -webkit-flex;
+		    display: flex;
+		    -webkit-box-orient: vertical;
+		    -webkit-box-direction: normal;
+		    -webkit-flex-direction: column;
+		    flex-direction: column;
+		    -webkit-box-pack: justify;
+		    -webkit-justify-content: space-between;
+		    justify-content: space-between;
+		    -webkit-box-align: center;
+		    -webkit-align-items: center;
+		    align-items: center;
+		    width: 80%;
+		    min-height: 150px;
+			max-height: 60%;
+		    background: white;
+		    border-radius: 10px;
+		    /* overflow: hidden; */
+		    z-index: 9999;
 	}
 </style>

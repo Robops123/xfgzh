@@ -50,7 +50,7 @@
 							stroke-color="blue" :stroke-weight="0.5" :stroke-opacity='0.3' 
 							fill-color='#4779FF' :fill-opacity='0.3' :clicking='true' 
 							/>
-							<bm-marker v-for='(item,index) in realMarkers' :key='index+9' @click='polygonClick(item)'
+							<bm-marker v-for='(item,index) in realMarkers' :key='index+9' @click='polygonClick(item)' v-if='mapReady'
 							:position="{lng: item.mapEarePoints[0].lng, lat: item.mapEarePoints[0].lat}" :dragging="true" animation="BMAP_ANIMATION_BOUNCE">
 							   <bm-label :content="item.ownerName" :position="{lng: item.mapEarePoints[0].lng, lat: item.mapEarePoints[0].lat}" 
 							   :labelStyle="{color: 'red', fontSize : '14px'}" :offset="{width: -35, height: 30}" />
@@ -111,12 +111,13 @@ export default {
 	},
     data() {
         return {
+			mapReady:false,
 			mapCenter:{},
 			show:false,
 			info:{},
 			markerIcon:"",
 			center: {},
-			      zoom: 15,
+			      zoom: 12,
 			store:{},
 			storeFlag:false,
 			storeAdFlag:true,
@@ -287,6 +288,7 @@ export default {
 					lng:item.mapEarePoints[0].lng,
 					lat:item.mapEarePoints[0].lat
 				}
+				this.mapCenter=this.center
 				this.info={
 					ownerName:item.ownerName,
 					chargeUser:item.chargeUser,
@@ -303,12 +305,21 @@ export default {
 						item2={lng:item2.split(',')[1],lat:item2.split(',')[0]}
 						return item2
 					})
+					var avarageLat=0,avargeLng=0,l=item.mapEarePoints.length;
+					item.mapEarePoints.forEach((marker) =>{
+						avarageLat+=Number(marker.lat)
+						avargeLng+=Number(marker.lng)
+					})
+					item.avarageLat=(avarageLat/l).toFixed(6)
+					item.avargeLng=(avargeLng/l).toFixed(6)
 					return item
 				})
 				this.mapCenter={
 					lng:this.realMarkers[0].mapEarePoints[0].lng,
 					lat:this.realMarkers[0].mapEarePoints[0].lat
 				}
+				this.mapReady=true
+				console.log(this.realMarkers)
 				this.$forceUpdate()
 			}
     },

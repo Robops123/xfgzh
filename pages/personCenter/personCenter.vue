@@ -23,6 +23,9 @@
 				<text class="list-text">我的报修</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
+			
+		</view>
+		<view class="center-list">
 			<view class="center-list-item" >
 				<image src="../../static/img/mine/icon2.png" mode=""></image>
 				<text class="list-text">意见反馈</text>

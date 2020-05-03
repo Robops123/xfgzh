@@ -27,22 +27,24 @@
 					</view>
 				</view>
 				<button type="primary" @tap="login">登录</button>
-				<button class="regBtn" type="text" @tap='gotoRegistration'>注册</button>
+				<!-- <button class="regBtn" type="text" @tap='gotoRegistration' v-if="!hasAccount">注册</button> -->
 			</view>
 			
 			<!-- 绑定 -->
-			<view class="" v-if="active==1">
+			<view class="" v-if="active==1 & hasAccount">
 				<view class="uni-form-item uni-column">
 					<view>账号</view>
 					<input type="tel" class="uni-input" v-model="loginName" name="" placeholder="用户名称 xxx@xxx" />
 				</view>
 				<view class="uni-form-item uni-column ">
 					<view>密码</view>
-					<input type="text" class="uni-input" name="" v-model="code" placeholder="请输入密码" />
+					<input type="text" class="uni-input" name="" v-model="password" placeholder="请输入密码" />
 				</view>
-				<button type="primary" @tap="rz">认证&绑定</button>
+				<button type="primary" @tap="login">认证&绑定</button>
 			</view>
 		</view>
+		
+		<!-- <button @click="test">到注册</button> -->
 	</view>
 </template>
 
@@ -56,6 +58,8 @@
 		},
 		data() {
 			return {
+				openId:'',
+				hasAccount:false,
 				loginName:'root@jg0001',
 				password:123456,
 				active:0,
@@ -70,9 +74,23 @@
 			}
 		},
 		onLoad() {
-			
+			var code=this.getUrlParam('code')
+			var that=this
+			if(code!=null){
+				this.getOpenId(code)
+			}
+			uni.$once('registered',function(){
+				console.log('接收到了')
+				that.hasAccount=true
+				that.active=1
+			})
 		},
 		methods: {
+			// test(){
+			// 	uni.redirectTo({
+			// 		url:'./registration?userType=1'
+			// 	})
+			// },
 			login: function () {
 				// this.active=1
 				if(this.loginName!=''){
@@ -82,14 +100,14 @@
 						var that=this
 						global.showLoading()
 						var param = {
-							openId:'wx123456789',
+							openId:uni.getStorageSync('openid'),
 							loginName:this.loginName,
 							password:this.password
 						}
 						request.apiPost('/tob/user/login',param).then((res) =>{
 							if(res.code == '0'){
 								uni.setStorageSync('usertype','dw')
-								uni.setStorageSync('openid','wx123456789')
+								uni.setStorageSync('openid',res.data.openId)
 								uni.setStorageSync('userinfo',res.data)
 								uni.switchTab({
 									url: '/pages/index/index'
@@ -159,6 +177,66 @@
 			},
 			gotoForgetPassword: function () {
 				uni.navigateTo({url: 'forget-password'});
+			},
+			getUrlParam (name) {
+			  var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)')  
+			  let url = window.location.href.split('#')[0]   
+			  let search = url.split('?')[1]  
+			  if (search) {  
+			    var r = search.substr(0).match(reg)  
+			    if (r !== null) return unescape(r[2])  
+			    return null  
+			  } else {  
+			    return null  
+			  }  
+			},
+			getOpenId(code){
+				global.showLoading()
+				var data={
+					code:code
+				},that=this
+				request.apiGet('/toc/tocUser/getOpenId',data).then((res) =>{
+					if(res.code == '0'){
+						global.hideLoading()
+						that.openId=res.openId
+						uni.setStorageSync('openid',res.openId)
+						that.findUser()
+					}else{
+						global.hideLoading()
+						global.showToast('请在微信环境下打开')
+					}
+					
+				}).catch((reason) =>{
+					global.hideLoading()
+					global.showToast('网络错误')
+				})
+			},
+			findUser(){
+				global.showLoading()
+				var data={
+					openId:this.openId,
+					userType:1
+				},that=this
+				request.apiGet('/toc/tocUser/find',data).then((res) =>{
+					if(res.code == '0'){
+						uni.setStorageSync('usertype','dw')
+						uni.setStorageSync('openid',that.openId)
+						uni.setStorageSync('userinfo',res.data)
+						uni.switchTab({
+							url: '/pages/index/index'
+						});
+						// that.hasAccount=true
+					}else{
+						uni.redirectTo({
+							url:'./registration?userType=1'
+						})
+						// that.hasAccount=false
+					}
+					global.hideLoading()
+				}).catch((reason) =>{
+					global.hideLoading()
+					global.showToast('网络错误')
+				})
 			}
 		}
 	}

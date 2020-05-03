@@ -6,7 +6,7 @@
 		<view  :class="{'tab-item':true,'active':curIndex==1}" @tap="tap(1)" style="border-radius: 0 90upx 90upx 0;">
 			<text >故障</text><uni-badge :text="badges.badge1" type="error" size="small"></uni-badge>
 		</view>
-		<!-- <view  :class="{'tab-item':true,'active':curIndex==2}" @tap="tap(2)" >
+	<!-- 	<view  :class="{'tab-item':true,'active':curIndex==2}" @tap="tap(2)" >
 			<text >离线</text><uni-badge  type="error" size="small"></uni-badge>
 		</view> -->
 	</view>

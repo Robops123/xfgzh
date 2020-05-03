@@ -123,7 +123,7 @@
 		
 		
 		<view class="float-btn" v-if="usertype=='gr'"
-			@click="AddDevice()">
+			@click="addtype()">
 			<uni-icons type="plus" color="#fff"></uni-icons>
 			<view>
 				设备
@@ -141,7 +141,7 @@
 	import UniIcons from '@/components/uni-icon/uni-icon.vue'
 	import request from '../../api/request.js'
 	import global from '../../static/js/global.js'
-	 
+	 import wx from 'jweixin-module';
 	export default {
 		components:{
 			zyGrid,
@@ -349,12 +349,12 @@
 			addtype(name) {
 				this.$refs.as1.handleShow({
 					actions: [
-						{
-							name: '手动添加',
-							icon: 'iconfont active',
-							color: '#007aff',
-							image: 'http://img-cdn-qiniu.dcloud.net.cn/new-page/uni.png'
-						},
+						// {
+						// 	name: '手动添加',
+						// 	icon: 'iconfont active',
+						// 	color: '#007aff',
+						// 	image: 'http://img-cdn-qiniu.dcloud.net.cn/new-page/uni.png'
+						// },
 						{
 							name: '扫一扫',
 							icon: 'iconfont active',
@@ -371,14 +371,13 @@
 								});
 								break
 							case 0:
-								uni.navigateTo({
-									url:"/pages/adddevice/adddevice?type="+name
-								})
-								break
-							case 1:
-								this.scanQrCode()
-								
-								break					
+							this.scanQrCode()
+							
+							break	
+								// uni.navigateTo({
+								// 	url:"/pages/adddevice/adddevice?type="+name
+								// })
+								// break
 					  	}
 					}
 			  	})
@@ -460,15 +459,54 @@
 				// 		console.log('条码内容：' + res.result);
 				// 	}
 				// });
+				this.applyAuthority()
+				wx.ready(function(){
+					global.hideLoading()
+					wx.scanQRCode({
+					                needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+					                scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
+					                success: function (res) {
+										uni.navigateTo({
+											url:'../adddevice/adddevice?code='+res.resultStr
+										})
+					                    // let qrInfo = {toPageUrl:res.resultStr}
+					                },
+									error:function(reason){
+										global.showToast('获取失败')
+									}
+					            });
+				  // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后，config是一个客户端的异步操作，所以如果需要在页面加载时就调用相关接口，则须把相关接口放在ready函数中调用来确保正确执行。对于用户触发时才调用的接口，则可以直接调用，不需要放在ready函数中。
+				});
+				wx.error(function(res){
+					global.showToast(res)
+					global.hideLoading()
+				  // config信息验证失败会执行error函数，如签名过期导致验证失败，具体错误信息可以打开config的debug模式查看，也可以在返回的res参数中查看，对于SPA可以在这里更新签名。
+				});
 				var that=this
 				uni.$on('updateIndex',function(){
 					that.init()
 				})
-				setTimeout(function(){
-					uni.navigateTo({
-						url:'../adddevice/adddevice?code='+866971034464029
-					})
-				},10)
+			},
+			applyAuthority(){
+				var data={
+									url:encodeURIComponent(window.location.href.split('#')[0])
+								}
+								request.apiGet('/toc/tocUser/getSignature',data).then((res) =>{
+									console.log(res)
+									if(res.code=='0'){
+										global.showLoading()
+										wx.config({
+										    appId: 'wx72d5703c23ec2632', // 必填，企业号的唯一标识，此处填写企业号corpid
+										    timestamp: res.timestamp, // 必填，生成签名的时间戳
+										    nonceStr: res.nonceStr, // 必填，生成签名的随机串
+										    signature: res.signature,// 必填，签名，见附录1
+										    jsApiList: ['scanQRCode']// 分享到QQ空间] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+										});
+										
+									}
+								}).catch(reason =>{
+									global.showToast(reason)
+								})
 			},
 
 			change(idx,type,etype){

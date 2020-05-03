@@ -49,7 +49,7 @@
 				to_maxSelect: '2050/12/31',
 				from: '',
 				to: '',
-				index:0,
+				index:'',
 				address:"",
 				candidates:[],
 				form:{
@@ -64,7 +64,7 @@
 		},
 		onLoad(p){
 			var params=JSON.parse(p.sth)
-			console.log(params)
+			this.index=p.index
 			this.form.devId=params.devId
 			this.devLocation=params.devLocation
 			this.form.brokenId=params.id
@@ -81,7 +81,7 @@
 					request.apiPost('/toc/deviceRepair/repair',this.form).then((res) =>{
 						if(res.code == '0'){
 							global.showToast('提交报修成功')
-							uni.$emit('update')
+							uni.$emit('update',that.index)
 							 setTimeout(function(){
 								uni.navigateBack()
 							},1000)

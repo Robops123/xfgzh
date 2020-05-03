@@ -1,54 +1,123 @@
 <template>
-	<view class='purchase-list'>
-		<my-tabs @change="tapChange" :modelData="modelData" :badges='badges' :initIndex="initIndex"></my-tabs>
-		<scroll-view class="purchase-body" scroll-y="true" @scrolltolower="scrolltolower" style="height: calc(100vh - 260upx);"
-		 @scrolltoupper="scrolltoupper"  @touchstart="touchstart" @touchend="touchend">
-			<!-- <my-unit v-for="(item,index) in 1" :key="index" :info="item"></my-unit> -->
-				<view class="list"  :class="{'active':pickerUserIndex==index}"  v-for="(item,index) in userList"
-				 :key="index" :data-index="index">
-				 <image src="../../static/img/message/cl.png" mode="" class="status" v-if="item.status==0"></image>
-				 <image src="../../static/img/message/clz.png" mode="" class="status" v-if="item.status==2"></image>
-				 <image src="../../static/img/message/wb.png" mode="" class="status" v-if="item.status==3"></image>
-					<view class="title">
-						{{item.title}}
-					</view>
-					<view class="brief">
-						<view>
-							<image src="../../static/img/device/location.png" mode=""></image>
+	<view class='purchase-list' >
+		<view v-if="usertype=='gr'">
+			<my-tabs @change="tapChange" :modelData="modelData" :badges='badges' :initIndex="initIndex"></my-tabs>
+			<scroll-view class="purchase-body" scroll-y="true" @scrolltolower="scrolltolower" style="height: calc(100vh - 260upx);"
+			   @touchstart="touchstart" @touchend="touchend">
+				<!-- <my-unit v-for="(item,index) in 1" :key="index" :info="item"></my-unit> -->
+					<view class="list"  :class="{'active':pickerUserIndex==index}"  v-for="(item,index) in userList"
+					 :key="index" :data-index="index">
+					 <view class="status">
+					 	<image src="../../static/img/message/1.png" mode=""  v-if="item.status==0"></image>
+					 	<image src="../../static/img/message/3.png" mode=""  v-if="item.status==2"></image>
+					 	<image src="../../static/img/message/4.png" mode=""  v-if="item.status==3"></image>
+					 	<text v-if="item.status==0">已解除</text>
+					 	<text v-if="item.status==2 & curType==0">已确认</text>
+					 	<text v-if="item.status==2 & curType==1">已报修</text>
+					 	<text v-if="item.status==3">误报</text>
+					 </view>
+						<view class="title">
+							{{item.title}}
 						</view>
-						<view>
-							<view class="address cblue">{{item.devLocation}}</view>
-							<view class="date coffline">{{item.updateTime}}</view>
+						<view class="brief">
+							<view>
+								<image src="../../static/img/device/location.png" mode=""></image>
+							</view>
+							<view>
+								<view class="address cblue">{{item.devLocation}}</view>
+								<view class="date coffline">{{item.updateTime}}</view>
+							</view>
+						</view>
+						<view class="operate" v-if='item.status==1'>
+							<view class="cblue" v-if="curType==0" @click="changeStatus(item.id,0,index)">解除</view>
+							<view class="cblue" @click="changeStatus(item.id,3,index)">误报</view>
+							<view class="cblue" @click="toFix(item,index)" v-if="curType==1">报修</view>
 						</view>
 					</view>
-					<view class="operate" v-if='item.status==1'>
-						<view class="cblue" v-if="curType==0" @click="changeStatus(item.id,0,index)">解除</view>
-						<view class="cblue" @click="changeStatus(item.id,3,index)">误报</view>
-						<view class="cblue" @click="toFix(item)" v-if="curType==1">报修</view>
+				<view class="shade" v-show="showShade" @tap="hidePop">
+					<view class="pop" :style="popStyle" :class="{'show':showPop}">
+						<view v-for="(item,index) in popButton" :key="index" @tap="pickerMenu" :data-index="index">{{item}}</view>
 					</view>
 				</view>
-			<view class="shade" v-show="showShade" @tap="hidePop">
-				<view class="pop" :style="popStyle" :class="{'show':showPop}">
-					<view v-for="(item,index) in popButton" :key="index" @tap="pickerMenu" :data-index="index">{{item}}</view>
+			</scroll-view>
+			<min-action-sheet ref="as"></min-action-sheet>
+			<my-loading></my-loading>
+		</view>
+		
+		
+		<view v-else>
+			<my-tabelse @change="tapChange" :modelData="modelData" :badges='badges' :initIndex="initIndex"></my-tabelse>
+			<scroll-view class="purchase-body" scroll-y="true" @scrolltolower="scrolltolower" style="height: calc(100vh - 260upx);"
+			   @touchstart="touchstart" @touchend="touchend">
+			   <view class="search-line" v-if="curType==1">
+				   <input type="text" value="" @confirm='searchOwner' @change='searchOwner' v-model="ownerName" placeholder="输入要查询的单位"/>
+			   </view>
+				<!-- <my-unit v-for="(item,index) in 1" :key="index" :info="item"></my-unit> -->
+					<view class="list"  :class="{'active':pickerUserIndex==index}"  v-for="(item,index) in userList"
+					 :key="index" :data-index="index">
+					 <view class="status">
+						 <image src="../../static/img/message/1.png" mode=""  v-if="item.status==0"></image>
+						 <image src="../../static/img/message/3.png" mode=""  v-if="item.status==2"></image>
+						 <image src="../../static/img/message/4.png" mode=""  v-if="item.status==3"></image>
+						 <text v-if="item.status==0">已解除</text>
+						 <text v-if="item.status==2 & curType==0">已确认</text>
+						 <text v-if="item.status==2 & curType==1">已报修</text>
+						 <text v-if="item.status==3">误报</text>
+					 </view>
+						<view class="title">
+							{{item.title}}
+						</view>
+						<view class="brief">
+							<view>
+								<image src="../../static/img/device/location.png" mode=""></image>
+							</view>
+							<view>
+								<view class="address cblue">{{item.devLocation}}</view>
+								<view class="date coffline">{{item.updateTime}}</view>
+							</view>
+						</view>
+						<view class="operate" v-if='item.status==1'>
+							<!-- <view class="cblue" v-if="curType==0" @click="changeStatus(item.id,0,index)">解除</view> -->
+							<!-- <view class="cblue" @click="changeStatus(item.id,3,index)">误报</view> -->
+							<view class="cblue" @click="openPrompt(item.tenantId)" >督办</view>
+						</view>
+					</view>
+				<view class="shade" v-show="showShade" @tap="hidePop">
+					<view class="pop" :style="popStyle" :class="{'show':showPop}">
+						<view v-for="(item,index) in popButton" :key="index" @tap="pickerMenu" :data-index="index">{{item}}</view>
+					</view>
 				</view>
-			</view>
-		</scroll-view>
-		<min-action-sheet ref="as"></min-action-sheet>
-		<my-loading></my-loading>
+			</scroll-view>
+			<min-action-sheet ref="as"></min-action-sheet>
+			<my-loading></my-loading>
+			<!-- 督办 -->
+			<prompt :visible.sync="promptVisible2" title='督办下发' class="prompt2"  @confirm="clickPromptConfirm2" mainColor="#e74a39">
+			  <!-- 这里放入slot内容-->
+			 <view>督办标题</view>
+			 <input type="text" class="input" value="" v-model="title" placeholder=""/>
+			 <view>督办内容</view>
+			 <textarea value="" placeholder="" class="input" v-model="content"/>
+			</prompt>
+		</view>
 	</view>
 </template>
 <script>
 	import myTabs from '@/components/myTabs/myTabs.vue'
+	import myTabelse from '@/components/myTabs/myTabs.vue'
 	//import myUnit from '@/components/myUnits/purchaseUnit/unit.vue'
 	import minActionSheet  from '@/components/comselect/comselect'
 	import myPull from '@/static/js/myPull.js'
 	import myLoading from '@/components/myLoading/myLoading.vue'
 	import request from '../../api/request.js'
 	import global from '../../static/js/global.js'
+	import Prompt from '@/components/zz-prompt/index.vue'
 	export default {
-		components:{myTabs,myPull,myLoading,minActionSheet},
+		components:{myTabs,myTabelse,myPull,myLoading,minActionSheet,Prompt},
 		data() {
 			return {
+				title:'',content:'',
+				ownerName:'',
+				promptVisible2:false,
 				refresh:false,
 				userList: [],
 				/* 显示遮罩 */
@@ -71,11 +140,12 @@
 				badges:{
 					badge0:'',
 					badge1:''
-				}
+				},
+				tenantId:''
 			}
 		},
 		onShow(){
-			this.usertype=uni.getStorageSync('usertype')
+			
 			if(this.refresh){
 				this.refresh=false
 				// this.getWindowSize();
@@ -89,9 +159,15 @@
 			}
 		},
 		onLoad() {
+			this.usertype=uni.getStorageSync('usertype')
+			if(this.usertype=='gr'){
+				this.getListData('/toc/news/deviceWarn')
+				this.getListBadge('/toc/news/deviceBroken')
+			}else{
+				this.getListData('/tob/owner/warnList')
+					this.getListBadge('/tob/owner/brokenList')
+			}
 			
-			this.getListData('/toc/news/deviceWarn')
-			this.getListBadge('/toc/news/deviceBroken')
 			// this.getWindowSize();
 		
 			// #ifdef H5
@@ -117,14 +193,23 @@
 					// if(this.curType==0){
 					// 	this.getListData('/toc/deviceWarn/listNews')
 					// }else
-					 if(this.curType==0){
-						this.getListData('/toc/news/deviceWarn')
-					}else if(this.curType==1){
-							// 故障
-						this.getListData('/toc/news/deviceBroken')
-					}else if(this.curType==2){
-						// 离线
-						this.getListData('/toc/device/listOff')
+					if(this.usertype=='gr'){
+						if(this.curType==0){
+							this.getListData('/toc/news/deviceWarn')
+						}else if(this.curType==1){
+								// 故障
+							this.getListData('/toc/news/deviceBroken')
+						}else if(this.curType==2){
+							// 离线
+							this.getListData('/toc/device/listOff')
+						}
+					}else{
+						if(this.curType==0){
+							this.getListData('/tob/owner/warnList')
+						}else if(this.curType==1){
+								// 故障
+							this.getListData('/tob/owner/brokenList')
+						}
 					}
 				}
 				
@@ -214,15 +299,16 @@
 				var param = {
 					openId:uni.getStorageSync('openid'),
 					page:this.page,
-					count:10
+					count:10,
+					tenantId:this.tenantId
 				}
 				request.apiGet(url,param).then((res) =>{
-					if(res.code == '0'){
+					// if(res.code == '0'){
 						that.userList=that.userList.concat(res.data)
 						that.total=res.total
 						that.badges['badge'+that.curType]=res.displayCount
 						global.hideLoading()
-					}
+					// }
 				})
 			},
 			getListBadge(url) {
@@ -231,13 +317,14 @@
 				var param = {
 					openId:uni.getStorageSync('openid'),
 					page:this.page,
-					count:6
+					count:6,
+					tenantId:this.tenantId
 				}
 				request.apiGet(url,param).then((res) =>{
-					if(res.code == '0'){
+					// if(res.code == '0'){
 						that.badges['badge1']=res.displayCount
 						global.hideLoading()
-					}
+					// }
 				})
 			},
 			scrolltolower(){
@@ -246,15 +333,24 @@
 					// if(this.curType==0){
 					// 	this.getListData('/toc/deviceWarn/listNews')
 					// }else 
-					if(this.curType==0){
-						this.getListData('/toc/news/deviceWarn')
-					}else if(this.curType==1){
-						// 故障
-						this.getListData('/toc/news/deviceBroken')
-					}else if(this.curType==2){
+					if(this.usertype=='gr'){
+						if(this.curType==0){
+							this.getListData('/toc/news/deviceWarn')
+						}else if(this.curType==1){
+								// 故障
+							this.getListData('/toc/news/deviceBroken')
+						}else if(this.curType==2){
 							// 离线
 							this.getListData('/toc/device/listOff')
 						}
+					}else{
+						if(this.curType==0){
+							this.getListData('/tob/owner/warnList')
+						}else if(this.curType==1){
+								// 故障
+							this.getListData('/tob/owner/brokenList')
+						}
+					}
 				}
 			},
 			/* 获取窗口尺寸 */
@@ -329,13 +425,14 @@
 				 */
 				this.hidePop();
 			},
-			toFix(sth){
+			toFix(sth,index){
 				var that=this
 				uni.$on('update',function(res){
 					// that.userList[res].status=1
+					that.userList[res].status=2
 				})
 				 uni.navigateTo({
-				 	url:"/pages/repair/repairEdit?sth="+JSON.stringify(sth)
+				 	url:"/pages/repair/repairEdit?sth="+JSON.stringify(sth)+'&index='+index
 				 })
 			},
 			changeStatus(id,status,index){
@@ -365,6 +462,69 @@
 						that.userList[index].status=status
 						global.hideLoading()
 					}
+				})
+			},
+			openPrompt(id){
+				this.tenantId=id
+				this.promptVisible2=true
+			},
+			// 督办
+			clickPromptConfirm2(){
+				global.showLoading()
+				var param = {
+					openId:uni.getStorageSync('openid'),
+					tenantId:this.tenantId,
+					title:this.title,
+					content:this.content
+				},that=this
+				request.apiPost('/tob/owner/urge',param).then((res) =>{
+					if(res.code == '0'){
+						// that.markers=res.data
+						global.showToast('下发成功')
+						this.promptVisible2=false
+						global.hideLoading()
+					}else{
+						global.hideLoading()
+						global.showToast(res.msg)
+					}
+				}).catch((reason) =>{
+					global.hideLoading()
+					global.showToast(reason)
+				})
+			},
+			searchOwner(){
+				if(this.ownerName==''){
+					this.page=1
+					this.total=0
+					this.userList=[]
+					this.getListData('/tob/owner/brokenList')
+					return ;
+				}
+				global.showLoading()
+				var param = {
+					openId:uni.getStorageSync('openid'),
+					ownerName:this.ownerName,
+					page:1,
+					limit:5
+				},that=this
+				request.apiGet('/tob/owner/search',param).then((res) =>{
+					if(res.code == '0'){
+						that.page=1
+						that.total=0
+						that.userList=[]
+						if(res.data!=''){
+							that.tenantId=res.data[0].tenantId
+							that.getListData('/tob/owner/brokenList')
+						}
+						
+						global.hideLoading()
+					}else{
+						global.hideLoading()
+						global.showToast(res.msg)
+					}
+				}).catch((reason) =>{
+					global.hideLoading()
+					global.showToast(reason)
 				})
 			}
 		},
@@ -540,6 +700,22 @@
 		top: 0;
 		width: 90upx;
 		height: 90upx;
+		text-align: center;
+		line-height: 80upx;
+		padding: 0;
+		color: #fff;
+	}
+	.list .status image{
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+	.list .status text{
+		position: relative;
+		z-index: 1;
+		font-size: 12px;
 	}
 	.brief{
 		padding-top: 0 !important;
@@ -560,5 +736,26 @@
 		justify-content: space-evenly;
 		padding: 20upx 0;
 		border-top: 1px solid #f2f2f2;
+	}
+	
+	
+	.input{
+		margin: 20upx 0;
+		padding: 15upx 0;
+		font-size: 28upx;
+		width: 85%;
+		border: 1px solid #f2f2f2;
+	}
+	
+	.search-line{
+		text-align: center;
+		padding: 30upx;
+		background-color: #fff;
+	}
+	.search-line input{
+		width: 100%;
+		padding: 20upx 10upx;
+		background-color: #f2f2f2;
+		border-radius: 70upx;
 	}
 </style>

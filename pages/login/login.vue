@@ -10,7 +10,7 @@
 				<input type="tel" class="uni-input" v-model="phone" name="" placeholder="请输入手机号" />
 			</view>
 			<view class="uni-form-item uni-column">
-				<view>密码</view>
+				<view>验证码</view>
 				<view style="position: relative;padding: 10upx 0;">
 					<input type="text" class="uni-input" name="" v-model="code" placeholder="请输入验证码" />
 					<button class="veribtn" @click="getCode" :disabled="!show">
@@ -21,9 +21,9 @@
 			</view>
 			<button type="primary" class="login-btn" @tap="login">登录</button>
 			<!-- @tap="login" -->
-			<view class="links">
+			<!-- <view class="links">
 				<view class="link-highlight" @tap="gotoRegistration">注册账号</view>
-			</view>
+			</view> -->
 			<!-- <chunLei-modal v-model="value" :mData="data" :type="type" @onConfirm="onConfirm" :maskEnable='false'  navMask>
 				<div class="custom-view" @tap.stop>
 		
@@ -46,6 +46,8 @@
 		},
 		data() {
 			return {
+				openId:'',
+				// hasAccount:false,
 				value: false,
 				type: 'default',
 				phone:'18912345678',
@@ -152,6 +154,10 @@
 								url: '/pages/index/index'
 							});
 							global.hideLoading()
+						}else if(res.code=='2'){
+							uni.redirectTo({
+								url:'./registration?userType=0'
+							})
 						}else{
 							global.hideLoading()
 							global.showToast('登录失败,请稍后再试')
@@ -165,14 +171,46 @@
 				}
 			},
 			getOpenId(code){
+				global.showLoading()
 				var data={
 					code:code
-				}
+				},that=this
 				request.apiGet('/toc/tocUser/getOpenId',data).then((res) =>{
 					if(res.code == '0'){
+						global.hideLoading()
+						that.openId=res.openId
 						uni.setStorageSync('openid',res.openId)
+						that.findUser()
 					}else{
+						global.hideLoading()
 						global.showToast('请在微信环境下打开')
+					}
+					
+				}).catch((reason) =>{
+					global.hideLoading()
+					global.showToast('网络错误')
+				})
+			},
+			findUser(){
+				global.hideLoading()
+				var data={
+					openId:this.openId,
+					userType:0
+				},that=this
+				request.apiGet('/toc/tocUser/find',data).then((res) =>{
+					if(res.code == '0'){
+						uni.setStorageSync('usertype','gr')
+						uni.setStorageSync('openid',that.openId)
+						uni.setStorageSync('userinfo',res.data)
+						uni.switchTab({
+							url: '/pages/index/index'
+						});
+						// that.hasAccount=true
+					}else{
+						uni.redirectTo({
+							url:'./registration?userType=0'
+						})
+						// that.hasAccount=false
 					}
 					global.hideLoading()
 				}).catch((reason) =>{
