@@ -9,15 +9,6 @@
 		// 	}
 		// }
 		{
-			"path": "pages/login/login",
-			"style": {
-				"app-plus": {
-					"bounce": "none",
-					"titleNView": false
-				}
-			}
-		},
-		{
 			"path": "pages/login/loginDW",
 			"style": {
 				"app-plus": {
@@ -26,23 +17,33 @@
 				}
 			}
 		},
+		{
+			"path": "pages/login/login",
+			"style": {
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		},
+		
 		
 		{
 			"path": "pages/index/dwDetail",
 			"style": {
-				"navigationBarTitleText": "单位详情"
+				"navigationBarTitleText": ""
 			}
 		},
 		{
 			"path": "pages/index/filePreview",
 			"style": {
-				"navigationBarTitleText": "巡检报告"
+				"navigationBarTitleText": ""
 			}
 		},
 		{
 			"path": "pages/message/message",
 			"style": {
-				"navigationBarTitleText": "消息提醒",
+				"navigationBarTitleText": "",
 				"app-plus": {
 					"bounce": "none"
 				}
@@ -51,7 +52,7 @@
 		{
 			"path": "pages/repair/repairList",
 			"style": {
-				"navigationBarTitleText": "报修列表",
+				"navigationBarTitleText": "",
 				"app-plus": {
 					"bounce": "none"
 				}
@@ -60,7 +61,7 @@
 		{
 			"path": "pages/repair/repairDetail",
 			"style": {
-				"navigationBarTitleText": "报修记录",
+				"navigationBarTitleText": "",
 				"app-plus": {
 					"bounce": "none"
 				}
@@ -69,7 +70,7 @@
 		{
 			"path": "pages/repair/repairEdit",
 			"style": {
-				"navigationBarTitleText": "设备报修",
+				"navigationBarTitleText": "",
 				"app-plus": {
 					"bounce": "none"
 				}
@@ -78,7 +79,7 @@
 		{
 			"path": "pages/adddevice/adddevice",
 			"style": {
-				"navigationBarTitleText": "新增设备",
+				"navigationBarTitleText": "",
 				"app-plus": {
 					"bounce": "none"
 				}
@@ -87,7 +88,7 @@
 		{
 			"path": "pages/chooseLocation/chooseLocation",
 			"style": {
-				"navigationBarTitleText": "选择地点",
+				"navigationBarTitleText": "",
 				"app-plus": {
 					"bounce": "none"
 				}
@@ -96,7 +97,7 @@
 		{
 			"path": "pages/adddevice/devicedetail",
 			"style": {
-				"navigationBarTitleText": "设备详情",
+				"navigationBarTitleText": "",
 				"app-plus": {
 					"bounce": "none"
 				}
@@ -105,7 +106,7 @@
 		{
 			"path": "pages/adddevice/devicemore",
 			"style": {
-				"navigationBarTitleText": "更多",
+				"navigationBarTitleText": "",
 				"app-plus": {
 					"bounce": "none"
 				}
@@ -114,7 +115,7 @@
 		{
 			"path": "pages/personCenter/personCenter",
 			"style": {
-				"navigationBarTitleText": "个人中心",
+				"navigationBarTitleText": "",
 				"app-plus": {
 					"bounce": "none"
 				}
@@ -123,7 +124,7 @@
 		{
 					"path": "pages/personCenter/mydevice",
 					"style": {
-						"navigationBarTitleText": "我的设备",
+						"navigationBarTitleText": "",
 						"app-plus": {
 							"bounce": "none"
 						}
@@ -132,7 +133,7 @@
 				{
 							"path": "pages/personCenter/warnhistroy",
 							"style": {
-								"navigationBarTitleText": "历史告警",
+								"navigationBarTitleText": "",
 								"app-plus": {
 									"bounce": "none"
 								}
@@ -150,7 +151,7 @@
 		{
 			"path": "pages/login/registration",
 			"style": {
-				"navigationBarTitleText": "注册",
+				"navigationBarTitleText": "",
 				"app-plus": {
 					"bounce": "none"
 				}
@@ -159,7 +160,7 @@
 		{
 			"path": "pages/login/forget-password",
 			"style": {
-				"navigationBarTitleText": "忘记密码",
+				"navigationBarTitleText": "",
 				"app-plus": {
 					"bounce": "none"
 				}
@@ -191,8 +192,8 @@
 		}
     ],
 	"globalStyle": {
+		"navigationBarTitleText":"锡消宝",
 		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "智能消防",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#f8f8f8"
 	},

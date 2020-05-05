@@ -1,13 +1,13 @@
 <template>
 	<view class="container">
 		<scroll-view 
-			style=" border-bottom:#07BB07 solid 2upx; z-index: 1000;background-color: #ccc;" 
+			style="  z-index: 1000;" 
 			scroll-y="true" v-if="usertype=='gr'">
 			<view class="title uni-text-gray fl-row">
 				<view class="ml10 mt10 mb10 i-cube"></view>
 				<text class="ml30">我的设备</text>
 			</view>
-			<view class="device-container" style="width: 100%;overflow-x: auto;background-color: #fff;">
+			<view class="device-container" style="width: 100%;overflow-x: auto;">
 				<!-- <zy-grid :showTip="true"
 					:col="3" 
 					v-if="deviceList.length > 0"
@@ -16,7 +16,7 @@
 				<view v-if="myDeviceList==''">暂无数据</view>
 				<view class="my-device" v-for="(item,index) in myDeviceList" :key='index'>
 					<view class="device-top">
-						<text>{{item.devName}}</text>
+						<text class="devName">{{item.devName}}</text>
 						<text class="status offline" :class="{online:item.devState==1}">{{item.devState==0 ? '离线':'在线'}}</text>
 						
 					</view>
@@ -40,7 +40,7 @@
 				<view class="ml10 mt10 mb10 i-cube"></view>
 				<text class="ml30">共享设备</text>
 			</view>
-			<view class="device-container" style="width: 100%;overflow-x: auto;background-color: #fff;">
+			<view class="device-container" style="width: 100%;overflow-x: auto;">
 				<!-- <zy-grid :showTip="true"
 					:col="3" 
 					v-if="deviceList.length > 0"
@@ -49,7 +49,7 @@
 				<view v-if="myShareDeviceList==''">暂无数据</view>
 				<view class="my-device" v-for="(item,index) in myShareDeviceList" :key='index'>
 					<view class="device-top">
-						<text>{{item.devName}}</text>
+						<text class="devName">{{item.devName}}</text>
 						<text class="status offline" :class="{online:item.devState==1}">{{item.devState==0 ? '离线':'在线'}}</text>
 						
 					</view>
@@ -496,6 +496,7 @@
 									if(res.code=='0'){
 										global.showLoading()
 										wx.config({
+											debug: true,
 										    appId: 'wx72d5703c23ec2632', // 必填，企业号的唯一标识，此处填写企业号corpid
 										    timestamp: res.timestamp, // 必填，生成签名的时间戳
 										    nonceStr: res.nonceStr, // 必填，生成签名的随机串
@@ -618,6 +619,9 @@
 </script>
 
 <style lang="scss">
+	page{
+		background-color: #f0f0f0;
+	}
 	/* #ifdef MP */
 	.mp-search-box{
 		position:absolute;
@@ -736,14 +740,14 @@
 	}
 	.title {
 		line-height: 80upx;
-		background-color: #ccc;
+		// background-color: #ccc;
 		text-indent: 20upx;
 		font-size: 30upx;
 		color: #000000;
 		letter-spacing: 1px;
 	}
 	.i-cube {
-		width: 12upx;
+		width: 4upx;
 		height: 34upx;
 		background-color: #51B3F7;
 		margin-right: 20upx;
@@ -870,11 +874,13 @@
 		width: 46%;
 		margin: 20upx 1% 0 2%;
 		border-radius: 8px;
-		border: 1px solid #333;
+		background-color: #fff;
+		// border: 1px solid #333;
 	}
 	.device-top{
 		padding: 15upx 0;
-		border-bottom: 1px solid #333;
+		border-bottom: 1px solid #f3efef;
+		// border-bottom: 1px solid #333;
 	}
 	.device-main{
 		padding: 20upx;
@@ -882,9 +888,12 @@
 	}
 	.device-main-left{
 		width: 45%;
+		text-align: center;
 	}
 	.device-main-right{
-		width: 55%;
+		width: 50%;
+		border-left: 1px solid #f2efef;
+		padding-left: 5%;
 	}
 	.device-main-right{
 		line-height: 1.5;
@@ -905,7 +914,7 @@
 		color: #2794F0;
 		text-align: center;
 		padding: 15upx 0;
-		border-top: 1px solid #333;
+		border-top: 1px solid #f3efef;
 		font-size: 30upx;
 	}
 	.status.online{
@@ -930,5 +939,14 @@
 		border-radius: 50%;
 	}
 	
+	.devName{
+		display: inline-block;
+		max-width: 70%;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		padding-left: 20upx;
+		vertical-align: bottom;
+	}
 	
 </style>

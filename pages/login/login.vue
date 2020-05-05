@@ -140,15 +140,15 @@
 					var that=this
 					global.showLoading()
 					var param = {
-						// openId:uni.getStorageSync('openid'),
-						openId:'wx123456789',
+						openId:uni.getStorageSync('openid'),
+						// openId:'wx123456789',
 						phone:this.phone,
 						code:'123'
 					}
 					request.apiPost('/toc/tocUser/login',param).then((res) =>{
 						if(res.code == '0'){
 							uni.setStorageSync('usertype','gr')
-							uni.setStorageSync('openid','wx123456789')
+							uni.setStorageSync('openid',that.openId)
 							uni.setStorageSync('userinfo',res.data)
 							uni.switchTab({
 								url: '/pages/index/index'

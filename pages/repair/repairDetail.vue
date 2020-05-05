@@ -18,7 +18,7 @@
 		</view>
 		
 		<view class="list" >
-		 <evan-steps :active="data.repairHandleList.length-1" >
+		 <evan-steps :active="data.repairHandleList.length-1" v-if="over">
 		 			<evan-step v-for="(item,index) in data.repairHandleList" :key="index"
 				:progress="item.handleType"	 :title="item.handleContent" :description="item.handleTime"></evan-step>
 		 			<!-- <evan-step title="第二步" description="详情详情详情详情"></evan-step>
@@ -40,6 +40,7 @@
 		},
 		data(){
 			return {
+				over:false,
 				data:'',
 				id:'',
 				steps:[
@@ -62,9 +63,10 @@
 					openId:uni.getStorageSync('openid'),
 					repairId:this.id
 				}
-				request.apiGet(url,param).then((res) =>{
+				request.apiGet('/toc/deviceRepair/repairInfo',param).then((res) =>{
 					if(res.code == '0'){
 						that.data=res.data
+						that.over=true
 						global.hideLoading()
 					}
 				}).catch(() =>{

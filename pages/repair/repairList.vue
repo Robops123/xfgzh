@@ -18,7 +18,7 @@
 			<scroll-view   style="height: calc(100vh - 180upx);"
 			class="scroll-Y" @scrolltolower="lower" scroll-y="true"   >
 			                    <view class="list"  :class="{'active':pickerUserIndex==index}"  v-for="(item,index) in addressList"
-			                     :key="index" :data-index="index" @click="toDetail(item.repairId)">
+			                     :key="index" :data-index="index" @click="toDetail(item.id)">
 			                     <image src="../../static/img/message/bx.png" mode="" class="status"></image>
 			                    	<view class="title">
 			                    		{{item.title}}
@@ -58,7 +58,7 @@
 				total:'',
 				refresh:false,
 				source: 0,
-				curMonth:'',
+				curMonth:0,
 				curPage:1,
 				offset:null,
 				limit:10,
@@ -152,6 +152,13 @@
 			},
 			tap(v){
 				this.curIndex=v
+				if(v==0){
+					this.curMonth=0
+				}else if(v==1){
+					this.curMonth=3
+				}else if(v==2){
+					this.curMonth=6
+				}
 				this.curPage=1
 				this.limit=10,
 				this.total=''

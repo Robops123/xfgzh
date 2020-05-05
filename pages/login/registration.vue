@@ -60,6 +60,10 @@
 			getCode() {
 			       //axios请求
 			      // 验证码倒计时
+				  if(this.picCode==''){
+					  global.showToast('请填写图中验证码中的内容')
+					  return ;
+				  }
 				global.showLoading()
 			     var data={
 			     	phone:this.phone,
@@ -71,7 +75,7 @@
 			     	if(res.code == '0'){
 						that.settimer()
 			     	}else{
-			     		global.showToast('短信获取失败')
+			     		global.showToast(res.msg)
 			     	}
 			     	global.hideLoading()
 			     }).catch((reason) =>{
@@ -97,13 +101,13 @@
 			register:function(){
 				var regexp=/^1[3456789]\d{9}$/
 				if((regexp.test(this.phone))){
-					if(this.password){
+					// if(this.password){
 						global.showLoading()
 						var param={
 							openId:uni.getStorageSync('openid'),
 							phone:this.phone,
 							code:this.code,
-							password:this.password
+							// password:this.password
 						}
 						request.apiPost('/toc/tocUser/register',param).then((res) =>{
 							if(res.code == '0'){
@@ -131,9 +135,9 @@
 							global.hideLoading()
 							global.showToast(reason)
 						})
-					}else{
-						global.showToast('请输入密码')
-					}
+					// }else{
+					// 	global.showToast('请输入密码')
+					// }
 				}else{
 					global.showToast('请输入正确手机号')
 				}
