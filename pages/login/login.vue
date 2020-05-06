@@ -88,7 +88,7 @@
 			}
 		},
 		onLoad(p) {
-			// url=https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx72d5703c23ec2632&redirect_uri=http%3A%2F%2Fweixin.fireiot.net&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect
+			// url=https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxcd55667b480dfd2c&redirect_uri=http%3A%2F%2Fweixin.fireiot.net&response_type=code&scope=snsapi_base&state=STATE#wechat_redirect
 			// if(!isWechat){
 			// 	uni.redirectTo({
 			// 		url:'/pages/login/focus'
@@ -119,9 +119,9 @@
 		},
 		methods: {
 			loginwx() {
-				// wx72d5703c23ec2632  正式
+				// wxcd55667b480dfd2c  正式
 				//wx3e1b12e0af8ae0d1
-			      let appID = "wx72d5703c23ec2632";
+			      let appID = "wxcd55667b480dfd2c";
 			      let redirectUri = encodeURIComponent("http://weixin.fireiot.net");
 			      let strUrl =
 			        "https://open.weixin.qq.com/connect/oauth2/authorize?appid=" +

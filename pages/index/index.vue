@@ -216,6 +216,7 @@
 		},
 		onLoad(e) {
 			this.usertype=uni.getStorageSync('usertype')
+			this.applyAuthority()
 			this.getDeviceList()
 			var that=this
 			// uni.$on('update',function(res){
@@ -459,9 +460,9 @@
 				// 		console.log('条码内容：' + res.result);
 				// 	}
 				// });
-				this.applyAuthority()
+				
 				wx.ready(function(){
-					global.hideLoading()
+					// global.hideLoading()
 					wx.scanQRCode({
 					                needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
 					                scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
@@ -494,10 +495,10 @@
 								request.apiGet('/toc/tocUser/getSignature',data).then((res) =>{
 									console.log(res)
 									if(res.code=='0'){
-										global.showLoading()
+										// global.showLoading()
 										wx.config({
-											debug: true,
-										    appId: 'wx72d5703c23ec2632', // 必填，企业号的唯一标识，此处填写企业号corpid
+											// debug: true,
+										    appId: 'wxcd55667b480dfd2c', // 必填，企业号的唯一标识，此处填写企业号corpid
 										    timestamp: res.timestamp, // 必填，生成签名的时间戳
 										    nonceStr: res.nonceStr, // 必填，生成签名的随机串
 										    signature: res.signature,// 必填，签名，见附录1
@@ -543,7 +544,7 @@
 			},
 			// 获取code
 			getCode() {
-				let appid = "wx72d5703c23ec2632"; //为测试号id
+				let appid = "wxcd55667b480dfd2c"; //为测试号id
 				let code = getUrlParam("code"); //是否存在code
 				let local = 'http://xf.wxtih.com';
 				console.log(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${encodeURIComponent(local)}&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect`)

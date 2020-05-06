@@ -32,7 +32,7 @@
 			</view>
 			<view class="line border-line">
 				<text><text class="cerror">*</text>设备名称:</text>
-				<input type="text" v-model="info.devName" disabled/>
+				<input type="text" v-model="info.devName" />
 			</view>
 			<view class="line border-line">
 				<text><text class="cerror">*</text>设备编号:</text>
@@ -43,12 +43,12 @@
 				<uni-combox class="input" @input='getAddress' @click='chooseLocation'
 				:candidates="candidates" :value="address" v-model="address"></uni-combox>
 			</view>
-			<view class="line border-line">
+			<!-- <view class="line border-line">
 				<text><text class="cerror">*</text>设备批次址:</text>
 				<input type="text" v-model="info.devLocation" disabled/>
-			</view>
+			</view> -->
 			<view class="line border-line">
-				<text><text class="cerror">*</text>设备本地编码:</text>
+				<text><text class="cerror">*</text>imei码:</text>
 				<input type="text" v-model="info.imei" disabled/>
 			</view>
 		</view>
@@ -61,7 +61,7 @@
 		
 		<view class="yt-list-cell desc-cell">
 			<view class="map-warpper"></view>
-			<baidu-map :class='{sharemap:type==1}' style="width: 100%; height: 500upx;margin-top: 100upx;" 
+			<baidu-map  style="width: 100%; height: 500upx;margin-top: 100upx;" 
 			 :center="{
 												lng:info.baiduLongitude,
 												lat:info.baiduLatitude
@@ -108,7 +108,7 @@
 					baiduLongitude:'',
 				},
 				code:'',
-				info:'',
+				info:{},
 				choosedLocationId:''
 			}
 		},
@@ -242,7 +242,8 @@
 				getDeviceInfo(){
 					var that=this
 					var param = {
-						openId:uni.getStorageSync('openid'),
+						// openId:uni.getStorageSync('openid'),
+						openId:'wx12345678',
 						code:this.code,
 					}
 					request.apiGet('/toc/device/bindInfo',param).then((res) =>{
@@ -277,7 +278,11 @@
 					})
 				},
 				chooseLocation(e){
-					this.choosedLocationId=e
+						console.log(e)
+					this.choosedLocationId=e.id
+					this.info.baiduLongitude=e.longitude
+					this.info.baiduLatitude=e.latitude
+					this.$forceUpdate()
 				},
 		}
 	}

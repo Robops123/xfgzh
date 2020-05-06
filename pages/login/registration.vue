@@ -107,6 +107,7 @@
 							openId:uni.getStorageSync('openid'),
 							phone:this.phone,
 							code:this.code,
+							userType:this.userType
 							// password:this.password
 						}
 						request.apiPost('/toc/tocUser/register',param).then((res) =>{

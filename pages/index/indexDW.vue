@@ -379,7 +379,7 @@
 			},
 			// 获取code
 			getCode() {
-				let appid = "wx72d5703c23ec2632"; //为测试号id
+				let appid = "wxcd55667b480dfd2c"; //为测试号id
 				let code = getUrlParam("code"); //是否存在code
 				let local = 'http://xf.wxtih.com';
 				console.log(`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${encodeURIComponent(local)}&response_type=code&scope=snsapi_userinfo&state=1#wechat_redirect`)

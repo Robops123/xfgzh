@@ -60,8 +60,8 @@
 			return {
 				openId:'',
 				hasAccount:false,
-				loginName:'root@jg0001',
-				password:123456,
+				loginName:'',
+				password:'',
 				active:0,
 				steps:[
 					{title: '登录'}, {title: '认证&绑定'}
@@ -80,7 +80,6 @@
 				this.getOpenId(code)
 			}
 			uni.$once('registered',function(){
-				console.log('接收到了')
 				that.hasAccount=true
 				that.active=1
 			})
@@ -226,11 +225,14 @@
 							url: '/pages/index/index'
 						});
 						// that.hasAccount=true
+					}else if(res.code=='3'){
+						that.active=1
+						that.hasAccount=true
+						// that.hasAccount=false
 					}else{
 						uni.redirectTo({
 							url:'./registration?userType=1'
 						})
-						// that.hasAccount=false
 					}
 					global.hideLoading()
 				}).catch((reason) =>{

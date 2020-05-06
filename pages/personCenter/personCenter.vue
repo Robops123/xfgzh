@@ -88,7 +88,7 @@
 								console.log(res)
 								if(res.code=='0'){
 									wx.config({
-									    appId: 'wx72d5703c23ec2632', // 必填，企业号的唯一标识，此处填写企业号corpid
+									    appId: 'wxcd55667b480dfd2c', // 必填，企业号的唯一标识，此处填写企业号corpid
 									    timestamp: res.timestamp, // 必填，生成签名的时间戳
 									    nonceStr: res.nonceStr, // 必填，生成签名的随机串
 									    signature: res.signature,// 必填，签名，见附录1

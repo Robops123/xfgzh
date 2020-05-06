@@ -12,8 +12,8 @@
 					<view class="uni-combox__selector-empty" v-if="filterCandidatesLength === 0">
 						<text>{{emptyTips}}</text>
 					</view>
-					<view class="uni-combox__selector-item" v-for="(item,index) in filterCandidates" :key="index" @click="onSelectorClick(index)">
-						<text>{{item.address}}</text>
+					<view class="uni-combox__selector-item" v-for="(item,index) in filterCandidates"  :key="index" @click="onSelectorClick(index)">
+						<text style="z-index: 999;">{{item.address}}</text>
 					</view>
 				</scroll-view>
 			</view>
@@ -83,7 +83,6 @@
 		watch: {
 			value: {
 				handler(newVal) {
-					console.log(newVal)
 					this.inputVal = newVal
 				},
 				immediate: true
@@ -102,9 +101,9 @@
 				},50)
 			},
 			onSelectorClick(index) {
-				this.inputVal = this.filterCandidates[index].address
+				this.inputVal = this.candidates[index].address
+				this.$emit('click', this.candidates[index])
 				this.showSelector = false
-				this.$emit('click', this.filterCandidates[index].id)
 			},
 			onInput() {
 				setTimeout(() => {
@@ -163,7 +162,7 @@
 		background-color: #FFFFFF;
 		border-radius: 6px;
 		box-shadow: #DDDDDD 4px 4px 8px, #DDDDDD -4px -4px 8px;
-		z-index: 2;
+		z-index: 9999;
 	}
 
 	.uni-combox__selector-scroll {

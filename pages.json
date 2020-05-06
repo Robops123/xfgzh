@@ -31,112 +31,94 @@
 		{
 			"path": "pages/index/dwDetail",
 			"style": {
-				"navigationBarTitleText": ""
+				"style": {
+					"titleNView":false,
+					"navigationBarTitleText":"租户详情"
+				}
 			}
 		},
 		{
 			"path": "pages/index/filePreview",
 			"style": {
-				"navigationBarTitleText": ""
+				"titleNView":false,
+				"navigationBarTitleText":"预览"
 			}
 		},
 		{
 			"path": "pages/message/message",
 			"style": {
-				"navigationBarTitleText": "",
-				"app-plus": {
-					"bounce": "none"
-				}
+				"titleNView":false,
+				"navigationBarTitleText":"消息"
 			}
 		},
 		{
 			"path": "pages/repair/repairList",
 			"style": {
-				"navigationBarTitleText": "",
-				"app-plus": {
-					"bounce": "none"
-				}
+				"titleNView":false,
+				"navigationBarTitleText":"报修列表"
 			}
 		},
 		{
 			"path": "pages/repair/repairDetail",
 			"style": {
-				"navigationBarTitleText": "",
-				"app-plus": {
-					"bounce": "none"
-				}
+				"titleNView":false,
+				"navigationBarTitleText":"报修详情"
 			}
 		},
 		{
 			"path": "pages/repair/repairEdit",
 			"style": {
-				"navigationBarTitleText": "",
-				"app-plus": {
-					"bounce": "none"
-				}
+				"titleNView":false,
+				"navigationBarTitleText":"报修提交"
 			}
 		},
 		{
 			"path": "pages/adddevice/adddevice",
 			"style": {
-				"navigationBarTitleText": "",
-				"app-plus": {
-					"bounce": "none"
-				}
+				"titleNView":false,
+				"navigationBarTitleText":"添加设备"
 			}
 		},
 		{
 			"path": "pages/chooseLocation/chooseLocation",
 			"style": {
-				"navigationBarTitleText": "",
-				"app-plus": {
-					"bounce": "none"
-				}
+				"titleNView":false,
+				"navigationBarTitleText":"地址选择"
 			}
 		},
 		{
 			"path": "pages/adddevice/devicedetail",
 			"style": {
-				"navigationBarTitleText": "",
-				"app-plus": {
-					"bounce": "none"
-				}
+				"titleNView":false,
+				"navigationBarTitleText":"设备详情"
 			}
 		},
 		{
 			"path": "pages/adddevice/devicemore",
 			"style": {
-				"navigationBarTitleText": "",
-				"app-plus": {
-					"bounce": "none"
-				}
+				"titleNView":false,
+				"navigationBarTitleText":"更多设备"
 			}
 		},
 		{
 			"path": "pages/personCenter/personCenter",
 			"style": {
-				"navigationBarTitleText": "",
-				"app-plus": {
-					"bounce": "none"
-				}
+				"titleNView":false,
+				"navigationBarTitleText":"个人中心"
 			}
 		},
 		{
 					"path": "pages/personCenter/mydevice",
 					"style": {
-						"navigationBarTitleText": "",
-						"app-plus": {
-							"bounce": "none"
-						}
+						"titleNView":false,
+						"navigationBarTitleText":"我的设备"
 					}
 				},
 				{
 							"path": "pages/personCenter/warnhistroy",
 							"style": {
-								"navigationBarTitleText": "",
-								"app-plus": {
-									"bounce": "none"
-								}
+								"titleNView":false,
+								"navigationBarTitleText":"告警历史"
 							}
 						},
 		{
