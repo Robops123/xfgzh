@@ -60,7 +60,9 @@
 						</view>
 						<view class="device-main">
 							<view class="device-main-left">
-								<image src="../../static/img/cameraIcoOffline.png" mode=""></image>
+								<image :src="item.iconUrl+'/small/0.png'" mode="" v-if="item.devState==0"></image>
+								<image :src="item.iconUrl+'/small/1.png'" mode="" v-if="item.devState==1 & item.isWarn==0"></image>
+								<image :src="item.iconUrl+'/small/3.png'" mode="" v-if="item.devState==1 & item.isWarn==1"></image>
 							</view>
 							<view class="device-main-right">
 								<view>{{item.typeName}}</view>
@@ -78,9 +80,18 @@
 				<!-- 告警 -->
 				<view v-if="curIndex==1">
 					<view class="list"    v-for="(item,index) in dataList" :key="index" >
-					  <view class="status-word finish" v-if="item.status==0">已解除</view>
-					   <view class="status-word progress" v-if="item.status==2">已确认</view>
-					    <view class="status-word finish" v-if="item.status==3">误报</view>
+					  <view class="status">
+					  						<!-- 红  绿  橙  灰 -->
+					  						<image src="../../static/img/message/1.png" mode=""  v-if="item.status==1"></image>
+					  						<image src="../../static/img/message/2.png" mode=""  v-if="item.status==0"></image>
+					  						<image src="../../static/img/message/3.png" mode=""  v-if="item.status==2"></image>
+					  						<image src="../../static/img/message/4.png" mode=""  v-if="item.status==3"></image>
+					  						<text v-if="item.status==0">已解除</text>
+					  						<text v-if="item.status==1">告警</text>
+					  						<text v-if="item.status==2 & curType==0">已确认</text>
+					  						<text v-if="item.status==2 & curType==1">已报修</text>
+					  						<text v-if="item.status==3">误报</text>
+					  </view>
 						<view class="title">
 							{{item.title}}
 						</view>
@@ -391,6 +402,22 @@
 		top: 0;
 		width: 90upx;
 		height: 90upx;
+		text-align: center;
+		line-height: 80upx;
+		padding: 0;
+		color: #fff;
+	}
+	.list .status image{
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		left: 0;
+		top: 0;
+	}
+	.list .status text{
+		position: relative;
+		z-index: 1;
+		font-size: 12px;
 	}
 	.brief{
 		padding-top: 0 !important;
@@ -511,24 +538,30 @@
 	
 	.my-device{
 		display: inline-block;
-		background-color: #fff;
 		width: 46%;
 		margin: 20upx 1% 0 2%;
 		border-radius: 8px;
+		background-color: #fff;
+		// border: 1px solid #333;
 	}
 	.device-top{
 		padding: 15upx 0;
-		border-bottom: 1px solid #333;
+		border-bottom: 1px solid #f3efef;
+		// border-bottom: 1px solid #333;
 	}
 	.device-main{
-		padding: 20upx;
+		padding: 20upx 20upx 20upx 0;
 		box-sizing: border-box;
 	}
 	.device-main-left{
-		width: 45%;
+		width: 35%;
+		text-align: center;
 	}
 	.device-main-right{
-		width: 55%;
+		width: 60%;
+		border-left: 1px solid #f2efef;
+		padding-left: 5%;
+		white-space: nowrap;
 	}
 	.device-main-right{
 		line-height: 1.5;
@@ -539,8 +572,8 @@
 		vertical-align: middle;
 	}
 	.device-main-left image{
-		width: 60upx;
-		height: 60upx;
+		width: 80upx;
+		height: 80upx;
 	}
 	.device-container{
 		padding-bottom: 30upx;
@@ -549,7 +582,7 @@
 		color: #2794F0;
 		text-align: center;
 		padding: 15upx 0;
-		border-top: 1px solid #333;
+		border-top: 1px solid #f3efef;
 		font-size: 30upx;
 	}
 	.status.online{

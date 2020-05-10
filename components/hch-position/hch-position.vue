@@ -58,7 +58,7 @@
 						   <bm-info-window :show="show" :position="center" 
 						   @close="infoWindowClose" @open="infoWindowOpen" class='infowindow'>
 						   	<view>
-						   		<view>
+						   		<view style="font-size: 36upx;">
 									{{info.ownerName}}
 						   		</view>
 						   		<view class="cgray">
@@ -440,12 +440,17 @@ export default {
 	.infowindow .time{
 		padding-left: 12px;
 	}
+	.infowindow .cgray{
+		font-size: 30upx;
+	}
 	
 	.detail{
 		background-color: #4676ca;
 		color: #fff;
 		text-align: center;
 		padding: 15upx 0;
+		font-size: 32upx;
+		border-radius: 8px;
 	}
 	.type-name{
 		text-align: right;

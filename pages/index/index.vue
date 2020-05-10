@@ -22,7 +22,9 @@
 					</view>
 					<view class="device-main">
 						<view class="device-main-left">
-							<image src="../../static/img/cameraIcoOffline.png" mode=""></image>
+							<image :src="item.iconUrl+'/small/0.png'" mode="" v-if="item.devState==0"></image>
+							<image :src="item.iconUrl+'/small/1.png'" mode="" v-if="item.devState==1 & item.isWarn==0"></image>
+							<image :src="item.iconUrl+'/small/3.png'" mode="" v-if="item.devState==1 & item.isWarn==1"></image>
 						</view>
 						<view class="device-main-right">
 							<view>{{item.typeName}}</view>
@@ -55,12 +57,14 @@
 					</view>
 					<view class="device-main">
 						<view class="device-main-left">
-							<image src="../../static/img/cameraIcoOffline.png" mode=""></image>
+							<image :src="item.iconUrl+'/small/0.png'" mode="" v-if="item.devState==0"></image>
+							<image :src="item.iconUrl+'/small/1.png'" mode="" v-if="item.devState==1 & item.isWarn==0"></image>
+							<image :src="item.iconUrl+'/small/3.png'" mode="" v-if="item.devState==1 & item.isWarn==1"></image>
 						</view>
 						<view class="device-main-right">
 							<view>{{item.typeName}}</view>
 							<view :class="{cwarning:item.isWarn==1}">{{item.isWarn==0 ? '无告警':'告警'}}</view>
-							<view>共享人数:{{item.shareCount}}</view>
+							<!-- <view>共享人数:{{item.shareCount}}</view> -->
 						</view>
 					</view>
 					<view class="device-bottom">
@@ -847,8 +851,8 @@
 	.search-line{
 		position: absolute;
 		top: 0;
-		left: 0;
-		width: 100%;
+		left: 10%;
+		width: 80%;
 		height: 65upx;
 		margin-top: 20upx;
 		background-color: #fff;
@@ -884,17 +888,18 @@
 		// border-bottom: 1px solid #333;
 	}
 	.device-main{
-		padding: 20upx;
+		padding: 20upx 20upx 20upx 0;
 		box-sizing: border-box;
 	}
 	.device-main-left{
-		width: 45%;
+		width: 35%;
 		text-align: center;
 	}
 	.device-main-right{
-		width: 50%;
+		width: 60%;
 		border-left: 1px solid #f2efef;
 		padding-left: 5%;
+		white-space: nowrap;
 	}
 	.device-main-right{
 		line-height: 1.5;
@@ -905,8 +910,8 @@
 		vertical-align: middle;
 	}
 	.device-main-left image{
-		width: 60upx;
-		height: 60upx;
+		width: 80upx;
+		height: 80upx;
 	}
 	.device-container{
 		padding-bottom: 30upx;

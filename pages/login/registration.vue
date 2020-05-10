@@ -48,12 +48,14 @@
 				picCode:'',
 				password:'',
 				t:'',
-				userType:''
+				userType:'',
+				openId:''
 			}
 		},
 		onLoad(p) {
 			this.userType=p.userType
 				this.t=this.generateRandom()
+				this.openId=uni.getStorageSync('openid')
 				// this.getPic(t)
 		},
 		methods: {
@@ -100,6 +102,7 @@
 							  },
 			register:function(){
 				var regexp=/^1[3456789]\d{9}$/
+				var that=this
 				if((regexp.test(this.phone))){
 					// if(this.password){
 						global.showLoading()

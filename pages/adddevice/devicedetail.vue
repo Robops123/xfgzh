@@ -103,8 +103,8 @@
 		<view class="card card2"  v-if="type==0">
 			<view class="line border-line" v-for='(item,index) in data.deviceShareList' :key='index'>
 				<text class="col1">{{item.shareToUser}}</text>
-				<text class="left-border col2">{{item.shareToUserPhone}}</text>
-				<text class="left-border col3">{{item.nickName}}</text>
+				<text class="left-border col2" @click="makePhone(item.shareToUserPhone)">{{item.shareToUserPhone}}</text>
+				<!-- <text class="left-border col3">{{item.nickName}}</text> -->
 				<text class="cblue left-border col4" @click="stopShare(item.id)">取消共享</text>
 			</view>
 		</view>
@@ -135,10 +135,14 @@
 		
 		<prompt :visible.sync="promptVisible2" title='添加分享' class="prompt2"  @confirm="clickPromptConfirm2" mainColor="#e74a39">
 		  <!-- 这里放入slot内容-->
-		 <view>手机号</view>
-		 <input type="text" class="input" value="" v-model="toPhone" placeholder="请输入对方手机号"/>
-		 <view>名称</view>
-		 <input type="text" class="input" value="" v-model="toName" placeholder="请输入对方名称"/>
+		  <view class="prompt-line">
+			  <text>名称：</text>
+			  <input type="text" class="input" value="" v-model="toName" placeholder="请输入对方名称"/>
+		  </view>
+		 <view class="prompt-line">
+			 <text>手机号：</text>
+			 <input type="text" class="input" value="" v-model="toPhone" placeholder="请输入对方手机号"/>
+		 </view>
 		</prompt>
 		<!-- <uni-popup ref='addressEdit' type="middle">
 			<view>输入新地址:</view>
@@ -455,6 +459,14 @@ import global from '../../static/js/global.js'
 						global.hideLoading()
 						global.showToast(reason)
 					})
+				},
+				makePhone(number){
+					uni.makePhoneCall({
+						phoneNumber:number,
+						fail:(reason) =>{
+							global.showToast(reason)
+						}
+					})
 				}
 		}
 	}
@@ -625,19 +637,20 @@ import global from '../../static/js/global.js'
 		text-overflow: ellipsis;
 		white-space: nowrap;
 		box-sizing: border-box;
+		text-align: center;
 	}
 	.card2 .left-border{
 		border-left: 1px solid #111;
 	}
-	.co1{
-		width: 16%;
+	.col1{
+		width: 40%;
 	}
 	.col2{
-		width: 34%;
+		width: 40%;
 	}
-	.col3{
-		width: 29%;
-	}
+	// .col3{
+	// 	width: 29%;
+	// }
 	.col4{
 		width: 20%;
 	}
@@ -660,5 +673,24 @@ import global from '../../static/js/global.js'
 	}
 	.prompt2{
 		
+	}
+	
+	.prompt-line{
+		width: 90%;
+		margin: 0 auto;
+	}
+	.prompt-line text,
+	.prompt-line input{
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.prompt-line text{
+		width: 30%;
+		box-sizing: border-box;
+		padding-right: 5%;
+		text-align: right;
+	}
+	.prompt-line input{
+		width: 60%;
 	}
 </style>

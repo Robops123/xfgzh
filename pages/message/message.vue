@@ -8,10 +8,13 @@
 					<view class="list"  :class="{'active':pickerUserIndex==index}"  v-for="(item,index) in userList"
 					 :key="index" :data-index="index">
 					 <view class="status">
-					 	<image src="../../static/img/message/1.png" mode=""  v-if="item.status==0"></image>
+						 <!-- 红  绿  橙  灰 -->
+					 	<image src="../../static/img/message/1.png" mode=""  v-if="item.status==1"></image>
+						<image src="../../static/img/message/2.png" mode=""  v-if="item.status==0"></image>
 					 	<image src="../../static/img/message/3.png" mode=""  v-if="item.status==2"></image>
 					 	<image src="../../static/img/message/4.png" mode=""  v-if="item.status==3"></image>
 					 	<text v-if="item.status==0">已解除</text>
+						<text v-if="item.status==1">告警</text>
 					 	<text v-if="item.status==2 & curType==0">已确认</text>
 					 	<text v-if="item.status==2 & curType==1">已报修</text>
 					 	<text v-if="item.status==3">误报</text>
@@ -56,13 +59,16 @@
 					<view class="list"  :class="{'active':pickerUserIndex==index}"  v-for="(item,index) in userList"
 					 :key="index" :data-index="index">
 					 <view class="status">
-						 <image src="../../static/img/message/1.png" mode=""  v-if="item.status==0"></image>
-						 <image src="../../static/img/message/3.png" mode=""  v-if="item.status==2"></image>
-						 <image src="../../static/img/message/4.png" mode=""  v-if="item.status==3"></image>
-						 <text v-if="item.status==0">已解除</text>
-						 <text v-if="item.status==2 & curType==0">已确认</text>
-						 <text v-if="item.status==2 & curType==1">已报修</text>
-						 <text v-if="item.status==3">误报</text>
+						<!-- 红  绿  橙  灰 -->
+						<image src="../../static/img/message/1.png" mode=""  v-if="item.status==1"></image>
+						<image src="../../static/img/message/2.png" mode=""  v-if="item.status==0"></image>
+						<image src="../../static/img/message/3.png" mode=""  v-if="item.status==2"></image>
+						<image src="../../static/img/message/4.png" mode=""  v-if="item.status==3"></image>
+						<text v-if="item.status==0">已解除</text>
+						<text v-if="item.status==1">告警</text>
+						<text v-if="item.status==2 & curType==0">已确认</text>
+						<text v-if="item.status==2 & curType==1">已报修</text>
+						<text v-if="item.status==3">误报</text>
 					 </view>
 						<view class="title">
 							{{item.title}}

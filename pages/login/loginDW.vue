@@ -19,7 +19,7 @@
 				<view>密码</view>
 				<view class="uni-form-item uni-column ">
 					<view style="position: relative;padding: 10upx 0;">
-						<input type="text" class="uni-input" name="" v-model="code" placeholder="请输入验证码" />
+						<input type="text" class="uni-input" name="" v-model="password" placeholder="请输入验证码" />
 						<button class="veribtn" @click="getCode" :disabled="!show">
 							 <span v-show="show">获取验证码</span>
 							 <span v-show="!show" class="count">{{count}} s</span>

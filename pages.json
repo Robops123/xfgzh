@@ -159,17 +159,8 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				//"navigationBarTitleText": "首页",
-				"app-plus": {
-					"bounce": "none"
-					// "titleNView": {
-					// 	"buttons":[
-					// 		{"text":"我的设备"},
-					// 		{"text":"我的报修"},
-					// 		{"text":"告警历史"}
-					// 	]
-					// }
-				}				
+				"titleNView":false,
+				"navigationBarTitleText":"我的设备"
 			}
 		}
     ],
