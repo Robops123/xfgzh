@@ -39,9 +39,14 @@
 				<input type="text" v-model="info.devId" disabled/>
 			</view>
 			<view class="line border-line">
+				<text><text class="cerror">*</text>姓名:</text>
+				<input type="text" v-model="userName" />
+			</view>
+			<view class="line border-line">
 				<text><text class="cerror">*</text>地址:</text>
-				<uni-combox class="input" @input='getAddress' @click='chooseLocation'
-				:candidates="candidates" :value="address" v-model="address"></uni-combox>
+				<input type="text" v-model="address" @click="mapChoose" disabled/>
+				<!-- <uni-combox class="input" @input='getAddress' @click='chooseLocation'
+				:candidates="candidates" :value="address" v-model="address"></uni-combox> -->
 			</view>
 			<!-- <view class="line border-line">
 				<text><text class="cerror">*</text>设备批次址:</text>
@@ -99,6 +104,9 @@
 				result:'',
 				address:"",
 				candidates:[],
+				longitude:'',
+				latitude:'',
+				userName:'',
 				form:{
 					openId:uni.getStorageSync('openid'),
 					imei:'',
@@ -131,10 +139,13 @@
 				var params={
 					openId:uni.getStorageSync('openid'),
 					devId:this.info.devId,
-					addressId:this.choosedLocationId,
-					devName:this.info.devName
+					dev_location:this.address,
+					devName:this.info.devName,
+					userName:this.userName,
+					baidu_longitude:this.longitude,
+					baidu_latitude:this.latitude
 				}
-				request.apiPost('/toc/device/bind',params).then((res) =>{
+				request.apiPost('/toc/device/bindForPerson',params).then((res) =>{
 					if(res.code == '0'){
 						global.showToast('添加成功')
 						// var pages = getCurrentPages();
@@ -284,6 +295,23 @@
 					this.info.baiduLatitude=e.latitude
 					this.$forceUpdate()
 				},
+				// 地图选取
+				mapChoose(){
+					uni.chooseLocation({
+						success:(res) =>{
+								console.log(res)
+								if(res.name!='我的位置'){
+									this.address=res.name
+								}else{
+									this.address=res.address
+								}
+								this.latitude=res.latitude
+								this.longitude=res.longitude
+								this.info.baiduLongitude=res.longitude
+								this.info.baiduLatitude=res.latitude
+						}
+					})
+				}
 		}
 	}
 </script>
