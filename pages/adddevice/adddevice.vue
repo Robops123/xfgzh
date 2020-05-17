@@ -309,6 +309,7 @@
 								this.longitude=res.longitude
 								this.info.baiduLongitude=res.longitude
 								this.info.baiduLatitude=res.latitude
+								console.log(this.info)
 						}
 					})
 				}
