@@ -220,9 +220,11 @@
 		},
 		onLoad(e) {
 			this.usertype=uni.getStorageSync('usertype')
-			this.applyAuthority()
-			this.getDeviceList()
+			this.init()
 			var that=this
+			uni.$on('updateIndex',function(){
+				that.init()
+			})
 			// uni.$on('update',function(res){
 			// 	that.init()
 			// })
@@ -236,7 +238,8 @@
 		methods: {
 			// 默认加载
 			init(){
-				
+				this.applyAuthority()
+				this.getDeviceList()
 				// this.getDeviceTypeList()
 			},
 			//获取设备列表

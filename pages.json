@@ -9,15 +9,6 @@
 		// 	}
 		// }
 		{
-			"path": "pages/login/loginDW",
-			"style": {
-				"app-plus": {
-					"bounce": "none",
-					"titleNView": false
-				}
-			}
-		},
-		{
 			"path": "pages/login/login",
 			"style": {
 				"app-plus": {
@@ -26,6 +17,16 @@
 				}
 			}
 		},
+		{
+			"path": "pages/login/loginDW",
+			"style": {
+				"app-plus": {
+					"bounce": "none",
+					"titleNView": false
+				}
+			}
+		},
+		
 		
 		{
 			"path": "pages/index/dwDetail",

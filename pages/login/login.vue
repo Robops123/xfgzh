@@ -50,7 +50,7 @@
 				// hasAccount:false,
 				value: false,
 				type: 'default',
-				phone:'18912345678',
+				phone:'',
 				code:'',
 				count:60,
 				timer:null,

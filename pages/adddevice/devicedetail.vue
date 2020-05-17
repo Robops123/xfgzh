@@ -117,7 +117,7 @@
 												lng:data.baiduLongitude,
 												lat:data.baiduLatitude
 											}" :zoom="15"
-			 @ready="handler" >
+			 >
 			 <bm-label :content="data.devLocation" 
 			 :position="{lng: data.baiduLongitude, lat:data.baiduLatitude}" :labelStyle="{color: '#333', fontSize : '16px'}" />
 				<bm-marker  :position="{lng: data.baiduLongitude,lat:data.baiduLatitude}" :dragging="false"
@@ -432,7 +432,7 @@ import global from '../../static/js/global.js'
 						baiduLongitude:this.baiduLongitude,
 						baiduLatitude:this.baiduLatitude
 					}
-					request.apiPost('/toc/device/changeAddress',param).then((res) =>{
+					request.apiPost('/toc/device/changeAddressForPerson',param).then((res) =>{
 							if(res.code == '0'){
 								global.showToast('更改成功')
 								that.promptVisible=false
