@@ -27,23 +27,27 @@
 		</view> -->
 		<view class="card">
 			<view class="line border-line">
-				<text><text class="cerror">*</text>设备型号:</text>
-				<input type="text"  v-model="info.typeName" disabled/>
-			</view>
-			<view class="line border-line">
-				<text><text class="cerror">*</text>设备名称:</text>
+				<text><text class="cerror symbol">*</text><text class="pre-title">设备名称</text><text class="fr">:</text></text>
 				<input type="text" v-model="info.devName" />
 			</view>
 			<view class="line border-line">
-				<text><text class="cerror">*</text>设备编号:</text>
-				<input type="text" v-model="info.devId" disabled/>
+				<text><text class="cerror symbol">*</text><text class="pre-title">设备型号</text><text class="fr">:</text></text>
+				<input type="text" class="disabled"  v-model="info.typeName" disabled/>
 			</view>
 			<view class="line border-line">
-				<text><text class="cerror">*</text>姓名:</text>
+				<text><text class="cerror symbol">*</text><text class="pre-title">设备编号</text><text class="fr">:</text></text>
+				<input type="text" class="disabled"  v-model="info.devId" disabled/>
+			</view>
+			<view class="line border-line">
+				<text><text class="cerror symbol">*</text><text class="pre-title">{{'IMEI码'.split('').join(' ')}}</text><text class="fr">:</text></text>
+				<input type="text" class="disabled"  v-model="info.imei" disabled/>
+			</view>
+			<view class="line border-line">
+				<text><text class="cerror symbol">*</text><text class="pre-title">姓名</text><text class="fr">:</text></text>
 				<input type="text" v-model="userName" />
 			</view>
 			<view class="line border-line">
-				<text><text class="cerror">*</text>地址:</text>
+				<text><text class="cerror symbol">*</text><text class="pre-title">地址</text><text class="fr">:</text></text>
 				<input type="text" v-model="address" @click="mapChoose" disabled/>
 				<!-- <uni-combox class="input" @input='getAddress' @click='chooseLocation'
 				:candidates="candidates" :value="address" v-model="address"></uni-combox> -->
@@ -52,10 +56,7 @@
 				<text><text class="cerror">*</text>设备批次址:</text>
 				<input type="text" v-model="info.devLocation" disabled/>
 			</view> -->
-			<view class="line border-line">
-				<text><text class="cerror">*</text>imei码:</text>
-				<input type="text" v-model="info.imei" disabled/>
-			</view>
+			
 		</view>
 		
 		<view style="text-align: center;">
@@ -446,7 +447,7 @@
 		display: inline-block;
 		vertical-align: middle;
 		width: 30%;
-		text-align: right;
+		// text-align: right;
 	}
 	.line>input,
 	.line>.input{
@@ -467,5 +468,19 @@
 		z-index: 99;
 		width: 100%;
 		height: 100%;
+	}
+	
+	.line .pre-title{
+		display: inline-block;
+		text-align: justify;
+		text-align-last: justify;
+		width: 84%;
+	}
+	
+	.line .disabled{
+		background-color: #f3f3f3 !important;
+	}
+	.line .symbol{
+		float: left;
 	}
 </style>
