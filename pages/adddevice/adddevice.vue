@@ -65,12 +65,12 @@
 		
 		
 		<view class="yt-list-cell desc-cell">
-			<view class="map-warpper"></view>
+			<!-- <view class="map-warpper"></view> -->
 			<baidu-map  style="width: 100%; height: 500upx;margin-top: 100upx;" 
 			 :center="{
 												lng:info.baiduLongitude,
 												lat:info.baiduLatitude
-											}" :zoom="15"
+											}" :zoom="18" v-if='mapReady'
 			 @ready="handler" >
 				<bm-marker  :position="{lng: info.baiduLongitude, lat: info.baiduLatitude}" :dragging="false"
 				   :zIndex="999999999" >
@@ -289,7 +289,6 @@
 					})
 				},
 				chooseLocation(e){
-						console.log(e)
 					this.choosedLocationId=e.id
 					this.info.baiduLongitude=e.longitude
 					this.info.baiduLatitude=e.latitude
@@ -297,9 +296,10 @@
 				},
 				// 地图选取
 				mapChoose(){
+					var that=this
+					that.mapReady=false
 					uni.chooseLocation({
 						success:(res) =>{
-								console.log(res)
 								if(res.name!='我的位置'){
 									this.address=res.name
 								}else{
@@ -307,11 +307,27 @@
 								}
 								this.latitude=res.latitude
 								this.longitude=res.longitude
-								this.info.baiduLongitude=res.longitude
-								this.info.baiduLatitude=res.latitude
-								console.log(this.info)
+								var cv=this.Convert_GCJ02_To_BD09(res.latitude,res.longitude)
+								this.info.baiduLongitude=cv.longitude
+								this.info.baiduLatitude=cv.latitude
+								setTimeout(function(){
+									that.mapReady=true
+								},0)
 						}
 					})
+				},
+				Convert_GCJ02_To_BD09($lat,$lng){
+				var    $x_pi = 3.14159265358979324 * 3000.0 / 180.0;
+				 var   $x = $lng;
+				var    $y = $lat;
+				   var $z =Math.sqrt($x * $x + $y * $y) + 0.00002 * Math.sin($y * $x_pi);
+				  var  $theta = Math.atan2($y, $x) + 0.000003 * Math.cos($x * $x_pi);
+				    $lng = $z * Math.cos($theta) + 0.0065;
+				    $lat = $z * Math.sin($theta) + 0.006;
+				    return {
+						longitude:$lng,
+						latitude:$lat
+					};
 				}
 		}
 	}
