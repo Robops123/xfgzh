@@ -142,8 +142,8 @@
 					dev_location:this.address,
 					devName:this.info.devName,
 					userName:this.userName,
-					baidu_longitude:this.longitude,
-					baidu_latitude:this.latitude
+					baidu_longitude:this.info.baiduLongitude,
+					baidu_latitude:this.info.baiduLatitude
 				}
 				request.apiPost('/toc/device/bindForPerson',params).then((res) =>{
 					if(res.code == '0'){
