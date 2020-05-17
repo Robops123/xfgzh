@@ -129,7 +129,7 @@
 		
 		<prompt :visible.sync="promptVisible" title='新地址'   @confirm="clickPromptConfirm" mainColor="#e74a39">
 		  <!-- 这里放入slot内容-->
-		  <uni-combox class="input" @input='getAddress' @click='chooseLocation'
+		  <uni-combox class="input"  @click='chooseLocation'
 		  :candidates="candidates" :value="address" v-model="address"></uni-combox>
 		</prompt>
 		
@@ -153,6 +153,10 @@
 				<button class="btn"></button>
 			</view>
 		</uni-popup> -->
+		
+		<baidu-map  style="display: none;" >
+			 <bm-local-search :keyword="address" @searchcomplete='searchComplete'  ></bm-local-search>
+		</baidu-map>
 	</view>
 </template>
 
@@ -205,7 +209,11 @@ import global from '../../static/js/global.js'
 				data:'',
 				choosedLocationId:'',
 				toPhone:'',
-				toName:''
+				toName:'',
+				
+				
+				baiduLongitude:'',
+				baiduLatitude:''
 			}
 		},
 		onLoad(p) {
@@ -395,15 +403,34 @@ import global from '../../static/js/global.js'
 						global.showToast(reason)
 					})
 				},
+				searchComplete(e){
+					console.log(e)
+					var coordinates=[]
+					e.Ir.forEach((item) =>{
+						if(coordinates.filter(citem =>{return citem.address==item.address}).length<1){
+							coordinates.push({
+								address:item.address,
+								baiduLongitude:item.point.lng,
+								baiduLatitude:item.point.lat
+							})
+						}
+					})
+					this.candidates=coordinates
+				},
 				chooseLocation(e){
-					this.choosedLocationId=e
+					console.log(e)
+					this.address=e.address
+					this.baiduLongitude=e.baiduLongitude
+					this.baiduLatitude=e.baiduLatitude
 				},
 				clickPromptConfirm(){
 					var that=this
 					var param = {
 						openId:uni.getStorageSync('openid'),
 						devId:this.data.devId,
-						addressId:this.choosedLocationId
+						devLocation:this.address,
+						baiduLongitude:this.baiduLongitude,
+						baiduLatitude:this.baiduLatitude
 					}
 					request.apiPost('/toc/device/changeAddress',param).then((res) =>{
 							if(res.code == '0'){

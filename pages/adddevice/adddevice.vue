@@ -48,9 +48,9 @@
 			</view>
 			<view class="line border-line">
 				<text><text class="cerror symbol">*</text><text class="pre-title">地址</text><text class="fr">:</text></text>
-				<input type="text" v-model="address" @click="mapChoose" disabled/>
-				<!-- <uni-combox class="input" @input='getAddress' @click='chooseLocation'
-				:candidates="candidates" :value="address" v-model="address"></uni-combox> -->
+				<!-- <input type="text" v-model="address" /> -->
+				<uni-combox class="input"  @click='chooseLocation'
+				:candidates="candidates" :value="address" v-model="address"></uni-combox>
 			</view>
 			<!-- <view class="line border-line">
 				<text><text class="cerror">*</text>设备批次址:</text>
@@ -65,17 +65,19 @@
 		
 		
 		
-		<view class="yt-list-cell desc-cell">
+		<view class="yt-list-cell desc-cell map-container">
 			<!-- <view class="map-warpper"></view> -->
 			<baidu-map  style="width: 100%; height: 500upx;margin-top: 100upx;" 
 			 :center="{
 												lng:info.baiduLongitude,
 												lat:info.baiduLatitude
-											}" :zoom="18" v-if='mapReady'
+											}" :zoom="18" v-if='mapReady' @click='localSearchClick'
 			 @ready="handler" >
 				<bm-marker  :position="{lng: info.baiduLongitude, lat: info.baiduLatitude}" :dragging="false"
 				   :zIndex="999999999" >
 				</bm-marker>
+				<!-- <bm-view class="map"></bm-view> -->
+				 <bm-local-search :keyword="address" @searchcomplete='searchComplete' :auto-viewport="true" ></bm-local-search>
 			</baidu-map>
 		</view>
 	</view>
@@ -140,11 +142,11 @@
 				var params={
 					openId:uni.getStorageSync('openid'),
 					devId:this.info.devId,
-					dev_location:this.address,
+					devLocation:this.address,
 					devName:this.info.devName,
 					userName:this.userName,
-					baidu_longitude:this.info.baiduLongitude,
-					baidu_latitude:this.info.baiduLatitude
+					baiduLongitude:this.info.baiduLongitude,
+					baiduLatitude:this.info.baiduLatitude
 				}
 				request.apiPost('/toc/device/bindForPerson',params).then((res) =>{
 					if(res.code == '0'){
@@ -270,6 +272,20 @@
 						global.showToast(reason)
 					})
 				},
+				searchComplete(e){
+					console.log(e)
+					var coordinates=[]
+					e.Ir.forEach((item) =>{
+						if(coordinates.filter(citem =>{return citem.address==item.address}).length<1){
+							coordinates.push({
+								address:item.address,
+								baiduLongitude:item.point.lng,
+								baiduLatitude:item.point.lat
+							})
+						}
+					})
+					this.candidates=coordinates
+				},
 				getAddress(){
 					var that=this
 					var param = {
@@ -290,9 +306,12 @@
 					})
 				},
 				chooseLocation(e){
-					this.choosedLocationId=e.id
-					this.info.baiduLongitude=e.longitude
-					this.info.baiduLatitude=e.latitude
+					console.log(e)
+					this.address=e.address
+					this.baiduLongitude=e.baiduLongitude
+					this.baiduLatitude=e.baiduLatitude
+					this.info.baiduLatitude=e.baiduLatitude
+					this.info.baiduLongitude=e.baiduLongitude
 					this.$forceUpdate()
 				},
 				// 地图选取
@@ -329,6 +348,9 @@
 						longitude:$lng,
 						latitude:$lat
 					};
+				},
+				localSearchClick(e){
+					console.log(e)
 				}
 		}
 	}
@@ -482,5 +504,8 @@
 	}
 	.line .symbol{
 		float: left;
+	}
+	.map-container>div>div:nth-of-type(3){
+		display: none;
 	}
 </style>
