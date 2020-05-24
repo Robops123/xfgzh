@@ -74,7 +74,7 @@
         "devServer" : {
             "disableHostCheck" : true
         },
-        "title" : "智能消防",
+        "title" : "未蓝消防",
         "domain" : "http://47.103.152.26:9082",
         "router" : {
             "base" : "/tocPerson"

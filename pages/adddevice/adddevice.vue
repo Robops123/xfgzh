@@ -52,6 +52,10 @@
 				<uni-combox class="input"  @click='chooseLocation'
 				:candidates="candidates" :value="address" v-model="address"></uni-combox>
 			</view>
+			<view class="line border-line">
+				<text><text class="cwhite symbol">*</text><text class="pre-title">门牌号</text><text class="fr">:</text></text>
+				<input type="text" v-model="addressDetail" placeholder="例:1号楼101室"/>
+			</view>
 			<!-- <view class="line border-line">
 				<text><text class="cerror">*</text>设备批次址:</text>
 				<input type="text" v-model="info.devLocation" disabled/>
@@ -106,6 +110,7 @@
 				mapReady:true,
 				result:'',
 				address:"",
+				addressDetail:'',
 				candidates:[],
 				longitude:'',
 				latitude:'',
@@ -142,7 +147,7 @@
 				var params={
 					openId:uni.getStorageSync('openid'),
 					devId:this.info.devId,
-					devLocation:this.address,
+					devLocation:this.address+this.addressDetail,
 					devName:this.info.devName,
 					userName:this.userName,
 					baiduLongitude:this.info.baiduLongitude,
@@ -507,5 +512,8 @@
 	}
 	.map-container>div>div:nth-of-type(3){
 		display: none;
+	}
+	.cwhite{
+		color: #fff;
 	}
 </style>

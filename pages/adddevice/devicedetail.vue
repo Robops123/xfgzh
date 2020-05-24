@@ -52,42 +52,52 @@
 				<text class="cgray">所属地址:</text>
 				{{data.devLocation}}
 			</view>
-			<view class="line">
-				<text class="cgray">设备型号:</text>
-				{{data.typeName}}
-				<text class="fr">
-					<text class="cgray">设备名称:</text>
-					{{data.devName}}
-				</text>
-			</view>
-			<view class="line">
-				<text class="cgray">告警状态:</text>
-				<text :class="{cwarning:data.isWarn==1}">{{data.isWarn==1 ? '有':'无'}}</text>
-				<text class="fr">
-					<text class="cgray">在线状态:</text>
-					<text v-if="data.isBroken==0">
-						<text :class="{conline:data.devState==1,coffline:data.devState==0}">
-							{{data.devState==1 ? '在线':'离线'}}
+			<view class="line-box">
+				<view class="line">
+					<view>
+						<text class="cgray dev-props">设备型号:</text>
+						<text class="">{{data.typeName}}</text>
+					</view>
+					<view class="fr">
+							<text class="cgray dev-props">设备名称:</text>
+							<text class="">{{data.devName}}</text>
+					</view>
+				</view>
+				<view class="line">
+					<view>
+						<text class="cgray dev-props">告警状态:</text>
+						<text class="" :class="{cwarning:data.isWarn==1}">{{data.isWarn==1 ? '有':'无'}}</text>
+					</view>
+					<view class="fr">
+							<text class="cgray dev-props">在线状态:</text>
+							<text v-if="data.isBroken==0" class="">
+								<text :class="{conline:data.devState==1,coffline:data.devState==0}">
+									{{data.devState==1 ? '在线':'离线'}}
+								</text>
+							</text>
+							<text class="cwarning " v-else>故障</text>
+					</view>
+				</view>
+				<!-- <view class="line">
+					<text class="cgray">设备编号:</text>
+					{{data.devId}}
+				</view>
+				<view class="line">
+					<text class="cgray">设备本地编码:</text>
+					21231232
+				</view> -->
+				<view class="line">
+					<view>
+						<text class="cgray dev-props">历史告警数:</text>
+						<text class="">{{data.warnCount}}</text>
+					</view>
+					<view class="fr">
+						<text >
+							<text class="cgray dev-props">历史误报数:</text>
+							<text class="">{{data.misreportCount}}</text>
 						</text>
-					</text>
-					<text class="cwarning" v-else>故障</text>
-				</text>
-			</view>
-			<!-- <view class="line">
-				<text class="cgray">设备编号:</text>
-				{{data.devId}}
-			</view>
-			<view class="line">
-				<text class="cgray">设备本地编码:</text>
-				21231232
-			</view> -->
-			<view class="line">
-				<text class="cgray">历史告警数:</text>
-				{{data.warnCount}}
-				<text class="fr">
-					<text class="cgray">历史误报数:</text>
-					{{data.misreportCount}}
-				</text>
+					</view>
+				</view>
 			</view>
 			<view class="edit-btn cblue" v-if="type==0" @click="editAddress">修改</view>
 		</view>
@@ -719,5 +729,30 @@ import global from '../../static/js/global.js'
 	}
 	.prompt-line input{
 		width: 60%;
+	}
+	
+	
+	.line>view{
+		display: inline-block;
+		vertical-align: middle;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		width: 300upx;
+	}
+	.line .dev-props{
+		width: 150upx;
+		display: inline-block;
+	}
+	.line-box{
+		position: relative;
+	}
+	.line-box:before{
+		content: '';
+		position: absolute;
+		left: 50%;
+		top: 0;
+		border-left: 1px dashed #f2f2f2;
+		height: 100%;
 	}
 </style>

@@ -2,7 +2,7 @@
 	<view class=" login-bg">
 		<!-- <view class="logo"><image src="../../static/logo.png" mode=""></image></view> -->
 		<view class="appname" style="margin-top: 100upx;">
-			锡消宝
+			未蓝消防
 		</view>
 		<view class="content">
 			<view class="step">
@@ -339,8 +339,9 @@
 			background-image: url(../../static/img/login/bg.png);
 			background-size: 100%;
 			background-repeat: no-repeat;
-			padding-top: 110upx;
-			border-top: 0;
+			// padding-top: 110upx;
+			// border-top: 0;
+			border-top: 1px solid #fff;
 		}
 		.login-btn{
 			background:rgba(63,135,255,1) !important;
