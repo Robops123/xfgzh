@@ -25,13 +25,13 @@
 			</view>
 			
 		</view>
-		<view class="center-list">
+		<!-- <view class="center-list">
 			<view class="center-list-item" >
 				<image src="../../static/img/mine/icon2.png" mode=""></image>
 				<text class="list-text">意见反馈</text>
 				<text class="navigat-arrow">&#xe65e;</text>
 			</view>
-		</view>
+		</view> -->
 		<!-- <view class="center-list">
 			<view class="center-list-item border-bottom" @click="goWarnhistroy" v-if="usertype=='gr'">
 				<text class="list-icon">&#xe60b;</text>
