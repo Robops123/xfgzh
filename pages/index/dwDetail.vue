@@ -7,7 +7,7 @@
 					<fa-icon class="fr" type="file-video-o" color="#327BF8" ></fa-icon>
 				</view>
 				<view class="brief">
-					<view id="liquidFill"></view>
+					<view id="liquidFill" ref='liquidFill'></view>
 					<view class="cgray">
 						<view>
 							<image src="../../static/img/device/locationg.png" mode="" style="vertical-align: middle;"></image>
@@ -188,6 +188,9 @@
 			this.tenantId=p.id
 			this.getDetail()
 			this.getList(this.page)
+			// setTimeout(function(){
+			// 	that.liquidFill(50); 
+			// },0)
 		},
 		onReachBottom(){
 			if(this.noMore){
@@ -221,9 +224,10 @@
 				this.more=''
 			},
 			getList(p){
-				console.log('p')
 				global.showLoading()
 				var param = {
+					// openId:'oivqowWYRMGh62Zsyo8Ce_2Z72dw',
+					// tenantId:4,
 					openId:uni.getStorageSync('openid'),
 					tenantId:this.tenantId,
 					page:p,
@@ -231,7 +235,7 @@
 				},that=this
 				request.apiGet(this.url,param).then((res) =>{
 					if(res.code == '0'){
-						that.dataList=res.data
+						that.dataList=that.dataList.concat(res.data)
 						that.total=res.total
 						// that.getDevState()
 						global.hideLoading()
@@ -247,16 +251,20 @@
 			},
 			// 业主详情
 			getDetail(){
+				
 				global.showLoading()
 				var param = {
+					// openId:'oivqowWYRMGh62Zsyo8Ce_2Z72dw',
+					// tenantId:4,
 					openId:uni.getStorageSync('openid'),
 					tenantId:this.tenantId,
 				},that=this
+				
 				request.apiGet('/tob/owner/info',param).then((res) =>{
 					if(res.code == '0'){
 						// that.markers=res.data
 						that.data=res.data
-						that.liquidFill(data.safeScore); 
+						that.liquidFill(res.data.safeScore); 
 						global.hideLoading()
 					}else{
 						global.hideLoading()
@@ -315,20 +323,19 @@
 					global.showToast(reason)
 				})
 			},
-			liquidFill (s){//方法
+			async liquidFill (s){//方法
 			                  var arrWatter1={};
 			           		arrWatter1.warterId = 'water_echarts_hd';
 			           		arrWatter1.data=[
 			           			{"newdata":"5555","toldata":"10000"}
 			           		];	
-			            
-			            
-			               var myChart = this.$echarts.init(document.getElementById('liquidFill'));
-			           		var value = s;//水滴中间显示的数据
+			            var myChart =await this.$echarts.init(this.$refs.liquidFill.$el);
+			           		var value = s || 100;//水滴中间显示的数据
 			           		var toldata = 100;//该水滴的总数据
 			           		var num = parseFloat(value/toldata);
 			           		var data = [];
 			           			data.push(num);
+								console.log(data)
 			           	var	option = {
 			           			series: [{
 			           				type: 'liquidFill',
@@ -361,6 +368,7 @@
 			           			}]
 			           		};
 			           		myChart.setOption(option);
+							this.$forceUpdate()
 			       },
 				   previewFile(id){
 					   uni.navigateTo({

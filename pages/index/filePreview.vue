@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<web-view src="" v-if='url'></web-view>
+		<web-view :src="url" v-if='url'></web-view>
 	</view>
 </template>
 
@@ -23,12 +23,13 @@
 				global.showLoading()
 				var param = {
 					openId:uni.getStorageSync('openid'),
+					// openId:'oivqowWYRMGh62Zsyo8Ce_2Z72dw',
 					inspectionId:this.inspectionId,
 				},that=this
 				request.apiGet('/tob/owner/previewInspectionReport',param).then((res) =>{
 					if(res.code == '0'){
 						// that.markers=res.data
-						this.url=res.msg
+						this.url=res.data
 						global.hideLoading()
 					}else{
 						global.hideLoading()

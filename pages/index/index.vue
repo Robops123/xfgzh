@@ -287,6 +287,9 @@
 						global.showToast(reason)
 					})
 				}else if(this.usertype=='dw'){
+					uni.setNavigationBarTitle({
+						title:'未蓝消防'
+					})
 					var param = {
 						openId:uni.getStorageSync('openid'),
 					}

@@ -26,13 +26,13 @@
 				}
 			}
 		},
+		
+		
 		{
 			"path": "pages/index/dwDetail",
 			"style": {
-				"style": {
 					"titleNView":false,
 					"navigationBarTitleText":"租户详情"
-				}
 			}
 		},
 		{
@@ -163,7 +163,7 @@
 		}
     ],
 	"globalStyle": {
-		"navigationBarTitleText":"锡消宝",
+		"navigationBarTitleText":"未蓝消防",
 		"navigationBarTextStyle": "black",
 		"navigationBarBackgroundColor": "#FFFFFF",
 		"backgroundColor": "#f8f8f8"

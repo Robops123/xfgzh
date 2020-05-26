@@ -139,8 +139,15 @@
 		
 		<prompt :visible.sync="promptVisible" title='新地址'   @confirm="clickPromptConfirm" mainColor="#e74a39">
 		  <!-- 这里放入slot内容-->
-		  <uni-combox class="input"  @click='chooseLocation'
-		  :candidates="candidates" :value="address" v-model="address"></uni-combox>
+		  <view class="prompt-line">
+		  			  <text>地址：</text>
+		  			 <uni-combox class="input"  @click='chooseLocation'
+		  			 :candidates="candidates" :value="address" v-model="address"></uni-combox>
+		  </view>
+		  <view class="prompt-line">
+		  			  <text>门牌号：</text>
+		  			  <input type="text" class="input" v-model="addressDetail" placeholder="例:1号楼101室"/>
+		  </view>
 		</prompt>
 		
 		<prompt :visible.sync="promptVisible2" title='添加分享' class="prompt2"  @confirm="clickPromptConfirm2" mainColor="#e74a39">
@@ -214,7 +221,7 @@ import global from '../../static/js/global.js'
 				markers: [
 
 				],
-				
+				addressDetail:'',
 				shareList:'',
 				data:'',
 				choosedLocationId:'',
@@ -438,7 +445,7 @@ import global from '../../static/js/global.js'
 					var param = {
 						openId:uni.getStorageSync('openid'),
 						devId:this.data.devId,
-						devLocation:this.address,
+						devLocation:this.address+this.addressDetail,
 						baiduLongitude:this.baiduLongitude,
 						baiduLatitude:this.baiduLatitude
 					}
@@ -727,8 +734,10 @@ import global from '../../static/js/global.js'
 		padding-right: 5%;
 		text-align: right;
 	}
-	.prompt-line input{
+	.prompt-line .input{
 		width: 60%;
+		display: inline-block;
+		height: 45px !important;
 	}
 	
 	
