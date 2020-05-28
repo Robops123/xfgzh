@@ -470,16 +470,17 @@
 				// 		console.log('条码内容：' + res.result);
 				// 	}
 				// });
-				
+				var that=this
 				wx.ready(function(){
 					// global.hideLoading()
 					wx.scanQRCode({
 					                needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
 					                scanType: ["qrCode","barCode"], // 可以指定扫二维码还是一维码，默认二者都有
 					                success: function (res) {
-										uni.navigateTo({
-											url:'../adddevice/adddevice?code='+res.resultStr
-										})
+										that.getDeviceInfo(res.resultStr)
+										// uni.navigateTo({
+										// 	url:'../adddevice/adddevice?code='+res.resultStr
+										// })
 					                    // let qrInfo = {toPageUrl:res.resultStr}
 					                },
 									error:function(reason){
@@ -496,6 +497,29 @@
 				var that=this
 				uni.$on('updateIndex',function(){
 					that.init()
+				})
+			},
+			getDeviceInfo(code){
+				global.showLoading()
+				var that=this
+				var param = {
+					openId:uni.getStorageSync('openid'),
+					// openId:'wx12345678',
+					code:code,
+				}
+				request.apiGet('/toc/device/bindInfo',param).then((res) =>{
+						if(res.code == '0'){
+							// that.info=res.data
+							uni.navigateTo({
+								url:'../adddevice/adddevice?info='+JSON.stringify(res.data)
+							})
+						}else{
+							global.showToast(res.msg)
+						}
+						global.hideLoading()
+				}).catch((reason) =>{
+					global.hideLoading()
+					global.showToast(reason)
 				})
 			},
 			applyAuthority(){

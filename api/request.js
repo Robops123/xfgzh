@@ -1,6 +1,6 @@
 
-const baseURL = 'http://47.103.152.26/api';   //测试
-// const baseURL = 'http://112.25.69.93/api';    //正式
+// const baseURL = 'http://47.103.152.26/api';   //测试
+const baseURL = 'http://112.25.69.93/api';    //正式
 // 参数： url:请求地址  param：请求参数  way：请求方式 res：回调函数
  /**
   *  @name 请求

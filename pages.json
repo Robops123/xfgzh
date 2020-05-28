@@ -28,6 +28,8 @@
 		},
 		
 		
+		
+		
 		{
 			"path": "pages/index/dwDetail",
 			"style": {
@@ -80,7 +82,7 @@
 		{
 			"path": "pages/chooseLocation/chooseLocation",
 			"style": {
-				"titleNView":false,
+				// "titleNView":false,
 				"navigationBarTitleText":"地址选择"
 			}
 		},
