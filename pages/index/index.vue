@@ -2,7 +2,7 @@
 	<view class="container">
 		<scroll-view 
 			style="  z-index: 1000;" 
-			scroll-y="true" v-if="usertype=='gr'">
+			scroll-y="true" v-if="(myDeviceList || myShareDeviceList) && usertype=='gr'">
 			<view class="title uni-text-gray fl-row">
 				<view class="ml10 mt10 mb10 i-cube"></view>
 				<text class="ml30">我的设备</text>
@@ -13,7 +13,9 @@
 					v-if="deviceList.length > 0"
 					:list="deviceList">
 				</zy-grid> -->
-				<view v-if="myDeviceList==''">暂无数据</view>
+				<view v-if="myDeviceList==''">
+					<image class="default-img2" src="../../static/img/default.png" mode=""></image>
+				</view>
 				<view class="my-device" v-for="(item,index) in myDeviceList" :key='index'>
 					<view class="device-top">
 						<text class="devName">{{item.devName}}</text>
@@ -48,7 +50,9 @@
 					v-if="deviceList.length > 0"
 					:list="deviceList">
 				</zy-grid> -->
-				<view v-if="myShareDeviceList==''">暂无数据</view>
+				<view v-if="myShareDeviceList==''">
+					<image class="default-img2" src="../../static/img/default.png" mode=""></image>
+				</view>
 				<view class="my-device" v-for="(item,index) in myShareDeviceList" :key='index'>
 					<view class="device-top">
 						<text class="devName">{{item.devName}}</text>
@@ -73,6 +77,11 @@
 				</view>
 			</view>
 		</scroll-view>
+		<view class="default-container" v-if='(!(myDeviceList || myShareDeviceList)) && usertype=="gr"'>
+			<image  class="default-img" src="../../static/img/default.png" mode=""></image>
+			<view>暂无设备</view>
+			<view>可直接添加设备</view>
+		</view>
 		<!-- <view class="top-entrance" v-if="usertype=='gr'">
 			<view class="bg-wrapper"></view>
 			<view class="bg-content">
@@ -238,7 +247,7 @@
 		methods: {
 			// 默认加载
 			init(){
-				this.applyAuthority()
+				// this.applyAuthority()
 				this.getDeviceList()
 				// this.getDeviceTypeList()
 			},
@@ -248,8 +257,9 @@
 				global.showLoading()
 				if(this.usertype=='gr'){
 					var param = {
-						openId:uni.getStorageSync('openid'),
+						openId:'wx123456789',
 						// devLocation:devlocation || ''
+						// openId:uni.getStorageSync('openid'),
 					}
 					request.apiGet('/toc/device/list',param).then((res) =>{
 						if(res.code == '0'){
@@ -655,7 +665,7 @@
 
 <style lang="scss">
 	page{
-		background-color: #f0f0f0;
+		background-color: #fff;
 	}
 	/* #ifdef MP */
 	.mp-search-box{
@@ -703,9 +713,9 @@
 	/* #endif */
 	
 	
-	page {
-		background: #f5f5f5;
-	}
+	// page {
+	// 	background: #f5f5f5;
+	// }
 	.m-t{
 		margin-top: 16upx;
 	}
@@ -765,7 +775,7 @@
 	.container {
 		box-sizing: border-box;
 		height: 100%;
-		background-color: #efeff4;
+		// background-color: #efeff4;
 	}
 	
 	.content {
@@ -985,4 +995,26 @@
 		vertical-align: bottom;
 	}
 	
+	
+	.default-container{
+		width: 60%;
+		text-align: center;
+		margin: 50upx auto;
+	}
+	.default-container>view{
+		color: #a5aaae;
+		font-size: 20px;
+		line-height: 1.5;
+	}
+	.default-container .default-img{
+		width: 100%;
+		max-width: 200px;
+		height: 220px;
+	}
+	.default-img2{
+		margin: 20upx auto;
+		display: block;
+		max-width: 200px;
+		height: 220px;
+	}
 </style>
