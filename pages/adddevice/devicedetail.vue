@@ -141,8 +141,9 @@
 		  <!-- 这里放入slot内容-->
 		  <view class="prompt-line">
 		  			  <text>地址：</text>
-		  			 <uni-combox class="input"  @click='chooseLocation'
-		  			 :candidates="candidates" :value="address" v-model="address"></uni-combox>
+					  <input type="text" class="input" v-model="address" @click="toChoose" placeholder="选择地址"/>
+		  			 <!-- <uni-combox class="input"  @click='chooseLocation'
+		  			 :candidates="candidates" :value="address" v-model="address"></uni-combox> -->
 		  </view>
 		  <view class="prompt-line">
 		  			  <text>门牌号：</text>
@@ -171,9 +172,9 @@
 			</view>
 		</uni-popup> -->
 		
-		<baidu-map  style="display: none;" >
+		<!-- <baidu-map  style="display: none;" >
 			 <bm-local-search :keyword="address" @searchcomplete='searchComplete'  ></bm-local-search>
-		</baidu-map>
+		</baidu-map> -->
 	</view>
 </template>
 
@@ -236,6 +237,7 @@ import global from '../../static/js/global.js'
 		onLoad(p) {
 			this.id=p.id
 			this.type=p.type
+			console.log('load')
 			this.getDetail()
 			// var params = JSON.parse(p.item)
 			// console.log(params)
@@ -421,16 +423,15 @@ import global from '../../static/js/global.js'
 					})
 				},
 				searchComplete(e){
-					console.log(e)
 					var coordinates=[]
 					e.Ir.forEach((item) =>{
-						if(coordinates.filter(citem =>{return citem.address==item.address}).length<1){
+						// if(coordinates.filter(citem =>{return citem.address==item.address}).length<1){
 							coordinates.push({
-								address:item.address,
+								address:item.title,
 								baiduLongitude:item.point.lng,
 								baiduLatitude:item.point.lat
 							})
-						}
+						// }
 					})
 					this.candidates=coordinates
 				},
@@ -510,6 +511,19 @@ import global from '../../static/js/global.js'
 						fail:(reason) =>{
 							global.showToast(reason)
 						}
+					})
+				},
+				toChoose(){
+					uni.$on('chooseLocation',(e) =>{
+						this.promptVisible=true
+						this.address=e.address
+						this.baiduLongitude=e.baiduLongitude
+						this.baiduLatitude=e.baiduLatitude
+						this.$forceUpdate()
+						uni.$off('chooseLocation')
+					})
+					uni.navigateTo({
+						url:'../chooseLocation/chooseLocation'
 					})
 				}
 		}

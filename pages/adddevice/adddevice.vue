@@ -27,10 +27,6 @@
 		</view> -->
 		<view class="card">
 			<view class="line border-line">
-				<text><text class="cerror symbol">*</text><text class="pre-title">设备名称</text><text class="fr">:</text></text>
-				<input type="text" v-model="info.devName" />
-			</view>
-			<view class="line border-line">
 				<text><text class="cerror symbol">*</text><text class="pre-title">设备型号</text><text class="fr">:</text></text>
 				<input type="text" class="disabled"  v-model="info.typeName" disabled/>
 			</view>
@@ -43,14 +39,19 @@
 				<input type="text" class="disabled"  v-model="info.imei" disabled/>
 			</view>
 			<view class="line border-line">
+				<text><text class="cerror symbol">*</text><text class="pre-title">设备名称</text><text class="fr">:</text></text>
+				<input type="text" v-model="info.devName" />
+			</view>
+			<view class="line border-line">
 				<text><text class="cerror symbol">*</text><text class="pre-title">姓名</text><text class="fr">:</text></text>
 				<input type="text" v-model="userName" />
 			</view>
 			<view class="line border-line">
 				<text><text class="cerror symbol">*</text><text class="pre-title">地址</text><text class="fr">:</text></text>
 				<!-- <input type="text" v-model="address" /> -->
-				<uni-combox class="input"  @click='chooseLocation'
-				:candidates="candidates" :value="address" v-model="address"></uni-combox>
+				 <input type="text"  v-model="address" @click="toChoose" placeholder="选择地址"/>
+				<!-- <uni-combox class="input"  @click='chooseLocation'
+				:candidates="candidates" :value="address" v-model="address"></uni-combox> -->
 			</view>
 			<view class="line border-line">
 				<text><text class="cwhite symbol">*</text><text class="pre-title">门牌号</text><text class="fr">:</text></text>
@@ -107,6 +108,7 @@
 		},
 		data() {
 			return {
+				promptVisible:false,
 				mapReady:true,
 				result:'',
 				address:"",
@@ -129,8 +131,9 @@
 			}
 		},
 		onLoad(p){
-			this.code=p.code
-			this.getDeviceInfo()
+			this.info=JSON.parse(p.info)
+			// this.code=p.code
+			// this.getDeviceInfo()
 			 // var geolocation = new BMap.Geolocation();
 		},
 		onShow(){
@@ -261,8 +264,8 @@
 				getDeviceInfo(){
 					var that=this
 					var param = {
-						// openId:uni.getStorageSync('openid'),
-						openId:'wx12345678',
+						openId:uni.getStorageSync('openid'),
+						// openId:'wx12345678',
 						code:this.code,
 					}
 					request.apiGet('/toc/device/bindInfo',param).then((res) =>{
@@ -356,6 +359,19 @@
 				},
 				localSearchClick(e){
 					console.log(e)
+				},
+				toChoose(){
+					uni.$on('chooseLocation',(e) =>{
+						// this.promptVisible=true
+						this.address=e.address
+						this.info.baiduLongitude=e.baiduLongitude
+						this.info.baiduLatitude=e.baiduLatitude
+						this.$forceUpdate()
+						uni.$off('chooseLocation')
+					})
+					uni.navigateTo({
+						url:'../chooseLocation/chooseLocation'
+					})
 				}
 		}
 	}
