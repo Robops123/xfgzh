@@ -9,6 +9,13 @@
 				<input type="tel" class="uni-input" v-model="phone" name="" placeholder="请输入手机号" />
 			</view>
 			<view class="uni-form-item uni-column">
+				<view>验证码</view>
+				<view style="position: relative;padding: 10upx 0;">
+					<input type="text" class="uni-input" name="" v-model="picCode" placeholder="请输入验证码" />
+					<image :src="pic" mode="" class="veribtn veripic" @click="changePic"></image>
+				</view>
+			</view>
+			<view class="uni-form-item uni-column">
 				<view>短信验证码</view>
 				<view style="position: relative;padding: 10upx 0;">
 					<input type="text" class="uni-input" name="" v-model="code" placeholder="短信验证码" />
@@ -18,13 +25,7 @@
 					</button>
 				</view>
 			</view>
-			<view class="uni-form-item uni-column">
-				<view>验证码</view>
-				<view style="position: relative;padding: 10upx 0;">
-					<input type="text" class="uni-input" name="" v-model="picCode" placeholder="请输入验证码" />
-					<image :src="pic" mode="" class="veribtn veripic" @click="changePic"></image>
-				</view>
-			</view>
+			
 			<button type="primary"  class="login-btn" @tap='register'>注册</button>
 			<!-- <view class="links">已有账号？<view class="link-highlight" @tap="gotoLogin">点此登录</view></view> -->
 		</view>
