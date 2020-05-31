@@ -53,7 +53,49 @@
 			<scroll-view scroll-y="true" >
 				<view v-if="curIndex==0">
 					<view class="my-device" v-for="(item,index) in dataList" :key='index'>
-						<view class="device-top">
+						<!-- <view class="device-container" style="width: 100%;overflow-x: auto;"> -->
+							<!-- <zy-grid :showTip="true"
+								:col="3" 
+								v-if="deviceList.length > 0"
+								:list="deviceList">
+							</zy-grid> -->
+							<!-- <view class="my-device" v-for="(item,index) in myDeviceList" :key='index'> -->
+								<view class="device-top">
+									<image :src="item.iconUrl+'/small/1.png'" class="device-icon" mode=""></image>
+									<text class="devName">{{item.devName}}</text>
+									<!-- <text class="status offline" :class="{online:item.devState==1}">{{item.devState==0 ? '离线':'在线'}}</text> -->
+									<image src="../../static/img/deviceOffline.png" v-if="item.devState==0" class="dev-state-icon fr" mode=""></image>
+									<image src="../../static/img/deviceOnline.png" v-else  class="dev-state-icon fr" mode=""></image>
+								</view>
+								<view class="device-main">
+									<!-- <view class="device-main-left">
+										<image :src="item.iconUrl+'/small/0.png'" mode="" v-if="item.devState==0"></image>
+										<image :src="item.iconUrl+'/small/1.png'" mode="" v-if="item.devState==1 & item.isWarn==0"></image>
+										<image :src="item.iconUrl+'/small/3.png'" mode="" v-if="item.devState==1 & item.isWarn==1"></image>
+									</view> -->
+									<view class="device-main-right">
+										<view class="type-name">{{item.typeName}}</view>
+										<view >
+											<view class="is-warn normal" :class="{warning:item.isWarn==1}">
+												{{item.isWarn==0 ? '正常':'告警'}}
+											</view>
+										</view>
+									</view>
+								</view>
+								<view class="device-bottom">
+									<view>
+										<view class="share-count">{{item.shareCount}}</view>
+										<view class="share">共享人数</view>
+									</view>
+									<view>
+										<view class="detail cblue" @click="toDetail(item.devId,0)">
+											详情
+										</view>
+									</view>
+								</view>
+							<!-- </view> -->
+						<!-- </view> -->
+						<!-- <view class="device-top">
 							<text>{{item.devName}}</text>
 							<text class="status offline" :class="{online:item.devState==1}">{{item.devState==0 ? '离线':'在线'}}</text>
 							
@@ -72,7 +114,7 @@
 						</view>
 						<view class="device-bottom">
 							<text class=" cblue" @click="toDetail(item.devId,1)">查看详情</text>
-						</view>
+						</view> -->
 					</view>
 				</view>
 				
@@ -558,7 +600,7 @@
 		// border-bottom: 1px solid #333;
 	}
 	.device-main{
-		padding: 20upx 20upx 20upx 0;
+		// padding: 20upx 20upx 20upx 0;
 		box-sizing: border-box;
 	}
 	.device-main-left{
@@ -566,19 +608,20 @@
 		text-align: center;
 	}
 	.device-main-right{
-		width: 60%;
-		border-left: 1px solid #f2efef;
-		padding-left: 5%;
+		padding: 10upx;
+		// width: 60%;
+		// border-left: 1px solid #f2efef;
+		// padding-left: 5%;
 		white-space: nowrap;
 	}
 	.device-main-right{
 		line-height: 1.5;
 	}
-	.device-main-left,
-	.device-main-right{
-		display: inline-block;
-		vertical-align: middle;
-	}
+	// .device-main-left,
+	// .device-main-right{
+	// 	display: inline-block;
+	// 	vertical-align: middle;
+	// }
 	.device-main-left image{
 		width: 80upx;
 		height: 80upx;
@@ -589,8 +632,8 @@
 	.device-bottom{
 		color: #2794F0;
 		text-align: center;
-		padding: 15upx 0;
-		border-top: 1px solid #f3efef;
+		padding: 10upx 10upx 20upx;
+		// border-top: 1px solid #f3efef;
 		font-size: 30upx;
 	}
 	.status.online{
@@ -654,5 +697,102 @@
 		    border-radius: 10px;
 		    /* overflow: hidden; */
 		    z-index: 9999;
+	}
+	
+	
+	
+	.device-title image{
+		position: absolute;
+		top: 10%;
+		left: -10upx;
+		height: 80%;
+		width: 200upx;
+		z-index: 1;
+	}
+	.device-title text{
+		position: relative;
+		font-size: 14px;
+		z-index: 10;
+	}
+	.device-title{
+		color: #fff;
+		padding: 20upx 30upx;
+		position: relative;
+		// background: url(../../static/img/deviceTitle.png);
+	}
+	
+	.gap{
+		width: 100%;
+		height: 40upx;
+		background-color: #f0f0f0;
+	}
+	
+	
+	.my-device{
+		box-shadow: 0 0 12px #EEEEEE;
+	}
+	.device-top{
+		background-color: #4f9def;
+		padding: 15upx 20upx;
+		border-radius: 8px 8px 0 0;
+		border-bottom: 1px solid #4f9def;
+	}
+	.devName{
+		max-width: 50%;
+	}
+	.device-top image,
+	.device-top text{
+		display: inline-block;
+		vertical-align: middle;
+	}
+	.device-top .device-icon{
+		width: 50upx;
+		height: 50upx;
+	}
+	.device-top .dev-state-icon{
+		width: 50upx;
+		height: 50upx;
+	}
+	.device-main-right>view,
+	.device-bottom>view{
+		display: inline-block;
+		width: 50%;
+		text-align: center;
+	}
+	.type-name{
+		font-size: 16px;
+	}
+	.is-warn{
+		padding: 2upx 14upx;
+		border: 1px solid;
+		font-size: 10px;
+		border-radius: 60upx;
+		display: inline-block;
+	}
+	.normal{
+		border-color: #b2b2b2;
+		color: #b2b2b2;
+	}
+	.warning{
+		border-color: #fca0a0;
+		color: #fca0a0;
+	}
+	.share-count{
+		color: #32a8f4;
+		font-size: 14px;
+	}
+	.share{
+		font-size: 14px;
+		color: #898989;
+	}
+	.detail{
+		display: inline-block;
+		width: 80% !important;
+		background-color: #2c9ef2;
+		color: #fff;
+		text-align: center;
+		border-radius: 60upx;
+		font-size: 14px;
+		padding: 6upx 0;
 	}
 </style>

@@ -486,4 +486,9 @@
 		uni-input{
 			height: initial !important; 
 		}
+		
+		
+		.container .uni-scroll-view{
+			overflow: visible !important; 
+		}
 </style>

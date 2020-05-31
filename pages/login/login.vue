@@ -19,7 +19,7 @@
 					</button>
 				</view>
 			</view>
-			<button type="primary" class="login-btn" @tap="skiplogin">登录</button>
+			<button type="primary" class="login-btn" @tap="login">登录</button>
 			<!-- @tap="login" -->
 			<!-- <view class="links">
 				<view class="link-highlight" @tap="gotoRegistration">注册账号</view>
