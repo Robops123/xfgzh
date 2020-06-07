@@ -19,7 +19,6 @@
 	import wx from 'jweixin-module'
 	import global from '../../static/js/global.js';
 	import request from '../../api/request.js'
-	import store from '../../store/index.js'
 	export default {
 		data() {
 			return {
@@ -31,33 +30,33 @@
 			//隐藏第一个返回按钮
 			
 			//订单号
-			var recordId = this.getUrlParam('recordId')
-			//var openId = uni.getStorageSync('openid')
-			var openId = "oivqowZNipwkwvFqHkRBm_HwdCvE"
-			if(recordId)
-			{
-				if(openId)
-				{
+			this.info.tips=p.name
+			this.info.pris=p.price
+			var recordId = p.recordId
+			var openId = uni.getStorageSync('openid')
+			// if(recordId)
+			// {
+			// 	if(openId)
+			// 	{
 					this.pram.openId = openId
 					this.pram.recordId = recordId
 					//获取订单初始化参数
 					this.getJSPrame()
-				}else{
-					//提示其没有OpenID
-					global.showToast('当前没有获取到有效的OpenID')
-				}
-			}else{
-				//提示其没有订单号
-				global.showToast('没有传入有效的支付订单号')
-			}
+				// }else{
+				// 	//提示其没有OpenID
+				// 	global.showToast('当前没有获取到有效的OpenID')
+				// }
+			// }else{
+			// 	//提示其没有订单号
+			// 	global.showToast('没有传入有效的支付订单号')
+			// }
 		},
 		onShow(p)
 		{
 			
 		},
 		methods: {
-			getJSPrame()
-			{
+			getJSPrame(){
 				global.showLoading()
 				var data = {url:window.location.href.split('#')[0]}
 				request.apiGet('/getJsParm',data).then((res) =>{
@@ -75,8 +74,7 @@
 					global.showToast('网络错误')
 				})
 			},
-			initWxConfig(conf)//初始化微信页面参数
-			{
+			initWxConfig(conf){
 				//初始化
 				wx.config({
 					debug: false, // 开启调试模式。
@@ -115,9 +113,6 @@
 					global.showToast(reason)
 				})
 			},
-			onNavigationBarButtonTap() {  //跳转我的订单
-				uni.redirectTo({url: '/'})
-			},  
 			getUrlParam(type){
 				try{
 					var query = window.location.href.split('?')[1]
@@ -132,6 +127,10 @@
 					return null
 				}
 			},
+			onNavigationBarButtonTap() {  //跳转我的订单
+				uni.redirectTo({url: '/'})
+			},  
+			
 			
 		}
 	}

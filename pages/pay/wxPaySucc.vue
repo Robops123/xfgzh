@@ -4,7 +4,7 @@
 			<text>恭喜您支付成功</text>
 		</view>
 		<view class="eer">
-			<button type="primary" class="login-btn" @tap="backMineRecoed">返回我的订单</button>
+			<button type="primary" class="login-btn" @tap="backMineRecoed">完成</button>
 		</view>
 	</view>
 </template>
@@ -26,7 +26,7 @@
 		methods: {
 			backMineRecoed()//返回我的订单
 			{
-				uni.redirectTo({url: '/'})
+				uni.redirectTo({url: '/pages/buyDevice/index'})
 			}
 		}
 	}

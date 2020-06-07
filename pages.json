@@ -118,6 +118,41 @@
 								"navigationBarTitleText":"告警历史"
 							}
 						},
+						{
+									"path": "pages/buyDevice/index",
+									"style": {
+										"titleNView":false,
+										"navigationBarTitleText":"购买设备"
+									}
+								},
+								{
+											"path": "pages/buyDevice/order",
+											"style": {
+												"titleNView":false,
+												"navigationBarTitleText":"订单信息填写"
+											}
+										},
+										{
+													"path": "pages/buyDevice/result",
+													"style": {
+														"titleNView":false,
+														"navigationBarTitleText":"支付成功"
+													}
+												},
+												{
+															"path": "pages/pay/wxPay",
+															"style": {
+																"titleNView":false,
+																"navigationBarTitleText":" "
+															}
+														},
+														{
+																	"path": "pages/pay/wxPaySucc",
+																	"style": {
+																		"titleNView":false,
+																		"navigationBarTitleText":" "
+																	}
+																},
 		{
 			"path": "pages/login/login",
 			"style": {
